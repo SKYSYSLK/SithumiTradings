@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #42d9f4;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="55.0" layoutY="59.0" text="SITHUMINI TRADERS" underline="true">
+         <font>
+            <Font name="Franklin Gothic Medium" size="55.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="147.0" fitWidth="189.0" layoutX="227.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../icons/handshake.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="112.0" fitWidth="126.0" layoutX="237.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../icons/lg.double-ring-spinner.gif" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
