@@ -35,6 +35,12 @@ public class mainMenu {
     public void openSell(MouseEvent mouseEvent) {
     }
 
-    public void openBuy(MouseEvent mouseEvent) {
+    public void openBuy(MouseEvent mouseEvent) throws IOException {
+        Stage thiswind = (Stage) reports.getScene().getWindow();
+        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/buy.fxml"));
+        Parent root = (Parent) itemsView.load();
+        thiswind.setTitle("Manage Buying Items");
+        thiswind.setScene(new Scene(root));
+        thiswind.show();
     }
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1355.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.buyController">
+   <children>
+      <Text layoutX="421.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SITHUMI TRADINGS" x="50.0" y="50.0" AnchorPane.bottomAnchor="586.0" AnchorPane.leftAnchor="471.0" AnchorPane.rightAnchor="470.4501953125" AnchorPane.topAnchor="23.0">
+         <font>
+            <Font name="Agency FB Bold" size="65.0" />
+         </font>
+      </Text>
+      <TableView fx:id="itemTable" layoutX="43.0" layoutY="143.0" onMouseClicked="#getSelected" prefHeight="513.0" prefWidth="1104.0">
+        <columns>
+          <TableColumn fx:id="item_no" prefWidth="101.0" text="Item_no" />
+          <TableColumn fx:id="name" prefWidth="120.0" text="Name" />
+            <TableColumn fx:id="quantity" prefWidth="105.0" text="Quantity" />
+            <TableColumn fx:id="buyPrice" prefWidth="109.0" text="Buy Price" />
+            <TableColumn fx:id="sellPrice" prefWidth="97.0" text="Sell Price" />
+            <TableColumn fx:id="Total" prefWidth="102.0" text="Total" />
+            <TableColumn fx:id="paymentDate" prefWidth="117.0" text="Payment Date" />
+            <TableColumn fx:id="checkno" prefWidth="189.0" text="Check No" />
+            <TableColumn fx:id="date" prefWidth="164.0" text="Date" />
+        </columns>
+      </TableView>
+      <JFXButton fx:id="back" layoutX="43.0" layoutY="74.0" onMouseClicked="#backMenu" prefHeight="56.0" prefWidth="148.0" style="-fx-background-color: #edb290;" text="Back">
+         <graphic>
+             <ImageView fitHeight="37.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                 <Image url="@../icons/left-arrow.png" />
+             </ImageView>
+         </graphic>
+         <font>
+            <Font size="27.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="1179.0" layoutY="212.0" onMouseClicked="#addNew" prefHeight="57.0" prefWidth="138.0" style="-fx-background-color: #42f45f;" text="ADD NEW" />
+   </children>
+</AnchorPane>

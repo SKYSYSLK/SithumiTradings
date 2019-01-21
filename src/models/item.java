@@ -1,8 +1,5 @@
 package models;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -73,6 +70,7 @@ public class item {
         insq.setFloat(5,this.getSellPrice());
         insq.setInt(6,1);
         insq.execute();
+        con.close();
     }
     public static ArrayList<item> getAll() throws SQLException {
         ArrayList<item> items = new ArrayList<>();
@@ -89,6 +87,7 @@ public class item {
                     result.getFloat("sellPrice")
             ));
         }
+        con.close();
         return items;
     }
     public void update() throws SQLException {
@@ -101,5 +100,24 @@ public class item {
         upq.setFloat(4,this.getSellPrice());
         upq.setInt(5,1);
         upq.execute();
+        con.close();
+    }
+    public static item getItem(String itemId) throws SQLException {
+        Connection con = connection.getConnection();
+        String findQuery = "SELECT * FROM items WHERE id=?";
+        PreparedStatement select = con.prepareStatement(findQuery);
+        select.setString(1,itemId);
+        ResultSet result = select.executeQuery();
+        if (result.next()) {
+            String name = result.getString("name");
+            int quantity = result.getInt("quantity");
+            float buyPrice = result.getFloat("buyPrice");
+            float sellPrice = result.getFloat("sellPrice");
+            con.close();
+            return new item(itemId, name, quantity, buyPrice, sellPrice);
+        }else{
+            con.close();
+            return null;
+        }
     }
 }
