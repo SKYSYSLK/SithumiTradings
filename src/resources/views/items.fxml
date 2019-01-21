@@ -12,12 +12,12 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1355.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.itemController">
    <children>
-      <Text layoutX="398.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SITHUMINI TRADINGS" x="50.0" y="50.0" AnchorPane.bottomAnchor="589.9873046875" AnchorPane.leftAnchor="448.0" AnchorPane.rightAnchor="448.66748046875" AnchorPane.topAnchor="21.1904296875">
+      <Text layoutX="421.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SITHUMI TRADINGS" x="50.0" y="50.0" AnchorPane.bottomAnchor="586.0" AnchorPane.leftAnchor="471.0" AnchorPane.rightAnchor="470.4501953125" AnchorPane.topAnchor="23.0">
          <font>
             <Font name="Agency FB Bold" size="65.0" />
          </font>
       </Text>
-      <TableView fx:id="itemTable" layoutX="43.0" layoutY="138.0" prefHeight="513.0" prefWidth="725.0">
+      <TableView fx:id="itemTable" layoutX="43.0" layoutY="138.0" onMouseClicked="#getSelected" prefHeight="513.0" prefWidth="726.0">
         <columns>
           <TableColumn fx:id="item_no" prefWidth="101.0" text="Item_no" />
           <TableColumn fx:id="name" prefWidth="192.0" text="Name" />
@@ -28,12 +28,12 @@
       </TableView>
       <AnchorPane layoutX="794.0" layoutY="138.0" prefHeight="250.0" prefWidth="505.0" style="-fx-background-color: #9bedf2; -fx-background-radius: 20;">
          <children>
-            <JFXTextField fx:id="u_itemId" layoutX="43.0" layoutY="16.0" prefHeight="25.0" prefWidth="180.0" promptText="Item Id" />
+            <JFXTextField fx:id="u_itemId" editable="false" layoutX="43.0" layoutY="16.0" prefHeight="25.0" prefWidth="180.0" promptText="Item Id" />
             <JFXTextField fx:id="u_name" layoutX="43.0" layoutY="64.0" prefHeight="25.0" prefWidth="180.0" promptText="Name" />
             <JFXTextField fx:id="u_quantity" layoutX="43.0" layoutY="111.0" prefHeight="25.0" prefWidth="180.0" promptText="Quantity" />
             <JFXTextField fx:id="u_buyPrice" layoutX="43.0" layoutY="160.0" prefHeight="25.0" prefWidth="180.0" promptText="Buy Price" />
             <JFXTextField fx:id="u_sellPrice" layoutX="283.0" layoutY="160.0" prefHeight="25.0" prefWidth="180.0" promptText="Sell Price" />
-            <JFXButton fx:id="update" layoutX="377.0" layoutY="203.0" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Update" />
+            <JFXButton fx:id="update" layoutX="377.0" layoutY="203.0" onMouseClicked="#updateItem" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Update" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="794.0" layoutY="416.0" prefHeight="234.0" prefWidth="505.0" style="-fx-background-color: #9bedf2; -fx-background-radius: 20;">
@@ -43,7 +43,7 @@
             <JFXTextField fx:id="a_quantity" layoutX="40.0" layoutY="107.0" prefHeight="25.0" prefWidth="180.0" promptText="Quantity" />
             <JFXTextField fx:id="a_buyPrice" layoutX="40.0" layoutY="156.0" prefHeight="25.0" prefWidth="180.0" promptText="Buy Price" />
             <JFXTextField fx:id="a_sellPrice" layoutX="280.0" layoutY="156.0" prefHeight="25.0" prefWidth="180.0" promptText="Sell Price" />
-            <JFXButton fx:id="add" layoutX="379.0" layoutY="190.0" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Add" />
+            <JFXButton fx:id="add" layoutX="379.0" layoutY="190.0" onMouseClicked="#addItem" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Add" />
          </children>
       </AnchorPane>
       <JFXButton fx:id="back" layoutX="43.0" layoutY="74.0" onMouseClicked="#backMenu" prefHeight="56.0" prefWidth="148.0" style="-fx-background-color: #edb290;" text="Back">

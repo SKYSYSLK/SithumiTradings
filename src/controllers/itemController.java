@@ -17,6 +17,7 @@ import models.item;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
@@ -45,6 +46,9 @@ public class itemController implements Initializable {
     public JFXButton add;
     public JFXButton back;
 
+    public itemController() throws SQLException {
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -56,7 +60,7 @@ public class itemController implements Initializable {
         itemTable.setItems(itemData);
     }
     private ObservableList<item> itemData = FXCollections.observableArrayList(
-            new item("Ab15","myItem1",150,150,250)
+            item.getAll()
     );
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
@@ -65,5 +69,67 @@ public class itemController implements Initializable {
         Parent root = backLoader.load();
         thisWindow.setTitle("Main Menu");
         thisWindow.setScene(new Scene(root));
+    }
+
+    public void updateItem(MouseEvent mouseEvent) throws IOException, SQLException {
+        String itemId = u_itemId.getText();
+        String itemName = u_name.getText();
+        if(itemId.equals("")||itemName.equals("")||u_quantity.getText().equals("")||u_buyPrice.getText().equals("")||u_sellPrice.getText().equals("")) {
+            warning.incomplete();
+            return;
+        }
+        int quantity = Integer.parseInt(u_quantity.getText());
+        float buyPrice = Float.parseFloat(u_buyPrice.getText());
+        float sellPrice = Float.parseFloat(u_sellPrice.getText());
+
+        item newItem = new item(itemId,itemName,quantity,buyPrice,sellPrice);
+        newItem.update();
+
+        //Refresh Table
+        Stage thiswind = (Stage) itemTable.getScene().getWindow();
+        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/items.fxml"));
+        Parent root = (Parent) itemsView.load();
+        thiswind.setTitle("Manage Items in your stock");
+        thiswind.setScene(new Scene(root));
+        thiswind.show();
+    }
+
+    public void addItem(MouseEvent mouseEvent) throws SQLException, IOException {
+        String itemId = a_itemId.getText();
+        String itemName = a_name.getText();
+        if(itemId.equals("")||itemName.equals("")||a_quantity.getText().equals("")||buyPrice.getText().equals("")||sellPrice.getText().equals("")) {
+            warning.incomplete();
+            return;
+        }
+        int quantity = Integer.parseInt(a_quantity.getText());
+        float buyPrice = Float.parseFloat(a_buyPrice.getText());
+        float sellPrice = Float.parseFloat(a_sellPrice.getText());
+
+        item newItem = new item(itemId,itemName,quantity,buyPrice,sellPrice);
+        newItem.save();
+
+        //Refresh Table
+        Stage thiswind = (Stage) itemTable.getScene().getWindow();
+        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/items.fxml"));
+        Parent root = (Parent) itemsView.load();
+        thiswind.setTitle("Manage Items in your stock");
+        thiswind.setScene(new Scene(root));
+        thiswind.show();
+    }
+
+    public void getSelected(MouseEvent mouseEvent) {
+        if(mouseEvent.getClickCount()>1){
+            onEdit();
+        }
+    }
+    private void onEdit(){
+        if(itemTable.getSelectionModel().getSelectedItem()!=null){
+            item current = itemTable.getSelectionModel().getSelectedItem();
+            u_itemId.setText(current.getId());
+            u_name.setText(current.getName());
+            u_quantity.setText(Integer.toString(current.getQuantity()));
+            u_buyPrice.setText(Float.toString(current.getBuyPrice()));
+            u_sellPrice.setText(Float.toString(current.getSellPrice()));
+        }
     }
 }
