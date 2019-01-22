@@ -139,5 +139,13 @@ public class buy {
         con.close();
         return buyList;
     }
+    public void delete() throws SQLException {
+        String query = "DELETE FROM item_buy WHERE item_id=? AND day=?";
+        PreparedStatement statement = con.prepareStatement(query);
+        statement.setString(1,this.item_id);
+        statement.setString(2,this.day);
+        statement.execute();
+        con.close();
+    }
 
 }

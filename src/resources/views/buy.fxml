@@ -25,7 +25,7 @@
             <TableColumn fx:id="sellPrice" prefWidth="97.0" text="Sell Price" />
             <TableColumn fx:id="Total" prefWidth="102.0" text="Total" />
             <TableColumn fx:id="paymentDate" prefWidth="117.0" text="Payment Date" />
-            <TableColumn fx:id="checkno" prefWidth="189.0" text="Check No" />
+            <TableColumn fx:id="checkno" prefWidth="189.0" text="Cheque No" />
             <TableColumn fx:id="date" prefWidth="164.0" text="Date" />
         </columns>
       </TableView>
@@ -40,5 +40,6 @@
          </font>
       </JFXButton>
       <JFXButton layoutX="1179.0" layoutY="212.0" onMouseClicked="#addNew" prefHeight="57.0" prefWidth="138.0" style="-fx-background-color: #42f45f;" text="ADD NEW" />
+      <JFXButton layoutX="1179.0" layoutY="322.0" onMouseClicked="#delete" prefHeight="57.0" prefWidth="138.0" style="-fx-background-color: red;" text="DELETE" />
    </children>
 </AnchorPane>

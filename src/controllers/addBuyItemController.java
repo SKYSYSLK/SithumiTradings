@@ -3,8 +3,6 @@ package controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import models.buy;
@@ -51,6 +49,9 @@ public class addBuyItemController {
             newBuy.save();
             Stage current = (Stage) save.getScene().getWindow();
             current.close();
+
+            //Update Table Item
+            buyController.addItem(newBuy);
         }else{
             warning.incomplete();
         }
