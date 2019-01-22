@@ -32,7 +32,13 @@ public class mainMenu {
     public void openReports(MouseEvent mouseEvent) {
     }
 
-    public void openSell(MouseEvent mouseEvent) {
+    public void openSell(MouseEvent mouseEvent) throws IOException {
+        Stage thiswind = (Stage) reports.getScene().getWindow();
+        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/daily.fxml"));
+        Parent root = (Parent) itemsView.load();
+        thiswind.setTitle("Manage Daily Business");
+        thiswind.setScene(new Scene(root));
+        thiswind.show();
     }
 
     public void openBuy(MouseEvent mouseEvent) throws IOException {

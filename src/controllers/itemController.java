@@ -109,12 +109,12 @@ public class itemController implements Initializable {
         newItem.save();
 
         //Refresh Table
-        Stage thiswind = (Stage) itemTable.getScene().getWindow();
-        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/items.fxml"));
-        Parent root = (Parent) itemsView.load();
-        thiswind.setTitle("Manage Items in your stock");
-        thiswind.setScene(new Scene(root));
-        thiswind.show();
+        itemTable.getItems().add(newItem);
+        a_itemId.clear();
+        a_name.clear();
+        a_quantity.clear();
+        a_sellPrice.clear();
+        a_buyPrice.clear();
     }
 
     public void getSelected(MouseEvent mouseEvent) {
