@@ -74,9 +74,9 @@ public class daily {
         String insq = "INSERT INTO daily (item_no,quantity,day,sale_price,income,profit) VALUES (?,?,?,?,?,?)";
         PreparedStatement insert = con.prepareStatement(insq);
         insert.setString(1,this.item_no);
+        insert.setFloat(4,this.sale_price);
         insert.setInt(2,this.quantity);
         insert.setString(3,this.day);
-        insert.setFloat(4,this.sale_price);
         insert.setFloat(5,this.income);
         insert.setFloat(6,this.profit);
         insert.execute();
