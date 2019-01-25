@@ -38,18 +38,17 @@
             <Font size="27.0" />
          </font>
       </JFXButton>
-      <AnchorPane layoutX="804.0" layoutY="148.0" prefHeight="301.0" prefWidth="505.0" style="-fx-background-color: #9bedf2; -fx-background-radius: 20;">
+      <AnchorPane layoutX="804.0" layoutY="148.0" prefHeight="280.0" prefWidth="505.0" style="-fx-background-color: #9bedf2; -fx-background-radius: 20;">
          <children>
-            <JFXTextField fx:id="itemId" editable="false" layoutX="43.0" layoutY="68.0" prefHeight="25.0" prefWidth="180.0" promptText="Item Id" />
-            <JFXTextField fx:id="itemName" editable="false" layoutX="43.0" layoutY="116.0" onMouseClicked="#getName" prefHeight="25.0" prefWidth="180.0" promptText="Name" />
-            <JFXTextField fx:id="itemquantity" layoutX="43.0" layoutY="163.0" prefHeight="25.0" prefWidth="180.0" promptText="Quantity" />
-            <JFXTextField fx:id="buyPrice" editable="false" layoutX="43.0" layoutY="212.0" prefHeight="25.0" prefWidth="180.0" promptText="Buy Price" />
-            <JFXTextField fx:id="itemSellPrice" layoutX="283.0" layoutY="212.0" prefHeight="25.0" prefWidth="180.0" promptText="Sell Price" />
-            <JFXButton fx:id="update" layoutX="377.0" layoutY="255.0" onMouseClicked="#updateItem" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Add" />
-            <JFXDatePicker fx:id="date" layoutX="43.0" layoutY="14.0" prefHeight="28.0" prefWidth="180.0" promptText="Date" />
+            <JFXTextField fx:id="itemId" layoutX="43.0" layoutY="68.0" prefHeight="25.0" prefWidth="180.0" promptText="Item Id" />
+            <JFXTextField fx:id="itemName" editable="false" layoutX="287.0" layoutY="68.0" onMouseClicked="#getName" prefHeight="25.0" prefWidth="180.0" promptText="Name" />
+            <JFXTextField fx:id="itemquantity" layoutX="43.0" layoutY="126.0" prefHeight="25.0" prefWidth="180.0" promptText="Quantity" />
+            <JFXTextField fx:id="itemSellPrice" layoutX="43.0" layoutY="180.0" prefHeight="25.0" prefWidth="180.0" promptText="Sell Price" />
+            <JFXButton fx:id="add" layoutX="377.0" layoutY="235.0" onMouseClicked="#addItem" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Add" />
+            <JFXDatePicker fx:id="date" layoutX="43.0" layoutY="14.0" onMouseEntered="#getToday" prefHeight="28.0" prefWidth="180.0" promptText="Date" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="43.0" layoutY="525.0" prefHeight="103.0" prefWidth="221.0" style="-fx-background-color: #69ef6d; -fx-background-radius: 50;">
+      <AnchorPane layoutX="100.0" layoutY="525.0" prefHeight="103.0" prefWidth="221.0" style="-fx-background-color: #69ef6d; -fx-background-radius: 50;">
          <children>
             <Text layoutX="53.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Income">
                <font>
@@ -63,21 +62,7 @@
             </Text>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="268.0" layoutY="525.0" prefHeight="103.0" prefWidth="221.0" style="-fx-background-color: #69ef6d; -fx-background-radius: 50;">
-         <children>
-            <Text layoutX="60.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Spent">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
-            <Text fx:id="spent" fill="#1e1dcf" layoutX="70.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="16500.00">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="492.0" layoutY="525.0" prefHeight="103.0" prefWidth="221.0" style="-fx-background-color: #69ef6d; -fx-background-radius: 50;">
+      <AnchorPane layoutX="438.0" layoutY="525.0" prefHeight="103.0" prefWidth="221.0" style="-fx-background-color: #69ef6d; -fx-background-radius: 50;">
          <children>
             <Text layoutX="62.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Profit">
                <font>

@@ -2,24 +2,47 @@ package models;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * @author danushka
  */
 public class daily {
     Connection con=connection.getConnection();
-    private String item_no,day;
+    private String item_no,day,name;
     private int quantity;
     private float sale_price,income,profit;
 
-    daily(String day,String item_no,int quantity, float sale_price, float income, float profit){
+    public daily(String day, String item_no, int quantity, float sale_price, float income, float profit) throws SQLException {
         this.day = day;
         this.item_no = item_no;
         this.quantity = quantity;
         this.sale_price = sale_price;
         this.profit = profit;
         this.income = income;
+        this.name = Objects.requireNonNull(item.getItem(this.item_no)).getName();
+    }
+
+    public static ArrayList<daily> getAll(String date) throws SQLException {
+        Connection con = connection.getConnection();
+        ArrayList<daily> allRecords = new ArrayList<>();
+        String query = "SELECT * FROM daily WHERE day=?";
+        PreparedStatement selectq = con.prepareStatement(query);
+        selectq.setString(1,date);
+        ResultSet result = selectq.executeQuery();
+        while (result.next()){
+            String day = result.getString("day");
+            String item_no = result.getString("item_no");
+            int quantity = result.getInt("quantity");
+            float sale_price = result.getFloat("sale_price");
+            float profit = result.getFloat("profit");
+            float income = result.getFloat("income");
+            allRecords.add(new daily(day,item_no,quantity,sale_price,income,profit));
+        }
+        return allRecords;
     }
 
     public String getDay() {
@@ -46,6 +69,10 @@ public class daily {
         return item_no;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setDay(String day) {
         this.day = day;
     }
@@ -68,6 +95,10 @@ public class daily {
 
     public void setSale_price(float sale_price) {
         this.sale_price = sale_price;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void save() throws SQLException {
