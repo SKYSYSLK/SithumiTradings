@@ -34,7 +34,6 @@ public class dailyController implements Initializable {
     public JFXTextField itemId;
     public JFXTextField itemName;
     public JFXTextField itemquantity;
-    public JFXTextField buyPrice;
     public JFXTextField itemSellPrice;
     public Text income;
     public Text profit;
@@ -155,7 +154,7 @@ public class dailyController implements Initializable {
         itemquantity.setText("");
         itemSellPrice.setText("");
     }
-    public void setCalculations() throws SQLException {
+    private void setCalculations() throws SQLException {
         String day;
         float income1=0, profit1=0;
         if(date.getValue()!=null){

@@ -18,7 +18,7 @@
             <Font name="Agency FB Bold" size="65.0" />
          </font>
       </Text>
-      <TableView fx:id="itemTable" layoutX="43.0" layoutY="143.0" onMouseClicked="#getSelected" prefHeight="341.0" prefWidth="670.0">
+      <TableView fx:id="itemTable" layoutX="43.0" layoutY="143.0" onMouseClicked="#getSelected" prefHeight="341.0" prefWidth="675.0">
         <columns>
           <TableColumn fx:id="item_no" prefWidth="115.00003051757812" text="Item_no" />
           <TableColumn fx:id="name" prefWidth="118.0" text="Name" />

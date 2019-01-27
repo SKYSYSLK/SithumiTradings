@@ -6,10 +6,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #42d9f4;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="55.0" layoutY="59.0" text="SITHUMINI TRADERS" underline="true">
+      <Label layoutX="70.0" layoutY="59.0" text="SITHUMI TRADINGS" underline="true">
          <font>
             <Font name="Franklin Gothic Medium" size="55.0" />
          </font>
