@@ -3,14 +3,16 @@ package controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -36,7 +38,7 @@ public class dailyController implements Initializable {
     public JFXTextField itemSellPrice;
     public Text income;
     public Text profit;
-    public TableView itemTable;
+    public TableView<daily> itemTable;
     public TableColumn<daily,String> item_no;
     public TableColumn<daily,String> name;
     public TableColumn<daily,Integer> quantity;
@@ -67,6 +69,30 @@ public class dailyController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        itemTable.setRowFactory(
+                (TableView<daily> tableview) -> {
+                    final TableRow<daily> row = new TableRow<>();
+                    final ContextMenu menu = new ContextMenu();
+                    MenuItem removeButton = new MenuItem("remove");
+                    removeButton.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            daily item1 = itemTable.getSelectionModel().getSelectedItem();
+                            itemTable.getItems().remove(item1);
+                            try {
+                                item1.delete();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    menu.getItems().add(removeButton);
+                    row.contextMenuProperty().bind(
+                            javafx.beans.binding.Bindings.when(Bindings.isNotNull(row.itemProperty()))
+                                    .then(menu)
+                                    .otherwise((ContextMenu) null));
+                    return row;
+                });
     }
     private ObservableList<daily> itemData = FXCollections.observableArrayList(
             daily.getAll(java.sql.Date.valueOf(today).toString())

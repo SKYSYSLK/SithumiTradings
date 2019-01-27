@@ -42,6 +42,7 @@ public class daily {
             float income = result.getFloat("income");
             allRecords.add(new daily(day,item_no,quantity,sale_price,income,profit));
         }
+        con.close();
         return allRecords;
     }
 
@@ -111,5 +112,14 @@ public class daily {
         insert.setFloat(5,this.income);
         insert.setFloat(6,this.profit);
         insert.execute();
+        con.close();
+    }
+
+    public void delete() throws SQLException {
+        String query = "DELETE FROM daily where item_no=? AND day=?";
+        PreparedStatement delq = con.prepareStatement(query);
+        delq.setString(1,this.item_no);
+        delq.setString(2,this.day);
+        delq.execute();
     }
 }
