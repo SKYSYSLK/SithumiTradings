@@ -23,7 +23,7 @@ public class run extends Application {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(new Scene(root,600,400));
         primaryStage.show();
-        PauseTransition pause = new PauseTransition(Duration.seconds(5));
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
         pause.setOnFinished(e->{
                 primaryStage.getScene().getWindow().hide();
                     try {

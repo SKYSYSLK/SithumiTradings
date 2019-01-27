@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -54,5 +58,24 @@
             <Font name="System Bold" size="31.0" />
          </font>
       </JFXButton>
+      <BarChart fx:id="week" layoutX="68.0" layoutY="382.0" prefHeight="289.0" prefWidth="445.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" fx:id="xAxis" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis fx:id="yAxis" side="LEFT" />
+        </yAxis>
+      </BarChart>
+      <PieChart fx:id="day" layoutX="847.0" layoutY="371.0" prefHeight="300.0" prefWidth="357.0" />
+      <Text layoutX="213.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weekly Statistics">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="934.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Daily Statistics">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
