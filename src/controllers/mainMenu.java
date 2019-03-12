@@ -40,11 +40,11 @@ public class mainMenu {
         setData();
 
         // Daily Chart Data
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                new PieChart.Data("Income",5000),
-                new PieChart.Data("spent",2000)
-        );
-        day.setData(pieChartData);
+//        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+//                new PieChart.Data("Income",5000),
+//                new PieChart.Data("spent",2000)
+//        );
+//        day.setData(pieChartData);
     }
 
     public void openItems(MouseEvent mouseEvent) throws IOException {
