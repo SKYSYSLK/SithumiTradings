@@ -67,3 +67,193 @@ CREATE TABLE daily(
   income decimal(10,2),
   profit decimal(8,2)
 ) 
+
+-------
+13/11/2019 23:11:00
+-------
+
+CREATE TABLE items(
+  id varchar(8) PRIMARY KEY,
+  name varchar(50),
+  quantity int,
+  buyPrice decimal(7,2),
+  sellPrice decimal(7,2),
+  available int
+) 
+CREATE TABLE shops(
+  id int AUTOINCREMENT,
+  name varchar(40),
+  contact varchar(10),
+  address varchar(100),
+  type int(1)
+)
+
+
+-------
+13/11/2019 23:11:43
+-------
+
+CREATE TABLE items(
+  id varchar(8) PRIMARY KEY,
+  name varchar(50),
+  quantity int,
+  buyPrice decimal(7,2),
+  sellPrice decimal(7,2),
+  available int
+) 
+CREATE TABLE shops(
+  id int AUTO INCREMENT,
+  name varchar(40),
+  contact varchar(10),
+  address varchar(100),
+  type int(1)
+)
+
+CREATE TABLE cheques(
+  id varchar(50) PRIMARY KEY,
+  amount decimal(8,2),
+  bank varchar (30),
+  issue_date date,
+  expire_date date,
+  bank varchar(50),
+  branch varchar(50),
+  status int(1)
+)
+
+
+-------
+13/13/2019 23:13:02
+-------
+
+CREATE TABLE items(
+  id varchar(8) PRIMARY KEY,
+  name varchar(50),
+  quantity int,
+  buyPrice decimal(7,2),
+  sellPrice decimal(7,2),
+  available int
+) 
+CREATE TABLE shops(
+  id int AUTO INCREMENT,
+  name varchar(40),
+  contact varchar(10),
+  address varchar(100),
+  type int(1)
+)
+
+CREATE TABLE cheques(
+  id varchar(50) PRIMARY KEY,
+  amount decimal(8,2),
+  bank varchar (30),
+  issue_date date,
+  expire_date date,
+  branch varchar(50),
+  status int(1)
+)
+
+CREATE TABLE invoices(
+  id int AUTOINCREMENT,
+  shop_id int(11),
+  amount decimal(8,2),
+  date_issued date,
+  cheque_id varchar(50),
+  FOREIGN KEY(cheque_id) REFERENCES cheques(id),
+  FOREIGN key(shop_id) REFERENCES shops(id)
+)
+
+
+-------
+13/15/2019 23:15:26
+-------
+
+CREATE TABLE items(
+  id varchar(8) PRIMARY KEY,
+  name varchar(50),
+  quantity int,
+  buyPrice decimal(7,2),
+  sellPrice decimal(7,2),
+  available int
+) 
+CREATE TABLE shops(
+  id int AUTO INCREMENT,
+  name varchar(40),
+  contact varchar(10),
+  address varchar(100),
+  type int(1)
+)
+
+CREATE TABLE cheques(
+  id varchar(50) PRIMARY KEY,
+  amount decimal(8,2),
+  bank varchar (30),
+  issue_date date,
+  expire_date date,
+  branch varchar(50),
+  status int(1)
+)
+
+CREATE TABLE invoices(
+  id varchar (20),
+  shop_id int(11),
+  amount decimal(8,2),
+  date_issued date,
+  cheque_id varchar(50),
+  FOREIGN KEY(cheque_id) REFERENCES cheques(id),
+  FOREIGN key(shop_id) REFERENCES shops(id)
+)
+
+CREATE table invoiceItems(
+  item_id varchar(8),
+  invoice_id varchar(20),
+  FOREIGN KEY(item_id) REFERENCES items(id),
+  FOREIGN KEY(invoice_id) REFERENCES invoices(id)
+)
+
+
+-------
+13/16/2019 23:16:42
+-------
+
+CREATE TABLE items(
+  id varchar(8) PRIMARY KEY,
+  name varchar(50),
+  quantity int,
+  buyPrice decimal(7,2),
+  sellPrice decimal(7,2),
+  available int
+) 
+CREATE TABLE shops(
+  id int AUTO INCREMENT,
+  name varchar(40),
+  contact varchar(10),
+  address varchar(100),
+  type int(1)
+)
+
+CREATE TABLE cheques(
+  id varchar(50) PRIMARY KEY,
+  amount decimal(8,2),
+  bank varchar (30),
+  issue_date date,
+  expire_date date,
+  branch varchar(50),
+  status int(1)
+)
+
+CREATE TABLE invoices(
+  id varchar (20),
+  shop_id int(11),
+  amount decimal(8,2),
+  date_issued date,
+  cheque_id varchar(50),
+  FOREIGN KEY(cheque_id) REFERENCES cheques(id) ON DELETE cascade ,
+  FOREIGN key(shop_id) REFERENCES shops(id) ON DELETE cascade
+)
+
+CREATE table invoiceItems(
+  item_id varchar(8),
+  invoice_id varchar(20),
+  FOREIGN KEY(item_id) REFERENCES items(id) ON DELETE cascade,
+  FOREIGN KEY(invoice_id) REFERENCES invoices(id) ON DELETE cascade
+)
+

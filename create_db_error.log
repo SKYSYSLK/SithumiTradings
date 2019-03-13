@@ -13,3 +13,57 @@
 21/19/2019 11:19:38
 -------
 
+
+-------
+13/11/2019 23:11:00
+-------
+
+Error executing 'CREATE TABLE shops(
+  id int AUTOINCREMENT,
+  name varchar(40),
+  contact varchar(10),
+  address varchar(100),
+  type int(1)
+)
+' (line 7): [SQLITE_ERROR] SQL error or missing database (near "AUTOINCREMENT": syntax error)
+
+-------
+13/11/2019 23:11:43
+-------
+
+Error executing 'CREATE TABLE cheques(
+  id varchar(50) PRIMARY KEY,
+  amount decimal(8,2),
+  bank varchar (30),
+  issue_date date,
+  expire_date date,
+  bank varchar(50),
+  branch varchar(50),
+  status int(1)
+)
+' (line 10): [SQLITE_ERROR] SQL error or missing database (duplicate column name: bank)
+
+-------
+13/13/2019 23:13:02
+-------
+
+Error executing 'CREATE TABLE invoices(
+  id int AUTOINCREMENT,
+  shop_id int(11),
+  amount decimal(8,2),
+  date_issued date,
+  cheque_id varchar(50),
+  FOREIGN KEY(cheque_id) REFERENCES cheques(id),
+  FOREIGN key(shop_id) REFERENCES shops(id)
+)
+' (line 9): [SQLITE_ERROR] SQL error or missing database (near "AUTOINCREMENT": syntax error)
+
+-------
+13/15/2019 23:15:26
+-------
+
+
+-------
+13/16/2019 23:16:42
+-------
+
