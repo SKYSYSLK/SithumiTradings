@@ -9,7 +9,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -21,24 +20,18 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-/**
- * @author danushka
- */
-public class buyController implements Initializable {
-    public TableColumn<buy, String> item_no;
-    public TableColumn<buy, String> name;
-    public TableColumn<buy, Integer> quantity;
-    public TableColumn<buy, Float> buyPrice;
-    public TableColumn<buy, Float> sellPrice;
-    public TableColumn<buy, Float> Total;
-    public TableColumn<buy, String> paymentDate;
-    public TableColumn<buy, String> checkno;
-    public TableColumn<buy, String> date;
+public class buyInvoiceController implements Initializable {
+
+    public TableColumn<buy, String> invoice_id;
+    public TableColumn<buy, String> shopName;
+    public TableColumn<buy, Float> amount;
+    public TableColumn<buy, String> dateIssue;
+    public TableColumn<buy, String> checkNo;
     public JFXButton back;
-    public TableView<buy> itemTable;
+    public TableView<buy> invoiceTable;
     private static TableView<buy> itemTable1;
 
-    public buyController() throws SQLException {
+    public buyInvoiceController() throws SQLException {
     }
 
     public void getSelected(MouseEvent mouseEvent) {
@@ -55,44 +48,40 @@ public class buyController implements Initializable {
 //        paymentDate.setCellValueFactory(new PropertyValueFactory<>("paymentDate"));
 //        checkno.setCellValueFactory(new PropertyValueFactory<>("check_no"));
 //        date.setCellValueFactory(new PropertyValueFactory<>("day"));
-//        itemTable.setItems(itemData);
-//        itemTable1 = itemTable;
+        //itemTable.setItems(itemData);
+        itemTable1 = invoiceTable;
     }
     private ObservableList<buy> itemData = FXCollections.observableArrayList(
-//           buy.getAll()
+            //buy.getAll()
     );
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
-        Stage thisWindow = (Stage)itemTable.getScene().getWindow();
-        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("../resources/views/buyInvoice.fxml"));
+        Stage thisWindow = (Stage)invoiceTable.getScene().getWindow();
+        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("../resources/views/mainMenu.fxml"));
         Parent root = backLoader.load();
         thisWindow.setTitle("Main Menu ");
         thisWindow.setScene(new Scene(root));
     }
 
     public void addNew(MouseEvent mouseEvent) throws IOException {
-            // Add new Item goes Here
-    }
-
-    public void addCheque(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/addBuyItem.fxml"));
-        Stage model = new Stage();
+        FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/Buy.fxml"));
+        Stage model = (Stage)back.getScene().getWindow();
         Parent root = load.load();
         model.setTitle("Add New Record");
-        model.initModality(Modality.APPLICATION_MODAL);
+        //model.initModality(Modality.APPLICATION_MODAL);
         model.setScene(new Scene(root));
         model.show();
     }
 
     public void delete(MouseEvent mouseEvent) throws SQLException {
-        buy item1 = itemTable.getSelectionModel().getSelectedItem();
+        buy item1 = invoiceTable.getSelectionModel().getSelectedItem();
         item itemCurrent = item.getItem(item1.getItem_id());
         assert itemCurrent != null;
         int quantity = itemCurrent.getQuantity()-item1.getQuantity();
         itemCurrent.setQuantity(quantity);
         itemCurrent.update();
         item1.delete();
-        buyController.removeItem(item1);
+        buyInvoiceController.removeItem(item1);
     }
 
     static void addItem(buy item){
