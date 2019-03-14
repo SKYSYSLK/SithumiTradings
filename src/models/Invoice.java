@@ -91,10 +91,10 @@ public class Invoice {
         con.close();
     }
 
-    public static ArrayList<Invoice> getAll() throws SQLException {
+    public static ArrayList<Invoice> getAllBuying() throws SQLException {
         Connection con = connection.getConnection();
         ArrayList<Invoice> allRecords = new ArrayList<>();
-        String query = "SELECT * FROM invoices LIMIT 10";
+        String query = "SELECT * FROM invoices WHERE  LIMIT 10";
         PreparedStatement selectq = con.prepareStatement(query);
         ResultSet result = selectq.executeQuery();
         while (result.next()){

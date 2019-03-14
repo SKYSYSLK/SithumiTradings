@@ -1,8 +1,10 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -36,6 +38,20 @@ public class buyController implements Initializable {
     public TableColumn<buy, String> date;
     public JFXButton back;
     public TableView<buy> itemTable;
+    @FXML
+    private JFXButton addItem;
+
+    @FXML
+    private JFXTextField itemName;
+
+    @FXML
+    private JFXTextField itemQuantity;
+
+    @FXML
+    private JFXTextField itemBuyPrice;
+
+    @FXML
+    private JFXTextField itemSellPrice;
     private static TableView<buy> itemTable1;
 
     public buyController() throws SQLException {
@@ -74,16 +90,6 @@ public class buyController implements Initializable {
             // Add new Item goes Here
     }
 
-    public void addCheque(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/addBuyItem.fxml"));
-        Stage model = new Stage();
-        Parent root = load.load();
-        model.setTitle("Add New Record");
-        model.initModality(Modality.APPLICATION_MODAL);
-        model.setScene(new Scene(root));
-        model.show();
-    }
-
     public void delete(MouseEvent mouseEvent) throws SQLException {
         buy item1 = itemTable.getSelectionModel().getSelectedItem();
         item itemCurrent = item.getItem(item1.getItem_id());
@@ -101,5 +107,18 @@ public class buyController implements Initializable {
 
     private static void removeItem(buy item){
         itemTable1.getItems().remove(item);
+    }
+
+    public void addChequeDialog(MouseEvent mouseEvent) throws IOException {
+        FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/addCheque.fxml"));
+        Stage model = new Stage();
+        Parent root = load.load();
+        model.setTitle("Add New Cheque");
+        model.initModality(Modality.APPLICATION_MODAL);
+        model.setScene(new Scene(root));
+        model.show();
+    }
+
+    public void addShopWindow(MouseEvent mouseEvent) {
     }
 }
