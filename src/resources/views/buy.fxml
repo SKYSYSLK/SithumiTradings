@@ -20,12 +20,11 @@
       </Text>
       <TableView fx:id="itemTable" layoutX="43.0" layoutY="143.0" onMouseClicked="#getSelected" prefHeight="513.0" prefWidth="633.0">
         <columns>
-          <TableColumn fx:id="item_no" prefWidth="101.0" text="Item_no" />
-          <TableColumn fx:id="name" prefWidth="120.0" text="Name" />
-            <TableColumn fx:id="quantity" prefWidth="105.0" text="Quantity" />
-            <TableColumn fx:id="buyPrice" prefWidth="109.0" text="Buy Price" />
-            <TableColumn fx:id="sellPrice" prefWidth="97.0" text="Sell Price" />
-            <TableColumn fx:id="Total" prefWidth="102.0" text="Total" />
+          <TableColumn fx:id="item_no" prefWidth="108.00003051757812" text="Item_no" />
+          <TableColumn fx:id="name" prefWidth="146.0" text="Name" />
+            <TableColumn fx:id="quantity" prefWidth="121.0" text="Quantity" />
+            <TableColumn fx:id="buyPrice" prefWidth="132.0" text="Buy Price" />
+            <TableColumn fx:id="sellPrice" prefWidth="125.0" text="Sell Price" />
         </columns>
       </TableView>
       <JFXButton fx:id="back" layoutX="43.0" layoutY="74.0" onMouseClicked="#backMenu" prefHeight="56.0" prefWidth="148.0" style="-fx-background-color: #edb290;" text="Back">

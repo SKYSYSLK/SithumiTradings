@@ -6,12 +6,12 @@ import java.util.ArrayList;
 /**
  * @author danushka
  */
-public class item {
-    Connection con = connection.getConnection();
-    String id,name;
-    int quantity;
-    float buyPrice,sellPrice;
-    public item(String id, String name, int quantity, float buyPrice, float sellPrice){
+public class Item {
+    private Connection con = connection.getConnection();
+    private String id,name;
+    private int quantity;
+    private float buyPrice,sellPrice;
+    public Item(String id, String name, int quantity, float buyPrice, float sellPrice){
         this.id = id;
         this.name = name;
         this.quantity = quantity;
@@ -72,14 +72,14 @@ public class item {
         insq.execute();
         con.close();
     }
-    public static ArrayList<item> getAll() throws SQLException {
-        ArrayList<item> items = new ArrayList<>();
+    public static ArrayList<Item> getAll() throws SQLException {
+        ArrayList<Item> items = new ArrayList<>();
         Connection con = connection.getConnection();
         String selectQuery = "SELECT * FROM items";
         Statement select = con.createStatement();
         ResultSet result = select.executeQuery(selectQuery);
         while (result.next()){
-            items.add(new item(
+            items.add(new Item(
                     result.getString("id"),
                     result.getString("name"),
                     result.getInt("quantity"),
@@ -102,7 +102,7 @@ public class item {
         upq.execute();
         con.close();
     }
-    public static item getItem(String itemId) throws SQLException {
+    public static Item getItem(String itemId) throws SQLException {
         Connection con = connection.getConnection();
         String findQuery = "SELECT * FROM items WHERE id=?";
         PreparedStatement select = con.prepareStatement(findQuery);
@@ -114,7 +114,7 @@ public class item {
             float buyPrice = result.getFloat("buyPrice");
             float sellPrice = result.getFloat("sellPrice");
             con.close();
-            return new item(itemId, name, quantity, buyPrice, sellPrice);
+            return new Item(itemId, name, quantity, buyPrice, sellPrice);
         }else{
             con.close();
             return null;

@@ -13,7 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import models.item;
+import models.Item;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,13 +25,13 @@ import java.util.ResourceBundle;
  */
 public class itemController implements Initializable {
 
-    public TableView<item> itemTable;
+    public TableView<Item> itemTable;
 
-    public TableColumn<item,String> item_no;
-    public TableColumn<item,Integer> quantity;
-    public TableColumn<item,Float> buyPrice;
-    public TableColumn<item,Float> sellPrice;
-    public TableColumn<item, String> name;
+    public TableColumn<Item,String> item_no;
+    public TableColumn<Item,Integer> quantity;
+    public TableColumn<Item,Float> buyPrice;
+    public TableColumn<Item,Float> sellPrice;
+    public TableColumn<Item, String> name;
     public JFXTextField u_itemId;
     public JFXTextField u_name;
     public JFXTextField u_quantity;
@@ -59,8 +59,8 @@ public class itemController implements Initializable {
         sellPrice.setCellValueFactory(new PropertyValueFactory<>("sellPrice"));
         itemTable.setItems(itemData);
     }
-    private ObservableList<item> itemData = FXCollections.observableArrayList(
-            item.getAll()
+    private ObservableList<Item> itemData = FXCollections.observableArrayList(
+            Item.getAll()
     );
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
@@ -82,7 +82,7 @@ public class itemController implements Initializable {
         float buyPrice = Float.parseFloat(u_buyPrice.getText());
         float sellPrice = Float.parseFloat(u_sellPrice.getText());
 
-        item newItem = new item(itemId,itemName,quantity,buyPrice,sellPrice);
+        Item newItem = new Item(itemId,itemName,quantity,buyPrice,sellPrice);
         newItem.update();
 
         //Refresh Table
@@ -105,7 +105,7 @@ public class itemController implements Initializable {
         float buyPrice = Float.parseFloat(a_buyPrice.getText());
         float sellPrice = Float.parseFloat(a_sellPrice.getText());
 
-        item newItem = new item(itemId,itemName,quantity,buyPrice,sellPrice);
+        Item newItem = new Item(itemId,itemName,quantity,buyPrice,sellPrice);
         newItem.save();
 
         //Refresh Table
@@ -124,7 +124,7 @@ public class itemController implements Initializable {
     }
     private void onEdit(){
         if(itemTable.getSelectionModel().getSelectedItem()!=null){
-            item current = itemTable.getSelectionModel().getSelectedItem();
+            Item current = itemTable.getSelectionModel().getSelectedItem();
             u_itemId.setText(current.getId());
             u_name.setText(current.getName());
             u_quantity.setText(Integer.toString(current.getQuantity()));

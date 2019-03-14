@@ -5,8 +5,7 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import models.buy;
-import models.item;
+import models.Item;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -28,7 +27,7 @@ public class addBuyItemController {
 
     public void findItem(MouseEvent mouseEvent) throws SQLException {
         String itemID = itemId.getText();
-        item current = item.getItem(itemID);
+        Item current = Item.getItem(itemID);
         if(current!=null){
             itemName.setText(current.getName());
         }else{
@@ -45,13 +44,13 @@ public class addBuyItemController {
             String today = java.sql.Date.valueOf(day.getValue()).toString();
             String paymentD = java.sql.Date.valueOf(paymentDate.getValue()).toString();
             String chque = checkNo.getText();
-            buy newBuy = new buy(itemID,quanty,bPrice,sPrice,today,paymentD,chque);
-            newBuy.save();
+//            buy newBuy = new buy(itemID,quanty,bPrice,sPrice,today,paymentD,chque);
+//            newBuy.save();
             Stage current = (Stage) save.getScene().getWindow();
             current.close();
 
             //Update Table Item
-            buyController.addItem(newBuy);
+//            buyController.addItem(newBuy);
         }else{
             warning.incomplete();
         }

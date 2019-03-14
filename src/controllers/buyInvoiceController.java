@@ -10,10 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import models.buy;
-import models.item;
+import models.Item;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,14 +20,14 @@ import java.util.ResourceBundle;
 
 public class buyInvoiceController implements Initializable {
 
-    public TableColumn<buy, String> invoice_id;
-    public TableColumn<buy, String> shopName;
-    public TableColumn<buy, Float> amount;
-    public TableColumn<buy, String> dateIssue;
-    public TableColumn<buy, String> checkNo;
+    public TableColumn<Item, String> invoice_id;
+    public TableColumn<Item, String> shopName;
+    public TableColumn<Item, Float> amount;
+    public TableColumn<Item, String> dateIssue;
+    public TableColumn<Item, String> checkNo;
     public JFXButton back;
-    public TableView<buy> invoiceTable;
-    private static TableView<buy> itemTable1;
+    public TableView<Item> invoiceTable;
+    private static TableView<Item> itemTable1;
 
     public buyInvoiceController() throws SQLException {
     }
@@ -51,7 +49,7 @@ public class buyInvoiceController implements Initializable {
         //itemTable.setItems(itemData);
         itemTable1 = invoiceTable;
     }
-    private ObservableList<buy> itemData = FXCollections.observableArrayList(
+    private ObservableList<Item> itemData = FXCollections.observableArrayList(
             //buy.getAll()
     );
 
@@ -74,21 +72,21 @@ public class buyInvoiceController implements Initializable {
     }
 
     public void delete(MouseEvent mouseEvent) throws SQLException {
-        buy item1 = invoiceTable.getSelectionModel().getSelectedItem();
-        item itemCurrent = item.getItem(item1.getItem_id());
-        assert itemCurrent != null;
-        int quantity = itemCurrent.getQuantity()-item1.getQuantity();
-        itemCurrent.setQuantity(quantity);
-        itemCurrent.update();
-        item1.delete();
-        buyInvoiceController.removeItem(item1);
+//        buy item1 = invoiceTable.getSelectionModel().getSelectedItem();
+//        Item itemCurrent = Item.getItem(item1.getItem_id());
+//        assert itemCurrent != null;
+//        int quantity = itemCurrent.getQuantity()-item1.getQuantity();
+//        itemCurrent.setQuantity(quantity);
+//        itemCurrent.update();
+//        item1.delete();
+//        buyInvoiceController.removeItem(item1);
     }
 
-    static void addItem(buy item){
-        itemTable1.getItems().add(item);
-    }
-
-    private static void removeItem(buy item){
-        itemTable1.getItems().remove(item);
-    }
+//    static void addItem(buy item){
+//        itemTable1.getItems().add(item);
+//    }
+//
+//    private static void removeItem(buy item){
+//        itemTable1.getItems().remove(item);
+//    }
 }
