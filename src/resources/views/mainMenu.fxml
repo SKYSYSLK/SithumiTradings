@@ -70,7 +70,7 @@
             <Font name="System Bold" size="23.0" />
          </font>
       </Text>
-      <JFXButton fx:id="sell1" buttonType="RAISED" focusTraversable="false" layoutX="585.0" layoutY="313.0" onMouseClicked="#openSell" prefHeight="112.0" prefWidth="347.0" style="-fx-background-color: #42f4dc;" text="Company">
+      <JFXButton fx:id="sell1" buttonType="RAISED" focusTraversable="false" layoutX="606.0" layoutY="353.0" onMouseClicked="#openSell" prefHeight="112.0" prefWidth="326.0" style="-fx-background-color: #42f4dc;" text="Shops">
          <graphic>
             <ImageView fitHeight="84.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -82,19 +82,7 @@
             <Font name="System Bold" size="43.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="sell11" buttonType="RAISED" focusTraversable="false" layoutX="585.0" layoutY="442.0" onMouseClicked="#openSell" prefHeight="112.0" prefWidth="347.0" style="-fx-background-color: #42f4dc;" text="Customer">
-         <graphic>
-            <ImageView fitHeight="84.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../icons/delivery-man1.png" />
-               </image>
-            </ImageView>
-         </graphic>
-         <font>
-            <Font name="System Bold" size="43.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="sell111" buttonType="RAISED" focusTraversable="false" layoutX="585.0" layoutY="569.0" onMouseClicked="#openSell" prefHeight="112.0" prefWidth="347.0" style="-fx-background-color: #42f4dc;" text="Cheque">
+      <JFXButton fx:id="sell11" buttonType="RAISED" focusTraversable="false" layoutX="606.0" layoutY="514.0" onMouseClicked="#openSell" prefHeight="112.0" prefWidth="326.0" style="-fx-background-color: #42f4dc;" text="Cheques">
          <graphic>
             <ImageView fitHeight="84.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
                <image>

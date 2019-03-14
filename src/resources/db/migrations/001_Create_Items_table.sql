@@ -1,5 +1,5 @@
 CREATE TABLE items(
-  id varchar(10) PRIMARY KEY,
+  id varchar(8) PRIMARY KEY,
   name varchar(50),
   quantity int,
   buyPrice decimal(7,2),

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
@@ -9,14 +11,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1355.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.buyController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1355.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.buyController">
    <children>
       <Text layoutX="421.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SITHUMI TRADINGS" x="50.0" y="50.0" AnchorPane.bottomAnchor="586.0" AnchorPane.leftAnchor="471.0" AnchorPane.rightAnchor="470.4501953125" AnchorPane.topAnchor="23.0">
          <font>
             <Font name="Agency FB Bold" size="65.0" />
          </font>
       </Text>
-      <TableView fx:id="itemTable" layoutX="43.0" layoutY="143.0" onMouseClicked="#getSelected" prefHeight="513.0" prefWidth="1104.0">
+      <TableView fx:id="itemTable" layoutX="43.0" layoutY="143.0" onMouseClicked="#getSelected" prefHeight="513.0" prefWidth="633.0">
         <columns>
           <TableColumn fx:id="item_no" prefWidth="101.0" text="Item_no" />
           <TableColumn fx:id="name" prefWidth="120.0" text="Name" />
@@ -24,9 +26,6 @@
             <TableColumn fx:id="buyPrice" prefWidth="109.0" text="Buy Price" />
             <TableColumn fx:id="sellPrice" prefWidth="97.0" text="Sell Price" />
             <TableColumn fx:id="Total" prefWidth="102.0" text="Total" />
-            <TableColumn fx:id="paymentDate" prefWidth="117.0" text="Payment Date" />
-            <TableColumn fx:id="checkno" prefWidth="189.0" text="Cheque No" />
-            <TableColumn fx:id="date" prefWidth="164.0" text="Date" />
         </columns>
       </TableView>
       <JFXButton fx:id="back" layoutX="43.0" layoutY="74.0" onMouseClicked="#backMenu" prefHeight="56.0" prefWidth="148.0" style="-fx-background-color: #edb290;" text="Back">
@@ -39,7 +38,23 @@
             <Font size="27.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="1179.0" layoutY="212.0" onMouseClicked="#addNew" prefHeight="57.0" prefWidth="138.0" style="-fx-background-color: #42f45f;" text="ADD NEW" />
-      <JFXButton layoutX="1179.0" layoutY="322.0" onMouseClicked="#delete" prefHeight="57.0" prefWidth="138.0" style="-fx-background-color: red;" text="DELETE" />
+       <AnchorPane layoutX="744.0" layoutY="143.0" prefHeight="189.0" prefWidth="505.0" style="-fx-background-color: #9bedf2; -fx-background-radius: 20;">
+           <children>
+               <JFXTextField fx:id="invoice" layoutX="31.0" layoutY="24.0" prefHeight="32.0" prefWidth="314.0" promptText="Invoice Number" />
+               <JFXButton fx:id="addInvoice" layoutX="391.0" layoutY="139.0" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Save" />
+            <JFXComboBox fx:id="cheque_no" editable="true" layoutX="31.0" layoutY="80.0" prefHeight="25.0" prefWidth="314.0" promptText="Select the Cheque Number" />
+            <JFXButton layoutX="365.0" layoutY="82.0" style="-fx-background-color: #f441df;" text="Add Cheque" />
+           </children>
+       </AnchorPane>
+      <AnchorPane layoutX="744.0" layoutY="345.0" prefHeight="240.0" prefWidth="505.0" style="-fx-background-color: #9bedf2; -fx-background-radius: 20;">
+         <children>
+            <JFXTextField fx:id="itemId" layoutX="31.0" layoutY="24.0" prefHeight="32.0" prefWidth="184.0" promptText="Item Id" />
+            <JFXButton fx:id="addItem" layoutX="394.0" layoutY="181.0" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Save" />
+            <JFXTextField fx:id="invoice11" editable="false" layoutX="253.0" layoutY="24.0" prefHeight="32.0" prefWidth="184.0" promptText="Name" />
+            <JFXTextField fx:id="invoice12" layoutX="31.0" layoutY="71.0" prefHeight="32.0" prefWidth="184.0" promptText="Quantity" />
+            <JFXTextField fx:id="invoice121" layoutX="31.0" layoutY="128.0" prefHeight="32.0" prefWidth="184.0" promptText="Buy Price" />
+            <JFXTextField fx:id="invoice1211" layoutX="253.0" layoutY="128.0" prefHeight="32.0" prefWidth="184.0" promptText="Sell Price" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
