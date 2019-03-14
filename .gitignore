@@ -1,5 +1,5 @@
 out
 .idea/
 *.iml
-resources/db/migrations/main.db
+src/resources/db/*.db
 *.log
