@@ -1,3 +1,5 @@
-/out
-/.idea
+out
+.idea/
 *.iml
+resources/db/migrations/main.db
+*.log
