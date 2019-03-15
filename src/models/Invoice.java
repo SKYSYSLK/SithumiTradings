@@ -96,7 +96,7 @@ public class Invoice {
     public static ArrayList<Invoice> getAll() throws SQLException {
         Connection con = connection.getConnection();
         ArrayList<Invoice> allRecords = new ArrayList<>();
-        String query = "SELECT * FROM invoices LIMIT 10";
+        String query = "SELECT * FROM invoices";
         PreparedStatement selectq = con.prepareStatement(query);
         ResultSet result = selectq.executeQuery();
         while (result.next()){
@@ -121,6 +121,7 @@ public class Invoice {
         upq.setString(3,date_issue);
         upq.setString(4,cheque_id);
         upq.setInt(5,this.type);
+        upq.setString(6,this.id);
         upq.execute();
         con.close();
     }
@@ -141,7 +142,20 @@ public class Invoice {
         con.close();
         System.out.println(invId);
         return new Invoice(invId,invShopId,invDateIssue,invAmount,invCheque_id,invType);
+    }
 
+    public static void addAmount(String invoice_id, double amount) throws SQLException {
+        Invoice current = Invoice.getInvoice(invoice_id);
+        double currentAmount = current.getAmount()+amount;
+        current.setAmount(currentAmount);
+        current.update();
+    }
+
+    public void delete() throws SQLException {
+        String query = "DELETE FROM invoices WHERE id=?";
+        PreparedStatement delq = con.prepareStatement(query);
+        delq.setString(1,this.id);
+        delq.execute();
     }
 
 }

@@ -1,6 +1,7 @@
 package models;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -69,5 +70,10 @@ public class t_invoice {
             allRec.add(new t_invoice(id,shopName,date_issue,chequeNo,amount));
         }
         return allRec;
+    }
+
+    public void delete() throws SQLException {
+        Invoice current = Invoice.getInvoice(this.id);
+        current.delete();
     }
 }
