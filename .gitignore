@@ -1,5 +1,5 @@
 out
 .idea/
 *.iml
-src/resources/db/*.db
+*.db
 *.log
