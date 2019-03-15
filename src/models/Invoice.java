@@ -7,34 +7,36 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Invoice {
-    String id,date_issue,shop_name,cheque_id;
-    int shop_id;
-    double amount;
-    Connection con = connection.getConnection();
+    private String id,date_issue,shop_name,cheque_id;
+    private int shop_id;
 
-    public String getCheque_id() {
-        return cheque_id;
-    }
+    private int type;
+    private double amount;
+    private Connection con = connection.getConnection();
 
-    public void setCheque_id(String cheque_id) {
-        this.cheque_id = cheque_id;
-    }
-
-    public Invoice(String id, int shop_id, String date_issue, double amount, String cheque_id) {
+    public Invoice(String id, int shop_id, String date_issue, double amount, String cheque_id, int type) {
         this.id = id;
         this.shop_id = shop_id;
         this.date_issue = date_issue;
         this.amount = amount;
         this.shop_name = "";
         this.cheque_id = cheque_id;
+        this.type = type;
     }
-    // This constructor is for add a shop_name
-    public Invoice(String id, int shop_id,String shop_name, String date_issue, double amount, String cheque_id) {
-        this.id = id;
-        this.shop_id = shop_id;
-        this.date_issue = date_issue;
-        this.amount = amount;
-        this.shop_name = shop_name;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getCheque_id() {
+        return cheque_id;
+    }
+
+    public void setCheque_id(String cheque_id) {
         this.cheque_id = cheque_id;
     }
 
@@ -78,15 +80,15 @@ public class Invoice {
         this.amount = amount;
     }
 
-    public void save(String id, String shop_id, Double amount, String date_issue, String cheque_id) throws SQLException {
+    public void save() throws SQLException {
         String query = "INSERT INTO invoices(id,shop_id,amount,date_issued,cheque_id)" +
                 "VALUES(?,?,?,?,?)";
         PreparedStatement insq = con.prepareStatement(query);
-        insq.setString(1,id);
-        insq.setString(2,shop_id);
-        insq.setDouble(3,amount);
-        insq.setString(4,date_issue);
-        insq.setString(5,cheque_id);
+        insq.setString(1,this.id);
+        insq.setInt(2,this.shop_id);
+        insq.setDouble(3,this.amount);
+        insq.setString(4,this.date_issue);
+        insq.setString(5,this.cheque_id);
         insq.execute();
         con.close();
     }
@@ -103,11 +105,23 @@ public class Invoice {
             Double amount = result.getDouble("amount");
             String date_issue = result.getString("date_issued");
             String cheque_id = result.getString("cheque_id");
-            String shopName = Shop.getShopName(shop_id);
-            allRecords.add(new Invoice(id,shop_id,shopName,date_issue,amount,cheque_id));
+            int type = result.getInt("type");
+            allRecords.add(new Invoice(id,shop_id,date_issue,amount,cheque_id,type));
         }
         con.close();
         return allRecords;
+    }
+
+    public void update() throws SQLException {
+        String query = "UPDATE invoices SET shop_id = ?, amount = ?, date_issued = ?, cheque_id=?, type = ? " +
+                "WHERE id = ?";
+        PreparedStatement upq = con.prepareStatement(query);
+        upq.setInt(1,this.shop_id);
+        upq.setDouble(2,this.amount);
+        upq.setString(3,date_issue);
+        upq.setString(4,cheque_id);
+        upq.setInt(5,this.type);
+        upq.execute();
     }
 
 }

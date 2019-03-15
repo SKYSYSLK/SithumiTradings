@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Shop {
-    int id,type;
-    String name,contact,address;
-    Connection con = connection.getConnection();
+    private int id,type;
+    private String name,contact,address;
+    private Connection con = connection.getConnection();
 
     public Shop(int id, int type, String name, String contact, String address) {
         this.id = id;
