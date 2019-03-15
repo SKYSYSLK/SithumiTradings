@@ -37,16 +37,16 @@ public class buyInvoiceController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        item_no.setCellValueFactory(new PropertyValueFactory<>("item_id"));
+//        shop_no.setCellValueFactory(new PropertyValueFactory<>("item_id"));
 //        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-//        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-//        buyPrice.setCellValueFactory(new PropertyValueFactory<>("buyPrice"));
-//        sellPrice.setCellValueFactory(new PropertyValueFactory<>("sellPrice"));
+//        type.setCellValueFactory(new PropertyValueFactory<>("type"));
+//        contact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+//        address.setCellValueFactory(new PropertyValueFactory<>("address"));
 //        Total.setCellValueFactory(new PropertyValueFactory<>("total"));
 //        paymentDate.setCellValueFactory(new PropertyValueFactory<>("paymentDate"));
 //        checkno.setCellValueFactory(new PropertyValueFactory<>("check_no"));
 //        date.setCellValueFactory(new PropertyValueFactory<>("day"));
-        //itemTable.setItems(itemData);
+        //shopTable.setItems(itemData);
         itemTable1 = invoiceTable;
     }
     private ObservableList<Item> itemData = FXCollections.observableArrayList(
@@ -75,14 +75,14 @@ public class buyInvoiceController implements Initializable {
 //        buy item1 = invoiceTable.getSelectionModel().getSelectedItem();
 //        Item itemCurrent = Item.getItem(item1.getItem_id());
 //        assert itemCurrent != null;
-//        int quantity = itemCurrent.getQuantity()-item1.getQuantity();
-//        itemCurrent.setQuantity(quantity);
+//        int type = itemCurrent.getQuantity()-item1.getQuantity();
+//        itemCurrent.setQuantity(type);
 //        itemCurrent.update();
 //        item1.delete();
 //        buyInvoiceController.removeItem(item1);
     }
 
-//    static void addItem(buy item){
+//    static void addShop(buy item){
 //        itemTable1.getItems().add(item);
 //    }
 //

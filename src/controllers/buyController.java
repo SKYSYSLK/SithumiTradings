@@ -26,14 +26,14 @@ import java.util.ResourceBundle;
  * @author danushka
  */
 public class buyController implements Initializable {
-//    public TableColumn<buy, String> item_no;
+//    public TableColumn<buy, String> shop_no;
 //    public TableColumn<buy, String> name;
-//    public TableColumn<buy, Integer> quantity;
-//    public TableColumn<buy, Float> buyPrice;
-//    public TableColumn<buy, Float> sellPrice;
+//    public TableColumn<buy, Integer> type;
+//    public TableColumn<buy, Float> contact;
+//    public TableColumn<buy, Float> address;
 //    public TableColumn<buy, String> date;
     public JFXButton back;
-//    public TableView<buy> itemTable;
+//    public TableView<buy> shopTable;
     @FXML
     private JFXButton addItem;
 
@@ -58,20 +58,20 @@ public class buyController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        item_no.setCellValueFactory(new PropertyValueFactory<>("id"));
+//        shop_no.setCellValueFactory(new PropertyValueFactory<>("id"));
 //        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-//        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-//        buyPrice.setCellValueFactory(new PropertyValueFactory<>("buyPrice"));
-//        sellPrice.setCellValueFactory(new PropertyValueFactory<>("sellPrice"));
+//        type.setCellValueFactory(new PropertyValueFactory<>("type"));
+//        contact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+//        address.setCellValueFactory(new PropertyValueFactory<>("address"));
 
-//        itemTable1 = itemTable;
+//        itemTable1 = shopTable;
     }
 //    private ObservableList<buy> itemData = FXCollections.observableArrayList(
 ////           buy.getAll()
 //    );
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
-//        Stage thisWindow = (Stage)itemTable.getScene().getWindow();
+//        Stage thisWindow = (Stage)shopTable.getScene().getWindow();
 //        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("../resources/views/buyInvoice.fxml"));
 //        Parent root = backLoader.load();
 //        thisWindow.setTitle("Main Menu ");
@@ -83,17 +83,17 @@ public class buyController implements Initializable {
     }
 
     public void delete(MouseEvent mouseEvent) throws SQLException {
-//        buy item1 = itemTable.getSelectionModel().getSelectedItem();
+//        buy item1 = shopTable.getSelectionModel().getSelectedItem();
 //        Item itemCurrent = Item.getItem(item1.getItem_id());
 //        assert itemCurrent != null;
-//        int quantity = itemCurrent.getQuantity()-item1.getQuantity();
-//        itemCurrent.setQuantity(quantity);
+//        int type = itemCurrent.getQuantity()-item1.getQuantity();
+//        itemCurrent.setQuantity(type);
 //        itemCurrent.update();
 //        item1.delete();
 //        buyController.removeItem(item1);
     }
 
-//    static void addItem(buy item){
+//    static void addShop(buy item){
 ////        itemTable1.getItems().add(item);
 //    }
 

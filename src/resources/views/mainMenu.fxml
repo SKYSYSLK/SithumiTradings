@@ -94,17 +94,20 @@
             <Font name="System Bold" size="23.0" />
          </font>
       </Text>
-      <JFXButton fx:id="sell1" buttonType="RAISED" focusTraversable="false" layoutX="606.0" layoutY="353.0" onMouseClicked="#openSell" prefHeight="112.0" prefWidth="326.0" style="-fx-background-color: #42f4dc;" text="Shops">
+      <JFXButton fx:id="shops" buttonType="RAISED" focusTraversable="false" layoutX="606.0" layoutY="353.0" onMouseClicked="#openShops" prefHeight="112.0" prefWidth="326.0" ripplerFill="#9a2a2a" style="-fx-background-color: gray; -fx-border-color: lightblue; -fx-border-radius: 10; -fx-background-radius: 10;" text="Shops" textFill="WHITE">
+         <font>
+            <Font name="Baskerville Old Face" size="37.0" />
+         </font>
          <graphic>
-            <ImageView fitHeight="84.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="79.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../icons/delivery-man1.png" />
+                  <Image url="@../icons/loads.png" />
                </image>
             </ImageView>
          </graphic>
-         <font>
-            <Font name="System Bold" size="43.0" />
-         </font>
+         <effect>
+            <Reflection bottomOpacity="0.08" fraction="0.17" topOpacity="0.07" />
+         </effect>
       </JFXButton>
       <JFXButton fx:id="sell11" buttonType="RAISED" focusTraversable="false" layoutX="606.0" layoutY="514.0" onMouseClicked="#openSell" prefHeight="112.0" prefWidth="326.0" style="-fx-background-color: #42f4dc;" text="Cheques">
          <graphic>
