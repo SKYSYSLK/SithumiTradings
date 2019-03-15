@@ -14,7 +14,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.*;
@@ -45,6 +47,12 @@ public class buyController implements Initializable {
     public JFXButton addShop;
     public JFXDatePicker date_issue;
     public JFXTextField itemId;
+    public Text error1;
+    public Text error2;
+    public Text error3;
+    public Text error4;
+
+    private Invoice currentInvoice=null;
 
     @FXML
     private JFXButton addItem;
@@ -60,17 +68,15 @@ public class buyController implements Initializable {
 
     @FXML
     private JFXTextField itemSellPrice;
-//    private static TableView<buy> itemTable1;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        item_no.setCellValueFactory(new PropertyValueFactory<>("item_no"));
+        item_no.setCellValueFactory(new PropertyValueFactory<>("itemNo"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         buyPrice.setCellValueFactory(new PropertyValueFactory<>("buyPrice"));
         sellPrice.setCellValueFactory(new PropertyValueFactory<>("sellPrice"));
         invoiceItemTable.setItems(itemData);
-//        itemTable1 = itemTable;
         try {
             fillShopCombo();
             fillChequeCombo();
@@ -82,7 +88,7 @@ public class buyController implements Initializable {
 
 
     private ObservableList<t_invoiceItem> itemData = FXCollections.observableArrayList(
-            t_invoiceItem.getItems("5547")
+            t_invoiceItem.getItems("322432")
     );
 
     private void fillShopCombo() throws SQLException {
@@ -118,23 +124,8 @@ public class buyController implements Initializable {
     }
 
     public void delete(MouseEvent mouseEvent) throws SQLException {
-//        buy item1 = itemTable.getSelectionModel().getSelectedItem();
-//        Item itemCurrent = Item.getItem(item1.getItem_id());
-//        assert itemCurrent != null;
-//        int quantity = itemCurrent.getQuantity()-item1.getQuantity();
-//        itemCurrent.setQuantity(quantity);
-//        itemCurrent.update();
-//        item1.delete();
-//        buyController.removeItem(item1);
+        // Delete Script Goes Here
     }
-
-//    static void addItem(buy item){
-////        itemTable1.getItems().add(item);
-//    }
-
-//    private static void removeItem(buy item){
-//        itemTable1.getItems().remove(item);
-//    }
 
     public void addChequeDialog(MouseEvent mouseEvent) throws IOException {
         FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/addCheque.fxml"));
@@ -151,12 +142,66 @@ public class buyController implements Initializable {
     }
 
     public void saveInvoice(MouseEvent mouseEvent) throws SQLException {
+        if(invoice_id.getText().isEmpty()||cheque_no.getSelectionModel().isEmpty()||shop_id.getSelectionModel().isEmpty()
+            || date_issue.getValue()==null){
+            error1.setVisible(true);
+            return;
+        }
+        if(Invoice.getInvoice(invoice_id.getText())!=null){
+            error4.setVisible(true);
+            return;
+        }
         String invoice = invoice_id.getText();
         String cheque = cheque_no.getSelectionModel().getSelectedItem().toString();
         int shop = Shop.getShopId(shop_id.getSelectionModel().getSelectedItem().toString());
         String date = java.sql.Date.valueOf(date_issue.getValue()).toString();
         Invoice currentInv = new Invoice(invoice,shop,date,0,cheque,1);
         currentInv.save();
+        currentInvoice = currentInv;
+        hideAllErrors();
         // Success Message Box shows here
+    }
+
+    public void hideError(KeyEvent keyEvent) {
+        error1.setVisible(false);
+    }
+
+    public void saveItem(MouseEvent mouseEvent) throws SQLException {
+        if(currentInvoice==null){
+            error2.setVisible(true);
+            return;
+        }
+        Item enteredItem = Item.getItem(itemId.getText());
+        if(enteredItem==null){
+            error3.setVisible(true);
+            return;
+        }
+        String item = itemId.getText();
+        int quantity = Integer.parseInt(itemQuantity.getText());
+        float bPrice = Float.parseFloat(itemBuyPrice.getText());
+        double sPrice = Double.parseDouble(itemSellPrice.getText());
+        InvoiceItem current = new InvoiceItem(item,currentInvoice.getId(),bPrice,sPrice,quantity);
+        current.save();
+        t_invoiceItem row = new t_invoiceItem(item,Item.getItem(item).getName(),quantity,sPrice,bPrice);
+        invoiceItemTable.getItems().add(row);
+        hideAllErrors();
+    }
+
+    public void fetchData(MouseEvent inputMethodEvent) throws SQLException {
+        String item = itemId.getText();
+        Item current = Item.getItem(item);
+        System.out.println("hit");
+        if(current!=null){
+            itemName.setText(current.getName());
+            itemBuyPrice.setText(Double.toString(current.getBuyPrice()));
+            itemSellPrice.setText(Double.toString(current.getSellPrice()));
+        }
+    }
+
+    private void hideAllErrors(){
+        error1.setVisible(false);
+        error2.setVisible(false);
+        error3.setVisible(false);
+        error4.setVisible(false);
     }
 }

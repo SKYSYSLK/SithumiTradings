@@ -125,4 +125,23 @@ public class Invoice {
         con.close();
     }
 
+    public static Invoice getInvoice(String invoice_id) throws SQLException {
+        Connection con = connection.getConnection();
+        String query = "SELECT * FROM invoices WHERE id = ? LIMIT 1";
+        PreparedStatement selecq = con.prepareStatement(query);
+        selecq.setString(1,invoice_id);
+        ResultSet resultSet = selecq.executeQuery();
+
+        String invId = resultSet.getString("id");
+        int invShopId = resultSet.getInt("shop_id");
+        double invAmount = resultSet.getDouble("amount");
+        String invDateIssue = resultSet.getString("date_issued");
+        String invCheque_id = resultSet.getString("cheque_id");
+        int invType = resultSet.getInt("type");
+        con.close();
+        System.out.println(invId);
+        return new Invoice(invId,invShopId,invDateIssue,invAmount,invCheque_id,invType);
+
+    }
+
 }

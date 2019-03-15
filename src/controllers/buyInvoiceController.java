@@ -9,9 +9,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import models.Item;
+import models.t_invoice;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,8 +28,8 @@ public class buyInvoiceController implements Initializable {
     public TableColumn<Item, String> dateIssue;
     public TableColumn<Item, String> checkNo;
     public JFXButton back;
-    public TableView<Item> invoiceTable;
-    private static TableView<Item> itemTable1;
+    public TableView<t_invoice> invoiceTable;
+//    private static TableView<Item> itemTable1;
 
     public buyInvoiceController() throws SQLException {
     }
@@ -37,20 +39,18 @@ public class buyInvoiceController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        item_no.setCellValueFactory(new PropertyValueFactory<>("item_id"));
-//        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-//        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-//        buyPrice.setCellValueFactory(new PropertyValueFactory<>("buyPrice"));
-//        sellPrice.setCellValueFactory(new PropertyValueFactory<>("sellPrice"));
-//        Total.setCellValueFactory(new PropertyValueFactory<>("total"));
-//        paymentDate.setCellValueFactory(new PropertyValueFactory<>("paymentDate"));
-//        checkno.setCellValueFactory(new PropertyValueFactory<>("check_no"));
-//        date.setCellValueFactory(new PropertyValueFactory<>("day"));
-        //itemTable.setItems(itemData);
-        itemTable1 = invoiceTable;
+
+        invoice_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        shopName.setCellValueFactory(new PropertyValueFactory<>("shopName"));
+        dateIssue.setCellValueFactory(new PropertyValueFactory<>("dateIsssued"));
+        checkNo.setCellValueFactory(new PropertyValueFactory<>("cheque_number"));
+        amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+
+        invoiceTable.setItems(itemData);
+//        itemTable1 = invoiceTable;
     }
-    private ObservableList<Item> itemData = FXCollections.observableArrayList(
-            //buy.getAll()
+    private ObservableList<t_invoice> itemData = FXCollections.observableArrayList(
+            t_invoice.getAll()
     );
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
