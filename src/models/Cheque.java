@@ -81,6 +81,7 @@ public class Cheque {
         insq.setString(6,this.issuedDate);
         insq.setString(7,"1");
         insq.execute();
+        con.close();
         System.out.println(insq.toString());
         // Need to add a success window
     }
@@ -101,6 +102,7 @@ public class Cheque {
             Cheque current = new Cheque(id,issuedDate,expireDate,bank,branch,amount);
             allRec.add(current);
         }
+        con.close();
         return allRec;
     }
 }

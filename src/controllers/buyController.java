@@ -153,9 +153,10 @@ public class buyController implements Initializable {
     public void saveInvoice(MouseEvent mouseEvent) throws SQLException {
         String invoice = invoice_id.getText();
         String cheque = cheque_no.getSelectionModel().getSelectedItem().toString();
-        int shop = Integer.parseInt(shop_id.getSelectionModel().getSelectedItem().toString());
+        int shop = Shop.getShopId(shop_id.getSelectionModel().getSelectedItem().toString());
         String date = java.sql.Date.valueOf(date_issue.getValue()).toString();
         Invoice currentInv = new Invoice(invoice,shop,date,0,cheque,1);
         currentInv.save();
+        // Success Message Box shows here
     }
 }

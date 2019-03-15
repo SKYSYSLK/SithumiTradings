@@ -122,6 +122,7 @@ public class Invoice {
         upq.setString(4,cheque_id);
         upq.setInt(5,this.type);
         upq.execute();
+        con.close();
     }
 
 }
