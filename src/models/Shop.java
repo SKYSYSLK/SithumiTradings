@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Shop {
-    int id,type;
-    String name,contact,address;
-    Connection con = connection.getConnection();
+    private int id,type;
+    private String name,contact,address;
+    private Connection con = connection.getConnection();
 
     public Shop(int id, int type, String name, String contact, String address) {
         this.id = id;
@@ -95,6 +95,18 @@ public class Shop {
         selectq.setInt(1,id);
         ResultSet resultSet = selectq.executeQuery();
         String name = resultSet.getString("name");
+        con.close();
         return name;
+    }
+
+    public static int getShopId(String name) throws SQLException {
+        Connection con = connection.getConnection();
+        String query = "SELECT id FROM shops WHERE name=?";
+        PreparedStatement selectq = con.prepareStatement(query);
+        selectq.setString(1,name);
+        ResultSet resultSet = selectq.executeQuery();
+        int id = resultSet.getInt("id");
+        con.close();
+        return id;
     }
 }

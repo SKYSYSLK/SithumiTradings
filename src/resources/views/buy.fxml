@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -18,7 +19,7 @@
             <Font name="Agency FB Bold" size="65.0" />
          </font>
       </Text>
-      <TableView fx:id="itemTable" layoutX="43.0" layoutY="143.0" onMouseClicked="#getSelected" prefHeight="513.0" prefWidth="633.0">
+      <TableView fx:id="invoiceItemTable" layoutX="43.0" layoutY="143.0" onMouseClicked="#getSelected" prefHeight="513.0" prefWidth="633.0">
         <columns>
           <TableColumn fx:id="item_no" prefWidth="108.00003051757812" text="Item_no" />
           <TableColumn fx:id="name" prefWidth="146.0" text="Name" />
@@ -37,17 +38,18 @@
             <Font size="27.0" />
          </font>
       </JFXButton>
-       <AnchorPane layoutX="744.0" layoutY="143.0" prefHeight="240.0" prefWidth="505.0" style="-fx-background-color: #9bedf2; -fx-background-radius: 20;">
+       <AnchorPane layoutX="744.0" layoutY="143.0" prefHeight="257.0" prefWidth="505.0" style="-fx-background-color: #9bedf2; -fx-background-radius: 20;">
            <children>
                <JFXTextField fx:id="invoice_id" layoutX="31.0" layoutY="24.0" prefHeight="32.0" prefWidth="314.0" promptText="Invoice Number" />
-               <JFXButton fx:id="addInvoice" layoutX="390.0" layoutY="177.0" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Save" />
+               <JFXButton fx:id="addInvoice" layoutX="391.0" layoutY="211.0" onMouseClicked="#saveInvoice" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Save" />
             <JFXComboBox fx:id="cheque_no" editable="true" layoutX="31.0" layoutY="80.0" prefHeight="25.0" prefWidth="314.0" promptText="Select the Cheque Number" />
             <JFXButton fx:id="addCheque" layoutX="365.0" layoutY="82.0" onMouseClicked="#addChequeDialog" style="-fx-background-color: #f441df;" text="Add Cheque" />
             <JFXComboBox fx:id="shop_id" editable="true" layoutX="31.0" layoutY="136.0" prefHeight="25.0" prefWidth="314.0" promptText="Select the Shop" />
             <JFXButton fx:id="addShop" layoutX="365.0" layoutY="136.0" onMouseClicked="#addShopWindow" style="-fx-background-color: #f441df;" text="Add Shop" />
+            <JFXDatePicker fx:id="date_issue" layoutX="31.0" layoutY="188.0" prefHeight="25.0" prefWidth="314.0" promptText="Date Issue" />
            </children>
        </AnchorPane>
-      <AnchorPane layoutX="744.0" layoutY="400.0" prefHeight="240.0" prefWidth="505.0" style="-fx-background-color: #9bedf2; -fx-background-radius: 20;">
+      <AnchorPane layoutX="744.0" layoutY="416.0" prefHeight="240.0" prefWidth="505.0" style="-fx-background-color: #9bedf2; -fx-background-radius: 20;">
          <children>
             <JFXTextField fx:id="itemId" layoutX="31.0" layoutY="24.0" prefHeight="32.0" prefWidth="184.0" promptText="Item Id" />
             <JFXButton fx:id="addItem" layoutX="394.0" layoutY="181.0" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Save" />

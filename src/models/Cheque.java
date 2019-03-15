@@ -2,7 +2,9 @@ package models;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Cheque {
     private String id, issuedDate, expireDate, bankName, branchName;
@@ -79,7 +81,28 @@ public class Cheque {
         insq.setString(6,this.issuedDate);
         insq.setString(7,"1");
         insq.execute();
+        con.close();
         System.out.println(insq.toString());
         // Need to add a success window
+    }
+    public static ArrayList<Cheque> getAll() throws SQLException {
+        Connection con = connection.getConnection();
+        ArrayList<Cheque> allRec = new ArrayList<>();
+        String query = "SELECT * FROM cheques";
+        PreparedStatement selectq = con.prepareStatement(query);
+        ResultSet resultSet = selectq.executeQuery();
+        while (resultSet.next()){
+            String id = resultSet.getString("id");
+            double amount = resultSet.getDouble("amount");
+            String bank = resultSet.getString("bank");
+            String branch = resultSet.getString("branch");
+            String expireDate = resultSet.getString("expire_date");
+            String issuedDate = resultSet.getString("issue_date");
+            int status = resultSet.getInt("status");
+            Cheque current = new Cheque(id,issuedDate,expireDate,bank,branch,amount);
+            allRec.add(current);
+        }
+        con.close();
+        return allRec;
     }
 }
