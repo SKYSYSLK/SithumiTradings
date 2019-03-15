@@ -9,11 +9,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import models.Item;
-import models.t_invoice;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,8 +26,8 @@ public class buyInvoiceController implements Initializable {
     public TableColumn<Item, String> dateIssue;
     public TableColumn<Item, String> checkNo;
     public JFXButton back;
-    public TableView<t_invoice> invoiceTable;
-//    private static TableView<Item> itemTable1;
+    public TableView<Item> invoiceTable;
+    private static TableView<Item> itemTable1;
 
     public buyInvoiceController() throws SQLException {
     }
@@ -39,18 +37,20 @@ public class buyInvoiceController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        invoice_id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        shopName.setCellValueFactory(new PropertyValueFactory<>("shopName"));
-        dateIssue.setCellValueFactory(new PropertyValueFactory<>("dateIsssued"));
-        checkNo.setCellValueFactory(new PropertyValueFactory<>("cheque_number"));
-        amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
-
-        invoiceTable.setItems(itemData);
-//        itemTable1 = invoiceTable;
+//        shop_no.setCellValueFactory(new PropertyValueFactory<>("item_id"));
+//        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+//        type.setCellValueFactory(new PropertyValueFactory<>("type"));
+//        contact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+//        address.setCellValueFactory(new PropertyValueFactory<>("address"));
+//        Total.setCellValueFactory(new PropertyValueFactory<>("total"));
+//        paymentDate.setCellValueFactory(new PropertyValueFactory<>("paymentDate"));
+//        checkno.setCellValueFactory(new PropertyValueFactory<>("check_no"));
+//        date.setCellValueFactory(new PropertyValueFactory<>("day"));
+        //shopTable.setItems(itemData);
+        itemTable1 = invoiceTable;
     }
-    private ObservableList<t_invoice> itemData = FXCollections.observableArrayList(
-            t_invoice.getAll()
+    private ObservableList<Item> itemData = FXCollections.observableArrayList(
+            //buy.getAll()
     );
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
@@ -75,14 +75,14 @@ public class buyInvoiceController implements Initializable {
 //        buy item1 = invoiceTable.getSelectionModel().getSelectedItem();
 //        Item itemCurrent = Item.getItem(item1.getItem_id());
 //        assert itemCurrent != null;
-//        int quantity = itemCurrent.getQuantity()-item1.getQuantity();
-//        itemCurrent.setQuantity(quantity);
+//        int type = itemCurrent.getQuantity()-item1.getQuantity();
+//        itemCurrent.setQuantity(type);
 //        itemCurrent.update();
 //        item1.delete();
 //        buyInvoiceController.removeItem(item1);
     }
 
-//    static void addItem(buy item){
+//    static void addShop(buy item){
 //        itemTable1.getItems().add(item);
 //    }
 //

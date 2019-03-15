@@ -36,11 +36,11 @@ public class dailyController implements Initializable {
     public JFXTextField itemSellPrice;
     public Text income;
     public Text profit;
-//    public TableView<daily> itemTable;
-//    public TableColumn<daily,String> item_no;
+//    public TableView<daily> shopTable;
+//    public TableColumn<daily,String> shop_no;
 //    public TableColumn<daily,String> name;
-//    public TableColumn<daily,Integer> quantity;
-//    public TableColumn<daily,Float> sellPrice;
+//    public TableColumn<daily,Integer> type;
+//    public TableColumn<daily,Float> address;
 //    public TableColumn<daily,Float> Total;
 //    public TableColumn<daily,Float> itemProfit;
     public JFXButton back;
@@ -55,19 +55,19 @@ public class dailyController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        item_no.setCellValueFactory(new PropertyValueFactory<>("item_no"));
+//        shop_no.setCellValueFactory(new PropertyValueFactory<>("shop_no"));
 //        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-//        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-//        sellPrice.setCellValueFactory(new PropertyValueFactory<>("sale_price"));
+//        type.setCellValueFactory(new PropertyValueFactory<>("type"));
+//        address.setCellValueFactory(new PropertyValueFactory<>("sale_price"));
 //        Total.setCellValueFactory(new PropertyValueFactory<>("income"));
 //        itemProfit.setCellValueFactory(new PropertyValueFactory<>("profit"));
-//        itemTable.setItems(itemData);
+//        shopTable.setItems(itemData);
         try {
             setCalculations();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//        itemTable.setRowFactory(
+//        shopTable.setRowFactory(
 //                (TableView<daily> tableview) -> {
 //                    final TableRow<daily> row = new TableRow<>();
 //                    final ContextMenu menu = new ContextMenu();
@@ -75,8 +75,8 @@ public class dailyController implements Initializable {
 //                    removeButton.setOnAction(new EventHandler<ActionEvent>() {
 //                        @Override
 //                        public void handle(ActionEvent event) {
-//                            daily item1 = itemTable.getSelectionModel().getSelectedItem();
-//                            itemTable.getItems().remove(item1);
+//                            daily item1 = shopTable.getSelectionModel().getSelectedItem();
+//                            shopTable.getItems().remove(item1);
 //                            try {
 //                                item1.delete();
 //                            } catch (SQLException e) {
@@ -97,7 +97,7 @@ public class dailyController implements Initializable {
 //    );
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
-//        Stage thisWindow = (Stage)itemTable.getScene().getWindow();
+//        Stage thisWindow = (Stage)shopTable.getScene().getWindow();
 //        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("../resources/views/mainMenu.fxml"));
 //        Parent root = backLoader.load();
 //        thisWindow.setTitle("Main Menu  ");
@@ -132,9 +132,9 @@ public class dailyController implements Initializable {
         current.setQuantity(currentQuantity);
         current.update();
 
-//        daily dailyItem = new daily(day,itemID,itemQuantity,sellPrice,income,profit);
+//        daily dailyItem = new daily(day,itemID,itemQuantity,address,income,profit);
 //        dailyItem.save();
-//        itemTable.getItems().add(dailyItem);
+//        shopTable.getItems().add(dailyItem);
         clearInputs();
         setCalculations();
     }
@@ -142,8 +142,8 @@ public class dailyController implements Initializable {
     public void getToday(MouseEvent mouseEvent) throws SQLException {
 //        if (date.getValue()==null) return;
 //        String day = java.sql.Date.valueOf(date.getValue()).toString();
-//        itemTable.getItems().clear();
-//        itemTable.setItems(FXCollections.observableArrayList(daily.getAll(day)));
+//        shopTable.getItems().clear();
+//        shopTable.setItems(FXCollections.observableArrayList(daily.getAll(day)));
 //        setCalculations();
     }
 

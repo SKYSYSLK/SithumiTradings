@@ -88,6 +88,16 @@ public class mainMenu {
         thiswind.setScene(new Scene(root));
         thiswind.show();
     }
+
+    public void openShops(MouseEvent mouseEvent) throws IOException {
+        Stage thiswind = (Stage) reports.getScene().getWindow();
+        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/shops.fxml"));
+        Parent root = (Parent) itemsView.load();
+        thiswind.setTitle("Manage Shops related to your business");
+        thiswind.setScene(new Scene(root));
+        thiswind.show();
+    }
+
     public void setData(){
         int[] dayCounter = new int[7];
         dayCounter[0]=50;

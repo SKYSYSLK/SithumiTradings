@@ -1,74 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1355.0" styleClass="body" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.mainMenu">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1355.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.mainMenu">
    <children>
-      <Pane layoutX="-12.0" prefHeight="127.0" prefWidth="1380.0" styleClass="header" stylesheets="@../styles/main.css">
-         <children>
-            <Text fontSmoothingType="LCD" layoutX="407.0" layoutY="40.0" lineSpacing="5.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SITHUMI TRADINGS" x="50.0" y="50.0">
-               <font>
-                  <Font name="Arial Narrow Bold" size="64.0" />
-               </font>
-               <fill>
-                  <LinearGradient cycleMethod="REFLECT" endX="1.0" endY="0.319047619047619" startX="1.0" startY="1.0">
-                     <stops>
-                        <Stop color="WHITE" />
-                        <Stop color="WHITE" offset="1.0" />
-                     </stops>
-                  </LinearGradient>
-               </fill>
-            </Text>
-         </children>
-      </Pane>
-      <JFXButton fx:id="reports" buttonType="RAISED" focusTraversable="false" layoutX="1070.0" layoutY="339.0" onMouseClicked="#openReports" prefHeight="73.0" prefWidth="256.0" styleClass="button1" stylesheets="@../styles/main.css" text="Reports">
+      <ImageView fitHeight="699.0" fitWidth="1372.0" layoutX="-9.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/background.jpg" />
+         </image>
+      </ImageView>
+      <Text fill="#fcfcfc" fontSmoothingType="LCD" layoutX="399.0" layoutY="28.0" lineSpacing="5.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SITHUMI TRADINGS" textAlignment="CENTER" underline="true" x="50.0" y="50.0" AnchorPane.bottomAnchor="597.4375" AnchorPane.leftAnchor="449.0" AnchorPane.rightAnchor="401.6875" AnchorPane.topAnchor="18.125">
+         <font>
+            <Font name="Arial Narrow Bold" size="64.0" />
+         </font>
+      </Text>
+      <JFXButton fx:id="reports" buttonType="RAISED" focusTraversable="false" layoutX="1078.0" layoutY="183.0" onMouseClicked="#openReports" prefHeight="112.0" prefWidth="233.0" style="-fx-background-color: #42f4dc;" text="Reports">
+         <graphic>
+            <ImageView fitHeight="94.0" fitWidth="111.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/logistics.png" />
+               </image>
+            </ImageView>
+         </graphic>
          <font>
             <Font name="System Bold" size="27.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="sell" buttonType="RAISED" focusTraversable="false" layoutX="1071.0" layoutY="505.0" onMouseClicked="#openSell" prefHeight="73.0" prefWidth="256.0" styleClass="button1" stylesheets="@../styles/main.css" text="Sell">
+      <JFXButton fx:id="sell" buttonType="RAISED" focusTraversable="false" layoutX="761.0" layoutY="183.0" onMouseClicked="#openSell" prefHeight="112.0" prefWidth="233.0" style="-fx-background-color: #42f4dc;" text="Sell">
+         <graphic>
+            <ImageView fitHeight="84.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/delivery-man1.png" />
+               </image>
+            </ImageView>
+         </graphic>
          <font>
             <Font name="System Bold" size="43.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="buy" buttonType="RAISED" focusTraversable="false" layoutX="1070.0" layoutY="422.0" onMouseClicked="#openBuy" prefHeight="73.0" prefWidth="256.0" styleClass="button1" stylesheets="@../styles/main.css" text="Buy" textFill="WHITE">
+      <JFXButton fx:id="buy" buttonType="RAISED" focusTraversable="false" layoutX="406.0" layoutY="183.0" onMouseClicked="#openBuy" prefHeight="112.0" prefWidth="233.0" style="-fx-background-color: #42f4dc;" text="Buy">
+         <graphic>
+            <ImageView fitHeight="85.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/delivery-man.png" />
+               </image>
+            </ImageView>
+         </graphic>
          <font>
-            <Font name="Baskerville Old Face" size="36.0" />
+            <Font name="System Bold" size="39.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="items" buttonType="RAISED" focusTraversable="false" layoutX="1070.0" layoutY="257.0" onMouseClicked="#openItems" prefHeight="73.0" prefWidth="256.0" ripplerFill="#9a2a2a" styleClass="button1" stylesheets="@../styles/main.css" text="Items" textAlignment="RIGHT" textFill="WHITE">
+      <JFXButton fx:id="items" buttonType="RAISED" focusTraversable="false" layoutX="64.0" layoutY="183.0" onMouseClicked="#openItems" prefHeight="112.0" prefWidth="233.0" ripplerFill="#9a2a2a" style="-fx-background-color: gray; -fx-border-color: lightblue; -fx-border-radius: 10; -fx-background-radius: 10;" text="Items" textFill="WHITE">
          <font>
             <Font name="Baskerville Old Face" size="37.0" />
          </font>
+         <graphic>
+            <ImageView fitHeight="79.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/loads.png" />
+               </image>
+            </ImageView>
+         </graphic>
          <effect>
             <Reflection bottomOpacity="0.08" fraction="0.17" topOpacity="0.07" />
          </effect>
       </JFXButton>
-      <JFXButton fx:id="shops" buttonType="RAISED" focusTraversable="false" layoutX="1071.0" layoutY="175.0" onMouseClicked="#openShops" prefHeight="73.0" prefWidth="256.0" styleClass="button1" stylesheets="@../styles/main.css" text="Shops" textAlignment="RIGHT">
-         <font>
-            <Font name="System Bold" size="43.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="sell11" buttonType="RAISED" focusTraversable="false" layoutX="1071.0" layoutY="587.0" onMouseClicked="#openSell" prefHeight="73.0" prefWidth="256.0" styleClass="button1" stylesheets="@../styles/main.css" text="Cheques">
-         <font>
-            <Font name="System Bold" size="43.0" />
-         </font>
-      </JFXButton>
-      <Pane layoutX="42.0" layoutY="147.0" prefHeight="536.0" prefWidth="501.0" style="-fx-background-color: #f7f7f7; -fx-background-radius: 20; -fx-border-color: #dddddd; -fx-border-radius: 20;" />
-      <BarChart fx:id="week" focusTraversable="true" layoutX="68.0" layoutY="208.0" prefHeight="451.0" prefWidth="445.0" style="-fx-border-color: white; -fx-border-radius: 15; -fx-background-color: white; -fx-background-radius: 15;">
+      <BarChart fx:id="week" focusTraversable="true" layoutX="68.0" layoutY="382.0" prefHeight="289.0" prefWidth="445.0" style="-fx-border-color: white; -fx-border-radius: 15; -fx-background-color: white; -fx-background-radius: 15;">
         <xAxis>
           <CategoryAxis side="BOTTOM" fx:id="xAxis" />
         </xAxis>
@@ -76,47 +89,42 @@
           <NumberAxis fx:id="yAxis" side="LEFT" />
         </yAxis>
       </BarChart>
-      <Text fill="#464646" layoutX="167.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weekly Statistics">
+      <Text fill="WHITE" layoutX="213.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weekly Statistics">
          <font>
-            <Font name="System Bold" size="28.0" />
+            <Font name="System Bold" size="23.0" />
          </font>
       </Text>
-      <Pane layoutX="555.0" layoutY="147.0" prefHeight="537.0" prefWidth="503.0" style="-fx-background-color: #f7f7f7; -fx-background-radius: 20; -fx-border-color: #dddddd; -fx-border-radius: 20;" />
-      <Text fill="#464646" layoutX="699.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recent Cheques">
+      <JFXButton fx:id="shops" buttonType="RAISED" focusTraversable="false" layoutX="606.0" layoutY="353.0" onMouseClicked="#openShops" prefHeight="112.0" prefWidth="326.0" ripplerFill="#9a2a2a" style="-fx-background-color: gray; -fx-border-color: lightblue; -fx-border-radius: 10; -fx-background-radius: 10;" text="Shops" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="28.0" />
+            <Font name="Baskerville Old Face" size="37.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="79.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/loads.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <Reflection bottomOpacity="0.08" fraction="0.17" topOpacity="0.07" />
+         </effect>
+      </JFXButton>
+      <JFXButton fx:id="sell11" buttonType="RAISED" focusTraversable="false" layoutX="606.0" layoutY="514.0" onMouseClicked="#openSell" prefHeight="112.0" prefWidth="326.0" style="-fx-background-color: #42f4dc;" text="Cheques">
+         <graphic>
+            <ImageView fitHeight="84.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/delivery-man1.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="System Bold" size="43.0" />
+         </font>
+      </JFXButton>
+      <Text layoutX="1059.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recent Cheques">
+         <font>
+            <Font name="System Bold" size="23.0" />
          </font>
       </Text>
-      <ScrollPane layoutX="588.0" layoutY="213.0" prefHeight="446.0" prefWidth="434.0" style="-fx-background-color: white;" />
-      <ImageView fitHeight="55.0" fitWidth="48.0" layoutX="1094.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../icons/delivery-man1.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="1096.0" layoutY="266.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../icons/loads.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="1095.0" layoutY="351.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../icons/logistics.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="64.0" fitWidth="48.0" layoutX="1093.0" layoutY="433.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../icons/delivery-man.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="1094.0" layoutY="520.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../icons/sale.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="46.0" fitWidth="82.0" layoutX="1095.0" layoutY="600.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../icons/cheque.png" />
-         </image>
-      </ImageView>
    </children>
 </AnchorPane>

@@ -20,88 +20,120 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-
-
-
+/**
+ * @author danushka
+ */
 public class shopController implements Initializable {
-    public TableView<Shop> shopsTable;
 
-    public TableColumn<Shop,Integer> id;
-    public TableColumn<Shop,String> name;
-    public TableColumn<Shop,String> contact;
-    public TableColumn<Shop,String> address;
+    public TableView<Shop> shopTable;
+
+    public TableColumn<Shop,String> shop_no;
     public TableColumn<Shop,Integer> type;
-    public JFXTextField a_type;
-    public JFXTextField a_address;
-    public JFXTextField a_contact;
-    public JFXTextField a_name;
-    public JFXTextField a_id;
-    public JFXTextField u_id;
+    public TableColumn<Shop,Float> contact;
+    public TableColumn<Shop,Float> address;
+    public TableColumn<Shop, String> name;
+    public JFXTextField u_shopId;
     public JFXTextField u_name;
+    public JFXTextField u_type;
     public JFXTextField u_contact;
     public JFXTextField u_address;
-    public JFXTextField u_type;
-
+    public JFXButton update;
+    public JFXTextField a_shopId;
+    public JFXTextField a_name;
+    public JFXTextField a_type;
+    public JFXTextField a_contact;
+    public JFXTextField a_address;
+    public JFXButton add;
+    public JFXButton back;
 
     public shopController() throws SQLException {
     }
 
 
     @Override
-    public void initialize(URL location, ResourceBundle resources){
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+    public void initialize(URL location, ResourceBundle resources) {
+        shop_no.setCellValueFactory(new PropertyValueFactory<>("id"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        type.setCellValueFactory(new PropertyValueFactory<>("type"));
         contact.setCellValueFactory(new PropertyValueFactory<>("contact"));
         address.setCellValueFactory(new PropertyValueFactory<>("address"));
-        type.setCellValueFactory(new PropertyValueFactory<>("type"));
-        shopsTable.setItems(shopData);
+        shopTable.setItems(shopData);
     }
-
     private ObservableList<Shop> shopData = FXCollections.observableArrayList(
             Shop.getAll()
     );
 
-
     public void backMenu(MouseEvent mouseEvent) throws IOException {
-        Stage thisWindow = (Stage)shopsTable.getScene().getWindow();
+        Stage thisWindow = (Stage) shopTable.getScene().getWindow();
         FXMLLoader backLoader = new FXMLLoader(getClass().getResource("../resources/views/mainMenu.fxml"));
         Parent root = backLoader.load();
         thisWindow.setTitle("Main Menu");
         thisWindow.setScene(new Scene(root));
-
     }
 
-    public void addShop(MouseEvent mouseEvent) throws SQLException, IOException {
-        String shopId = a_id.getText();
-        String shopName = a_name.getText();
-        String shopContact = a_contact.getText();
-        String shopAddress = a_address.getText();
-        int shopType = Integer.parseInt(a_type.getText());
-
-        if(shopId.equals("")||shopName.equals("")||a_contact.getText().equals("")||a_address.getText().equals("")||a_type.getText().equals("")) {
+    public void updateItem(MouseEvent mouseEvent) throws IOException, SQLException {
+//        String shopId = u_shopId.getText();
+        String shopName = u_name.getText();
+        if(u_shopId.getText().equals("")||shopName.equals("")|| u_type.getText().equals("")|| u_contact.getText().equals("")|| u_address.getText().equals("")) {
             warning.incomplete();
             return;
         }
 
-        Shop newShop = new Shop(Integer.parseInt(shopId),shopType,shopName,shopContact,shopAddress);
+        int shopId = Integer.parseInt(u_shopId.getText());
+        int type = Integer.parseInt(u_type.getText());
+        String contact = u_contact.getText();
+        String address = u_address.getText();
+
+        Shop newShop = new Shop(shopId,type,shopName,contact,address);
+        newShop.update();
+
+        //Refresh Table
+        Stage thiswind = (Stage) shopTable.getScene().getWindow();
+        FXMLLoader shopsView = new FXMLLoader(getClass().getResource("../resources/views/shops.fxml"));
+        Parent root = (Parent) shopsView.load();
+        thiswind.setTitle("Manage Shops related to your business");
+        thiswind.setScene(new Scene(root));
+        thiswind.show();
+    }
+
+    public void addShop(MouseEvent mouseEvent) throws SQLException, IOException {
+//        String shopId = a_shopId.getText();
+        String shopName = a_name.getText();
+        if(a_shopId.getText().equals("")||shopName.equals("")|| a_type.getText().equals("")|| contact.getText().equals("")|| address.getText().equals("")) {
+            warning.incomplete();
+            return;
+        }
+
+        int shopId = Integer.parseInt(a_shopId.getText());
+        int type = Integer.parseInt(a_type.getText());
+        String contact = a_contact.getText();
+        String address = a_address.getText();
+
+        Shop newShop = new Shop(shopId,type,shopName,contact,address);
         newShop.save();
 
-        shopsTable.getItems().add(newShop);
-        a_type.clear();
-        a_id.clear();
+        //Refresh Table
+        shopTable.getItems().add(newShop);
+        a_shopId.clear();
         a_name.clear();
+        a_type.clear();
         a_address.clear();
         a_contact.clear();
-
     }
 
-    public void updateShop(MouseEvent mouseEvent) throws SQLException, IOException{
-
+    public void getSelected(MouseEvent mouseEvent) {
+        if(mouseEvent.getClickCount()>1){
+            onEdit();
+        }
     }
-
-
-
-
-
+    private void onEdit(){
+        if(shopTable.getSelectionModel().getSelectedItem()!=null){
+            Shop current = shopTable.getSelectionModel().getSelectedItem();
+            u_shopId.setText(Integer.toString(current.getId()));
+            u_name.setText(current.getName());
+            u_type.setText(Integer.toString(current.getType()));
+            u_contact.setText(current.getContact());
+            u_address.setText(current.getAddress());
+        }
+    }
 }
-
