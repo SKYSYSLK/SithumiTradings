@@ -1,5 +1,5 @@
 CREATE TABLE invoices(
-  id varchar (20),
+  id varchar (20) PRIMARY KEY,
   shop_id int(11),
   amount decimal(8,2),
   date_issued date,

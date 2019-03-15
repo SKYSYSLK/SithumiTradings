@@ -10,6 +10,15 @@ public class InvoiceItem {
     private String itemId, invoiceId;
     private double buyPrice,sellPrice;
     private int quantity;
+    private Connection con=connection.getConnection();
+
+    public InvoiceItem(String itemId, String invoiceId, double buyPrice, double sellPrice, int quantity) {
+        this.itemId = itemId;
+        this.invoiceId = invoiceId;
+        this.buyPrice = buyPrice;
+        this.sellPrice = sellPrice;
+        this.quantity = quantity;
+    }
 
     public double getBuyPrice() {
         return buyPrice;
@@ -27,21 +36,12 @@ public class InvoiceItem {
         this.sellPrice = sellPrice;
     }
 
-    private Connection con=connection.getConnection();
 
     public int getQuantity() {
         return quantity;
     }
 
     public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public InvoiceItem(String itemId, String invoiceId, double buyPrice, double sellPrice, int quantity) {
-        this.itemId = itemId;
-        this.invoiceId = invoiceId;
-        this.buyPrice = buyPrice;
-        this.sellPrice = sellPrice;
         this.quantity = quantity;
     }
 
@@ -76,7 +76,20 @@ public class InvoiceItem {
             InvoiceItem current = new InvoiceItem(itemId,invoiceId,buyPrice,sellPrice,quantity);
             allRec.add(current);
         }
+        con.close();
         return allRec;
+    }
+
+    public void save() throws SQLException {
+        String query = "INSERT INTO invoiceItems(item_id, invoice_id, quantity, buyPrice, sellPrice) VALUES(?,?,?,?,?)";
+        PreparedStatement insq = con.prepareStatement(query);
+        insq.setString(1,this.itemId);
+        insq.setString(2,this.invoiceId);
+        insq.setInt(3,this.quantity);
+        insq.setFloat(4, (float) this.buyPrice);
+        insq.setFloat(5, (float) this.sellPrice);
+        insq.execute();
+        con.close();
     }
 
 }

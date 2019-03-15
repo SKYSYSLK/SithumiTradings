@@ -40,23 +40,43 @@
       </JFXButton>
        <AnchorPane layoutX="744.0" layoutY="143.0" prefHeight="257.0" prefWidth="505.0" style="-fx-background-color: #9bedf2; -fx-background-radius: 20;">
            <children>
-               <JFXTextField fx:id="invoice_id" layoutX="31.0" layoutY="24.0" prefHeight="32.0" prefWidth="314.0" promptText="Invoice Number" />
+               <JFXTextField fx:id="invoice_id" layoutX="31.0" layoutY="24.0" onKeyPressed="#hideError" prefHeight="32.0" prefWidth="314.0" promptText="Invoice Number" />
                <JFXButton fx:id="addInvoice" layoutX="391.0" layoutY="211.0" onMouseClicked="#saveInvoice" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Save" />
             <JFXComboBox fx:id="cheque_no" editable="true" layoutX="31.0" layoutY="80.0" prefHeight="25.0" prefWidth="314.0" promptText="Select the Cheque Number" />
             <JFXButton fx:id="addCheque" layoutX="365.0" layoutY="82.0" onMouseClicked="#addChequeDialog" style="-fx-background-color: #f441df;" text="Add Cheque" />
             <JFXComboBox fx:id="shop_id" editable="true" layoutX="31.0" layoutY="136.0" prefHeight="25.0" prefWidth="314.0" promptText="Select the Shop" />
             <JFXButton fx:id="addShop" layoutX="365.0" layoutY="136.0" onMouseClicked="#addShopWindow" style="-fx-background-color: #f441df;" text="Add Shop" />
             <JFXDatePicker fx:id="date_issue" layoutX="31.0" layoutY="188.0" prefHeight="25.0" prefWidth="314.0" promptText="Date Issue" />
+            <Text fx:id="error1" fill="#dd1111" layoutX="31.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Please Fill the Required Fields" visible="false">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Text>
+            <Text fx:id="error4" fill="#dd1111" layoutX="31.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Invoice Already Exists" visible="false">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Text>
            </children>
        </AnchorPane>
       <AnchorPane layoutX="744.0" layoutY="416.0" prefHeight="240.0" prefWidth="505.0" style="-fx-background-color: #9bedf2; -fx-background-radius: 20;">
          <children>
-            <JFXTextField fx:id="itemId" layoutX="31.0" layoutY="24.0" prefHeight="32.0" prefWidth="184.0" promptText="Item Id" />
-            <JFXButton fx:id="addItem" layoutX="394.0" layoutY="181.0" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Save" />
-            <JFXTextField fx:id="itemName" editable="false" layoutX="253.0" layoutY="24.0" prefHeight="32.0" prefWidth="184.0" promptText="Name" />
+            <JFXTextField fx:id="itemId" layoutX="31.0" layoutY="24.0" onInputMethodTextChanged="#fetchData" prefHeight="32.0" prefWidth="184.0" promptText="Item Id" />
+            <JFXButton fx:id="addItem" layoutX="394.0" layoutY="181.0" onMouseClicked="#saveItem" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Save" />
+            <JFXTextField fx:id="itemName" editable="false" layoutX="253.0" layoutY="24.0" onMouseClicked="#fetchData" prefHeight="32.0" prefWidth="184.0" promptText="Name" />
             <JFXTextField fx:id="itemQuantity" layoutX="31.0" layoutY="71.0" prefHeight="32.0" prefWidth="184.0" promptText="Quantity" />
             <JFXTextField fx:id="itemBuyPrice" layoutX="31.0" layoutY="128.0" prefHeight="32.0" prefWidth="184.0" promptText="Buy Price" />
             <JFXTextField fx:id="itemSellPrice" layoutX="253.0" layoutY="128.0" prefHeight="32.0" prefWidth="184.0" promptText="Sell Price" />
+            <Text fx:id="error2" fill="#dd1111" layoutX="31.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Please Fill the Invoice Details" visible="false">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Text>
+            <Text fx:id="error3" fill="#dd1111" layoutX="31.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Please Enter a Valied ItemID" visible="false">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
    </children>
