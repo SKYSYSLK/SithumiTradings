@@ -66,27 +66,19 @@ public class buyInvoiceController implements Initializable {
         Stage model = (Stage)back.getScene().getWindow();
         Parent root = load.load();
         model.setTitle("Add New Record");
-        //model.initModality(Modality.APPLICATION_MODAL);
         model.setScene(new Scene(root));
         model.show();
     }
 
     public void delete(MouseEvent mouseEvent) throws SQLException {
-//        buy item1 = invoiceTable.getSelectionModel().getSelectedItem();
-//        Item itemCurrent = Item.getItem(item1.getItem_id());
-//        assert itemCurrent != null;
-//        int quantity = itemCurrent.getQuantity()-item1.getQuantity();
-//        itemCurrent.setQuantity(quantity);
-//        itemCurrent.update();
-//        item1.delete();
-//        buyInvoiceController.removeItem(item1);
+        t_invoice item = invoiceTable.getSelectionModel().getSelectedItem();
+        if(item==null) return;
+        item.delete();
+        invoiceTable.getItems().remove(item);
     }
 
-//    static void addItem(buy item){
-//        itemTable1.getItems().add(item);
-//    }
-//
-//    private static void removeItem(buy item){
-//        itemTable1.getItems().remove(item);
-//    }
+    public void editRecord(MouseEvent mouseEvent) {
+        Stage thisWin = (Stage)invoiceTable.getScene().getWindow();
+
+    }
 }

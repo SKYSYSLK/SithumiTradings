@@ -147,10 +147,10 @@ public class buyController implements Initializable {
             error1.setVisible(true);
             return;
         }
-        if(Invoice.getInvoice(invoice_id.getText())!=null){
-            error4.setVisible(true);
-            return;
-        }
+//        if(Invoice.getInvoice(invoice_id.getText())!=null){
+//            error4.setVisible(true);
+//            return;
+//        }
         String invoice = invoice_id.getText();
         String cheque = cheque_no.getSelectionModel().getSelectedItem().toString();
         int shop = Shop.getShopId(shop_id.getSelectionModel().getSelectedItem().toString());
@@ -184,13 +184,15 @@ public class buyController implements Initializable {
         current.save();
         t_invoiceItem row = new t_invoiceItem(item,Item.getItem(item).getName(),quantity,sPrice,bPrice);
         invoiceItemTable.getItems().add(row);
+        double unitPrice = bPrice*quantity;
+        Invoice.addAmount(current.getInvoiceId(),unitPrice);
         hideAllErrors();
     }
 
     public void fetchData(MouseEvent inputMethodEvent) throws SQLException {
         String item = itemId.getText();
         Item current = Item.getItem(item);
-        System.out.println("hit");
+//        System.out.println("hit");
         if(current!=null){
             itemName.setText(current.getName());
             itemBuyPrice.setText(Double.toString(current.getBuyPrice()));
