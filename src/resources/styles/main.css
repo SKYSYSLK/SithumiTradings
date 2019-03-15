@@ -8,9 +8,10 @@
     -fx-background-insets: 0,1,2,0;
     -fx-text-fill: white;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
-    -fx-font-family: "Arial";
+    -fx-font-family: "System";
     -fx-text-fill: linear-gradient(white, #d0d0d0);
-    -fx-font-size: 20px;
+    -fx-alignment: center;
+    -fx-font-size: 25px;
     -fx-padding: 10 20 10 20;
 }
 
