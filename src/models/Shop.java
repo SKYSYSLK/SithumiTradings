@@ -1,9 +1,6 @@
 package models;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Shop {
@@ -59,34 +56,54 @@ public class Shop {
         this.address = address;
     }
 
-    public void save(String name, String contact, String address, int type) throws SQLException {
+    public void save() throws SQLException {
         String query = "INSERT INTO shops( name, contact, address, type ) VALUES (?,?,?,?)";
         PreparedStatement insq = con.prepareStatement(query);
-        insq.setString(1,name);
-        insq.setString(2,contact);
-        insq.setString(3,address);
-        insq.setInt(4,type);
+        insq.setString(1,this.name);
+        insq.setString(2,this.contact);
+        insq.setString(3,this.address);
+        insq.setInt(4,this.type);
         insq.execute();
         con.close();
     }
 
+//    public static ArrayList<Shop> getAll() throws SQLException {
+//        Connection con = connection.getConnection();
+//        ArrayList<Shop> allRec = new ArrayList<>();
+//        String query = "SELECT * FROM shops";
+//        PreparedStatement selectq = con.prepareStatement(query);
+//        ResultSet result = selectq.executeQuery();
+//        while (result.next()){
+//            int id = result.getInt("id");
+//            String name = result.getString(".");
+//            String contact = result.getString("contact");
+//            String address = result.getString("address");
+//            int type = result.getInt("type");
+//            allRec.add(new Shop(id,type,name,contact,address));
+//        }
+//        con.close();
+//        return allRec;
+//    }
+
     public static ArrayList<Shop> getAll() throws SQLException {
+        ArrayList<Shop> shops = new ArrayList<>();
         Connection con = connection.getConnection();
-        ArrayList<Shop> allRec = new ArrayList<>();
-        String query = "SELECT * FROM shops";
-        PreparedStatement selectq = con.prepareStatement(query);
-        ResultSet result = selectq.executeQuery();
+        String selectQuery = "SELECT * FROM shops";
+        Statement select = con.createStatement();
+        ResultSet result = select.executeQuery(selectQuery);
         while (result.next()){
-            int id = result.getInt("id");
-            String name = result.getString("name");
-            String contact = result.getString("contact");
-            String address = result.getString("address");
-            int type = result.getInt("type");
-            allRec.add(new Shop(id,type,name,contact,address));
+            shops.add(new Shop(
+                    result.getInt("id"),
+                    result.getInt("type"),
+                    result.getString("name"),
+                    result.getString("contact"),
+                    result.getString("address")
+            ));
         }
         con.close();
-        return allRec;
+        return shops;
     }
+
 
     public static String getShopName(int id) throws SQLException {
         Connection con = connection.getConnection();

@@ -25,10 +25,13 @@ public class mainMenu {
     private JFXButton reports;
     @FXML
     private JFXButton sell;
+
     @FXML
     private JFXButton buy;
     @FXML
     private JFXButton items;
+    @FXML
+    private JFXButton shops;
 
     private ObservableList<String> Days = FXCollections.observableArrayList();
 
@@ -52,6 +55,15 @@ public class mainMenu {
         FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/items.fxml"));
         Parent root = (Parent) itemsView.load();
         thiswind.setTitle("Manage Items in your stock");
+        thiswind.setScene(new Scene(root));
+        thiswind.show();
+    }
+
+    public void openShops(MouseEvent mouseEvent) throws IOException{
+        Stage thiswind = (Stage) shops.getScene().getWindow();
+        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/shop.fxml"));
+        Parent root = (Parent) itemsView.load();
+        thiswind.setTitle("Manage Your Custom");
         thiswind.setScene(new Scene(root));
         thiswind.show();
     }

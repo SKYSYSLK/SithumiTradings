@@ -11,6 +11,7 @@ public class Item {
     private String id,name;
     private int quantity;
     private float buyPrice,sellPrice;
+
     public Item(String id, String name, int quantity, float buyPrice, float sellPrice){
         this.id = id;
         this.name = name;
