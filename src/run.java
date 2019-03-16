@@ -43,6 +43,7 @@ public class run extends Application {
         Stage new1 = new Stage();
         new1.setTitle("Main Menu");
         new1.setScene(new Scene(root2));
+        new1.setMaximized(true);
         new1.show();
     }
 
