@@ -50,7 +50,7 @@ public class addBuyItemController {
             current.close();
 
             //Update Table Item
-//            buyController.addShop(newBuy);
+//            buyController.addItem(newBuy);
         }else{
             warning.incomplete();
         }

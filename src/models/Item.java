@@ -61,7 +61,7 @@ public class Item {
     }
 
     public void save() throws SQLException {
-        String inserQuery = "INSERT INTO items(id,name,type, contact, address, available)" +
+        String inserQuery = "INSERT INTO items(id,name,quantity, buyPrice, sellPrice, available)"+
                 "VALUES(?,?,?,?,?,?)";
         PreparedStatement insq = con.prepareStatement(inserQuery);
         insq.setString(1,this.getId());
@@ -83,16 +83,16 @@ public class Item {
             items.add(new Item(
                     result.getString("id"),
                     result.getString("name"),
-                    result.getInt("type"),
-                    result.getFloat("contact"),
-                    result.getFloat("address")
+                    result.getInt("quantity"),
+                    result.getFloat("buyPrice"),
+                    result.getFloat("sellPrice")
             ));
         }
         con.close();
         return items;
     }
     public void update() throws SQLException {
-        String upQuery = "UPDATE items SET name=?,type=?,contact=?,address=?,available=? WHERE id=?";
+        String upQuery = "UPDATE items SET name=?,quantity=?,buyPrice=?,sellPrice=?,available=? WHERE id=?";
         PreparedStatement upq = con.prepareStatement(upQuery);
         upq.setString(6,this.id);
         upq.setString(1,this.name);
@@ -111,9 +111,9 @@ public class Item {
         ResultSet result = select.executeQuery();
         if (result.next()) {
             String name = result.getString("name");
-            int quantity = result.getInt("type");
-            float buyPrice = result.getFloat("contact");
-            float sellPrice = result.getFloat("address");
+            int quantity = result.getInt("quantity");
+            float buyPrice = result.getFloat("buyPrice");
+            float sellPrice = result.getFloat("sellPrice");
             con.close();
             return new Item(itemId, name, quantity, buyPrice, sellPrice);
         }else{

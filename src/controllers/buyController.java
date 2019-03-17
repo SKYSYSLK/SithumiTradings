@@ -159,6 +159,7 @@ public class buyController implements Initializable {
         currentInv.save();
         currentInvoice = currentInv;
         hideAllErrors();
+        addInvoice.setDisable(true);
         // Success Message Box shows here
     }
 
@@ -183,9 +184,20 @@ public class buyController implements Initializable {
         InvoiceItem current = new InvoiceItem(item,currentInvoice.getId(),bPrice,sPrice,quantity);
         current.save();
         t_invoiceItem row = new t_invoiceItem(item,Item.getItem(item).getName(),quantity,sPrice,bPrice);
+
+        // Update Table
         invoiceItemTable.getItems().add(row);
+
+        //Update Invoice Amount
         double unitPrice = bPrice*quantity;
         Invoice.addAmount(current.getInvoiceId(),unitPrice);
+
+        //Update Store Quantity
+        int currentQuantity = enteredItem.getQuantity();
+        int newQuantity = currentQuantity+quantity;
+        enteredItem.setQuantity(newQuantity);
+        enteredItem.update();
+
         hideAllErrors();
     }
 
