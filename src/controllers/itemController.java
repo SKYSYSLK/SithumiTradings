@@ -54,9 +54,9 @@ public class itemController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         item_no.setCellValueFactory(new PropertyValueFactory<>("id"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        buyPrice.setCellValueFactory(new PropertyValueFactory<>("buyPrice"));
-        sellPrice.setCellValueFactory(new PropertyValueFactory<>("sellPrice"));
+        quantity.setCellValueFactory(new PropertyValueFactory<>("type"));
+        buyPrice.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        sellPrice.setCellValueFactory(new PropertyValueFactory<>("address"));
         itemTable.setItems(itemData);
     }
     private ObservableList<Item> itemData = FXCollections.observableArrayList(

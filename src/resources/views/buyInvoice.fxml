@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -9,14 +16,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1355.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.buyInvoiceController">
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1355.0" styleClass="body" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.buyInvoiceController">
    <children>
-      <Text layoutX="421.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SITHUMI TRADINGS" x="50.0" y="50.0" AnchorPane.bottomAnchor="586.0" AnchorPane.leftAnchor="471.0" AnchorPane.rightAnchor="470.4501953125" AnchorPane.topAnchor="23.0">
-         <font>
-            <Font name="Agency FB Bold" size="65.0" />
-         </font>
-      </Text>
-      <TableView fx:id="invoiceTable" layoutX="43.0" layoutY="143.0" onMouseClicked="#getSelected" prefHeight="513.0" prefWidth="717.0">
+      <Pane layoutX="26.0" layoutY="154.0" prefHeight="438.0" prefWidth="764.0" styleClass="formbody" stylesheets="@../styles/main.css" />
+      <TableView fx:id="invoiceTable" layoutX="43.0" layoutY="171.0" onMouseClicked="#getSelected" prefHeight="403.0" prefWidth="729.0">
         <columns>
           <TableColumn fx:id="invoice_id" prefWidth="94.00001525878906" text="ID" />
           <TableColumn fx:id="shopName" prefWidth="177.0" text="Shop Name" />
@@ -25,18 +29,37 @@
             <TableColumn fx:id="checkNo" prefWidth="191.0" text="Cheque Number" />
         </columns>
       </TableView>
-      <JFXButton fx:id="back" layoutX="43.0" layoutY="74.0" onMouseClicked="#backMenu" prefHeight="56.0" prefWidth="148.0" style="-fx-background-color: #edb290;" text="Back">
+      <JFXButton fx:id="back" layoutX="43.0" layoutY="612.0" onMouseClicked="#backMenu" prefHeight="56.0" prefWidth="148.0" styleClass="button1" stylesheets="@../styles/main.css" text="Back">
          <graphic>
              <ImageView fitHeight="37.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
-                 <Image url="@../icons/left-arrow.png" />
+                <image>
+                    <Image url="@../icons/left-arrow.png" />
+                </image>
              </ImageView>
          </graphic>
          <font>
             <Font size="27.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="1179.0" layoutY="212.0" onMouseClicked="#addNew" prefHeight="57.0" prefWidth="138.0" style="-fx-background-color: #42f45f;" text="ADD NEW" />
-      <JFXButton layoutX="1179.0" layoutY="371.0" onMouseClicked="#delete" prefHeight="57.0" prefWidth="138.0" style="-fx-background-color: red;" text="DELETE" />
-      <JFXButton layoutX="1179.0" layoutY="288.0" onMouseClicked="#editRecord" prefHeight="57.0" prefWidth="138.0" style="-fx-background-color: #42b6f4;" text="EDIT" />
+      <JFXButton layoutX="1179.0" layoutY="212.0" onMouseClicked="#addNew" prefHeight="57.0" prefWidth="138.0" styleClass="button2" stylesheets="@../styles/main.css" text="ADD NEW" />
+      <JFXButton layoutX="1179.0" layoutY="322.0" onMouseClicked="#delete" prefHeight="57.0" prefWidth="138.0" styleClass="buttondelete" stylesheets="@../styles/main.css" text="DELETE" />
+       <JFXButton layoutX="1179.0" layoutY="288.0" onMouseClicked="#editRecord" prefHeight="57.0" prefWidth="138.0" style="-fx-background-color: #42b6f4;" text="EDIT" />
+       <Pane layoutX="-11.0" layoutY="-1.0" prefHeight="127.0" prefWidth="1380.0" styleClass="header" stylesheets="@../styles/main.css">
+         <children>
+            <Text fontSmoothingType="LCD" layoutX="407.0" layoutY="40.0" lineSpacing="5.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SITHUMI TRADINGS" x="50.0" y="50.0">
+               <fill>
+                  <LinearGradient cycleMethod="REFLECT" endX="1.0" endY="0.319047619047619" startX="1.0" startY="1.0">
+                     <stops>
+                        <Stop color="WHITE" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </fill>
+               <font>
+                  <Font name="Arial Narrow Bold" size="64.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

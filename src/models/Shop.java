@@ -59,7 +59,7 @@ public class Shop {
         this.address = address;
     }
 
-    public void save(String name, String contact, String address, int type) throws SQLException {
+    public void save() throws SQLException {
         String query = "INSERT INTO shops( name, contact, address, type ) VALUES (?,?,?,?)";
         PreparedStatement insq = con.prepareStatement(query);
         insq.setString(1,name);
@@ -86,6 +86,18 @@ public class Shop {
         }
         con.close();
         return allRec;
+    }
+
+    public void update() throws SQLException {
+        String upQuery = "UPDATE shops SET name=?,contact=?,address=?,type=? WHERE id=?";
+        PreparedStatement upq = con.prepareStatement(upQuery);
+        upq.setInt(5,this.id);
+        upq.setString(1,this.name);
+        upq.setString(2,this.getContact());
+        upq.setString(3,this.getAddress());
+        upq.setInt(4,this.getType());
+        upq.execute();
+        con.close();
     }
 
     public static String getShopName(int id) throws SQLException {
