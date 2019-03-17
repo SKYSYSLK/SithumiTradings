@@ -76,4 +76,5 @@ public class t_invoice {
         Invoice current = Invoice.getInvoice(this.id);
         current.delete();
     }
+
 }
