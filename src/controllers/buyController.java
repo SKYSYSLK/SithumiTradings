@@ -88,7 +88,7 @@ public class buyController implements Initializable {
 
 
     private ObservableList<t_invoiceItem> itemData = FXCollections.observableArrayList(
-            t_invoiceItem.getItems("322432")
+            t_invoiceItem.getItems("")
     );
 
     private void fillShopCombo() throws SQLException {

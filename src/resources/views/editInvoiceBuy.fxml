@@ -12,14 +12,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1355.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.editBuyController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1355.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text layoutX="421.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SITHUMI TRADINGS" x="50.0" y="50.0" AnchorPane.bottomAnchor="586.0" AnchorPane.leftAnchor="471.0" AnchorPane.rightAnchor="470.4501953125" AnchorPane.topAnchor="23.0">
          <font>
             <Font name="Agency FB Bold" size="65.0" />
          </font>
       </Text>
-      <TableView fx:id="invoiceItemTable" layoutX="43.0" layoutY="143.0" onMouseClicked="#getSelected" prefHeight="513.0" prefWidth="633.0">
+      <TableView fx:id="invoiceItemTable" layoutX="43.0" layoutY="143.0" prefHeight="513.0" prefWidth="633.0">
         <columns>
           <TableColumn fx:id="item_no" prefWidth="108.00003051757812" text="Item_no" />
           <TableColumn fx:id="name" prefWidth="146.0" text="Name" />
@@ -28,7 +28,7 @@
             <TableColumn fx:id="sellPrice" prefWidth="125.0" text="Sell Price" />
         </columns>
       </TableView>
-      <JFXButton fx:id="back" layoutX="43.0" layoutY="74.0" onMouseClicked="#backMenu" prefHeight="56.0" prefWidth="148.0" style="-fx-background-color: #edb290;" text="Back">
+      <JFXButton fx:id="back" layoutX="43.0" layoutY="74.0" prefHeight="56.0" prefWidth="148.0" style="-fx-background-color: #edb290;" text="Back">
          <graphic>
              <ImageView fitHeight="37.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                  <Image url="@../icons/left-arrow.png" />
@@ -40,12 +40,12 @@
       </JFXButton>
        <AnchorPane layoutX="744.0" layoutY="143.0" prefHeight="257.0" prefWidth="505.0" style="-fx-background-color: #9bedf2; -fx-background-radius: 20;">
            <children>
-               <JFXTextField fx:id="invoice_id" layoutX="31.0" layoutY="24.0" onKeyPressed="#hideError" prefHeight="32.0" prefWidth="314.0" promptText="Invoice Number" />
-               <JFXButton fx:id="updateInvoice" layoutX="391.0" layoutY="211.0" onMouseClicked="#updateInvoice" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Update" />
+               <JFXTextField fx:id="invoice_id" layoutX="31.0" layoutY="24.0" prefHeight="32.0" prefWidth="314.0" promptText="Invoice Number" />
+               <JFXButton fx:id="updateInvoice" layoutX="391.0" layoutY="211.0" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Update" />
             <JFXComboBox fx:id="cheque_no" editable="true" layoutX="31.0" layoutY="80.0" prefHeight="25.0" prefWidth="314.0" promptText="Select the Cheque Number" />
-            <JFXButton fx:id="addCheque" layoutX="365.0" layoutY="82.0" onMouseClicked="#addChequeDialog" style="-fx-background-color: #f441df;" text="Add Cheque" />
+            <JFXButton fx:id="addCheque" layoutX="365.0" layoutY="82.0" style="-fx-background-color: #f441df;" text="Add Cheque" />
             <JFXComboBox fx:id="shop_id" editable="true" layoutX="31.0" layoutY="136.0" prefHeight="25.0" prefWidth="314.0" promptText="Select the Shop" />
-            <JFXButton fx:id="addShop" layoutX="365.0" layoutY="136.0" onMouseClicked="#addShopWindow" style="-fx-background-color: #f441df;" text="Add Shop" />
+            <JFXButton fx:id="addShop" layoutX="365.0" layoutY="136.0"  style="-fx-background-color: #f441df;" text="Add Shop" />
             <JFXDatePicker fx:id="date_issue" layoutX="31.0" layoutY="188.0" prefHeight="25.0" prefWidth="314.0" promptText="Date Issue" />
             <Text fx:id="error1" fill="#dd1111" layoutX="31.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Please Fill the Required Fields" visible="false">
                <font>
@@ -61,9 +61,9 @@
        </AnchorPane>
       <AnchorPane layoutX="744.0" layoutY="416.0" prefHeight="240.0" prefWidth="505.0" style="-fx-background-color: #9bedf2; -fx-background-radius: 20;">
          <children>
-            <JFXTextField fx:id="itemId" layoutX="31.0" layoutY="24.0" onInputMethodTextChanged="#fetchData" prefHeight="32.0" prefWidth="184.0" promptText="Item Id" />
-            <JFXButton fx:id="updateItem" layoutX="394.0" layoutY="181.0" onMouseClicked="#UpdateItem" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Update" />
-            <JFXTextField fx:id="itemName" editable="false" layoutX="253.0" layoutY="24.0" onMouseClicked="#fetchData" prefHeight="32.0" prefWidth="184.0" promptText="Name" />
+            <JFXTextField fx:id="itemId" layoutX="31.0" layoutY="24.0" prefHeight="32.0" prefWidth="184.0" promptText="Item Id" />
+            <JFXButton fx:id="updateItem" layoutX="394.0" layoutY="181.0" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Update" />
+            <JFXTextField fx:id="itemName" editable="false" layoutX="253.0" layoutY="24.0" prefHeight="32.0" prefWidth="184.0" promptText="Name" />
             <JFXTextField fx:id="itemQuantity" layoutX="31.0" layoutY="71.0" prefHeight="32.0" prefWidth="184.0" promptText="Quantity" />
             <JFXTextField fx:id="itemBuyPrice" layoutX="31.0" layoutY="128.0" prefHeight="32.0" prefWidth="184.0" promptText="Buy Price" />
             <JFXTextField fx:id="itemSellPrice" layoutX="253.0" layoutY="128.0" prefHeight="32.0" prefWidth="184.0" promptText="Sell Price" />

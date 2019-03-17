@@ -11,6 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Item;
 import models.t_invoice;
@@ -18,6 +19,7 @@ import models.t_invoice;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ResourceBundle;
 
 public class buyInvoiceController implements Initializable {
@@ -77,8 +79,22 @@ public class buyInvoiceController implements Initializable {
         invoiceTable.getItems().remove(item);
     }
 
-    public void editRecord(MouseEvent mouseEvent) {
-        Stage thisWin = (Stage)invoiceTable.getScene().getWindow();
+    public void editRecord(MouseEvent mouseEvent) throws SQLException, ParseException, IOException {
+        if(invoiceTable.getSelectionModel().getSelectedItem()==null){
+            FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/alert/selectItemError.fxml"));
+            Stage model = new Stage();
+            Parent root = load.load();
+            model.setTitle("Error");
+            model.initModality(Modality.APPLICATION_MODAL);
+            model.setScene(new Scene(root));
+            model.show();
+            return;
+        }
+        editBuyController editController = new editBuyController(this);
+        editController.showStage();
+    }
 
+    public t_invoice getSelectedRow(){
+        return invoiceTable.getSelectionModel().getSelectedItem();
     }
 }
