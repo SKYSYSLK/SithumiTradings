@@ -92,4 +92,16 @@ public class InvoiceItem {
         con.close();
     }
 
+    public void update() throws SQLException {
+        String query = "UPDATE invoiceItems set quantity = ?, buyPrice = ?, sellPrice = ? WHERE item_id = ? AND invoice_id = ?";
+        PreparedStatement upq = con.prepareStatement(query);
+        upq.setString(5,this.invoiceId);
+        upq.setInt(1,this.quantity);
+        upq.setDouble(2,this.buyPrice);
+        upq.setDouble(3,this.sellPrice);
+        upq.setString(4,this.invoiceId);
+        upq.execute();
+        //System.out.println("itemId "+itemId+"invoice_id "+invoiceId);
+    }
+
 }

@@ -19,10 +19,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import models.Cheque;
-import models.Shop;
-import models.t_invoice;
-import models.t_invoiceItem;
+import models.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -108,6 +105,41 @@ public class editBuyController implements Initializable {
             if(event.getClickCount()>1){
                 fetchItemData();
             }
+        });
+
+        updateItem.setOnMouseClicked(event -> {
+            String item_id = itemId.getText();
+            String item_name = itemName.getText();
+            String invoiceId = invoice_id.getText();
+            int item_quantity = Integer.parseInt(itemQuantity.getText());
+            double sell_price = Double.parseDouble(itemBuyPrice.getText());
+            double buy_price = Double.parseDouble(itemBuyPrice.getText());
+            t_invoiceItem currentItem = new t_invoiceItem(item_id,invoiceId,item_name,item_quantity,sell_price,buy_price);
+            try {
+                currentItem.update();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            t_invoiceItem currentSelectedItem = invoiceItemTable.getSelectionModel().getSelectedItem();
+            int newQuantity = currentSelectedItem.getQuantity()-item_quantity;
+
+            try {
+                Item cItem = Item.getItem(item_id);
+                cItem.addAmount(newQuantity);
+                cItem.update();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            invoiceItemTable.getItems().remove(invoiceItemTable.getSelectionModel().getSelectedItem());
+            invoiceItemTable.getItems().add(currentItem);
+            itemId.clear();
+            itemName.clear();
+            itemQuantity.clear();
+            itemBuyPrice.clear();
+            itemSellPrice.clear();
+
         });
     }
 
