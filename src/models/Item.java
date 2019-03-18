@@ -120,4 +120,12 @@ public class Item {
             return null;
         }
     }
+    public void addAmount(int amount) throws SQLException {
+        int allQuantity = this.quantity + amount;
+        String query = "UPDATE items SET Quantity = ? WHERE id = ?";
+        PreparedStatement upq = con.prepareStatement(query);
+        upq.setInt(1,allQuantity);
+        upq.setString(2,this.id);
+        upq.execute();
+    }
 }

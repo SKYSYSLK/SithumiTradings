@@ -1,19 +1,39 @@
 package models;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class t_invoiceItem {
-    private String itemNo, name;
+    private String itemNo, name, invoiceId;
     private int quantity;
     private double sellPrice, buyPrice;
+    private Connection con=connection.getConnection();
 
-    public t_invoiceItem(String itemNo, String name, int quantity, double sellPrice, double buyPrice) {
+    public t_invoiceItem(String itemNo, String invoiceId,String name, int quantity, double sellPrice, double buyPrice) {
         this.itemNo = itemNo;
+        this.invoiceId = invoiceId;
         this.name = name;
         this.quantity = quantity;
         this.sellPrice = sellPrice;
+        this.buyPrice = buyPrice;
+    }
+
+    public String getInvoiceId() {
+        return invoiceId;
+    }
+
+    public void setInvoiceId(String invoiceId) {
+        this.invoiceId = invoiceId;
+    }
+
+    public void setSellPrice(double sellPrice) {
+        this.sellPrice = sellPrice;
+    }
+
+    public void setBuyPrice(double buyPrice) {
         this.buyPrice = buyPrice;
     }
 
@@ -65,9 +85,15 @@ public class t_invoiceItem {
             double sellPrice = item.getSellPrice();
             double buyPrice = item.getBuyPrice();
             int quantity = item.getQuantity();
+//            String invoiceId = item.getInvoiceId();
             String itemName = Objects.requireNonNull(Item.getItem(item_id)).getName();
-            allRec.add(new t_invoiceItem(item_id,itemName,quantity, sellPrice, buyPrice));
+            allRec.add(new t_invoiceItem(item_id,invoice_id,itemName,quantity, sellPrice, buyPrice));
         }
         return allRec;
+    }
+
+    public void update() throws SQLException {
+        InvoiceItem currentItem = new InvoiceItem(this.itemNo,this.invoiceId,this.buyPrice,this.sellPrice,this.quantity);
+        currentItem.update();
     }
 }

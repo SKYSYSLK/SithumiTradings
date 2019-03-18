@@ -183,7 +183,7 @@ public class buyController implements Initializable {
         double sPrice = Double.parseDouble(itemSellPrice.getText());
         InvoiceItem current = new InvoiceItem(item,currentInvoice.getId(),bPrice,sPrice,quantity);
         current.save();
-        t_invoiceItem row = new t_invoiceItem(item,Item.getItem(item).getName(),quantity,sPrice,bPrice);
+        t_invoiceItem row = new t_invoiceItem(item,currentInvoice.getId(),Item.getItem(item).getName(),quantity,sPrice,bPrice);
 
         // Update Table
         invoiceItemTable.getItems().add(row);
