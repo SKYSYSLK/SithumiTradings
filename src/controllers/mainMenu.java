@@ -54,7 +54,14 @@ public class mainMenu {
         thiswind.show();
     }
 
-    public void openReports(MouseEvent mouseEvent) {
+    public void openReports(MouseEvent mouseEvent) throws IOException {
+        Stage thiswind = (Stage) reports.getScene().getWindow();
+        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/reports.fxml"));
+        Parent root = (Parent) itemsView.load();
+        thiswind.setTitle("Manage Items in your stock");
+        thiswind.setScene(new Scene(root));
+        thiswind.setMaximized(true);
+        thiswind.show();
     }
 
     public void openSell(MouseEvent mouseEvent) throws IOException {
