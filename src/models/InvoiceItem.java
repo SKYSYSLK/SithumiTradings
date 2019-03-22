@@ -94,14 +94,44 @@ public class InvoiceItem {
 
     public void update() throws SQLException {
         String query = "UPDATE invoiceItems set quantity = ?, buyPrice = ?, sellPrice = ? WHERE item_id = ? AND invoice_id = ?";
+
+        InvoiceItem current = InvoiceItem.getItem(this.invoiceId,this.itemId);
+        int quantityChange = this.quantity-current.getQuantity();
+
         PreparedStatement upq = con.prepareStatement(query);
-        upq.setString(5,this.invoiceId);
         upq.setInt(1,this.quantity);
         upq.setDouble(2,this.buyPrice);
         upq.setDouble(3,this.sellPrice);
-        upq.setString(4,this.invoiceId);
+        upq.setString(4,this.itemId);
+        upq.setString(5,this.invoiceId);
         upq.execute();
-        //System.out.println("itemId "+itemId+"invoice_id "+invoiceId);
+        con.close();
+
+        // Update new Quantity
+        Item currentItem = Item.getItem(itemId);
+        assert currentItem != null;
+        int newQuantity = currentItem.getQuantity()+quantityChange;
+        currentItem.setQuantity(newQuantity);
+        currentItem.setSellPrice((float) this.sellPrice);
+        currentItem.setBuyPrice((float)this.buyPrice);
+        currentItem.update();
+
+//        System.out.println("itemId: "+itemId+" invoice_id: "+invoiceId+" sell: "+this.sellPrice+" buy "+this.buyPrice
+//        +" quantity "+this.quantity);
+    }
+
+    public static InvoiceItem getItem(String invoiceId, String itemId) throws SQLException {
+        Connection con = connection.getConnection();
+        String query = "SELECT * FROM invoiceItems where invoice_id=? AND item_id=? LIMIT 1";
+        PreparedStatement selectq = con.prepareStatement(query);
+        selectq.setString(1,invoiceId);
+        selectq.setString(2,itemId);
+        ResultSet result = selectq.executeQuery();
+        int quantity = result.getInt("quantity");
+        double sellPrice = result.getDouble("sellPrice");
+        double buyPrice = result.getDouble("buyPrice");
+        con.close();
+        return new InvoiceItem(itemId,invoiceId,buyPrice,sellPrice,quantity);
     }
 
 }

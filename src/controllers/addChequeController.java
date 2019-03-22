@@ -26,7 +26,7 @@ public class addChequeController {
         String expire = java.sql.Date.valueOf(expire_date.getValue()).toString();
         String bank = bank_name.getText();
         String branch = branch_name.getText();
-        Cheque current = new Cheque(chequeNumber,issued,expire,bank,branch,amount);
+        Cheque current = new Cheque(chequeNumber,issued,expire,bank,branch,amount,2);
         current.save();
         Stage currentWin = (Stage) save.getScene().getWindow();
         currentWin.close();

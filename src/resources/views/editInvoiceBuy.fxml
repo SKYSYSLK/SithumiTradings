@@ -19,7 +19,7 @@
             <Font name="Agency FB Bold" size="65.0" />
          </font>
       </Text>
-      <TableView fx:id="invoiceItemTable" layoutX="43.0" layoutY="143.0" prefHeight="513.0" prefWidth="633.0">
+      <TableView fx:id="invoiceItemTable" layoutX="43.0" layoutY="143.0" prefHeight="327.0" prefWidth="633.0">
         <columns>
           <TableColumn fx:id="item_no" prefWidth="108.00003051757812" text="Item_no" />
           <TableColumn fx:id="name" prefWidth="146.0" text="Name" />
@@ -45,7 +45,7 @@
             <JFXComboBox fx:id="cheque_no" editable="true" layoutX="31.0" layoutY="80.0" prefHeight="25.0" prefWidth="314.0" promptText="Select the Cheque Number" />
             <JFXButton fx:id="addCheque" layoutX="365.0" layoutY="82.0" style="-fx-background-color: #f441df;" text="Add Cheque" />
             <JFXComboBox fx:id="shop_id" editable="true" layoutX="31.0" layoutY="136.0" prefHeight="25.0" prefWidth="314.0" promptText="Select the Shop" />
-            <JFXButton fx:id="addShop" layoutX="365.0" layoutY="136.0"  style="-fx-background-color: #f441df;" text="Add Shop" />
+            <JFXButton fx:id="addShop" layoutX="365.0" layoutY="136.0" style="-fx-background-color: #f441df;" text="Add Shop" />
             <JFXDatePicker fx:id="date_issue" layoutX="31.0" layoutY="188.0" prefHeight="25.0" prefWidth="314.0" promptText="Date Issue" />
             <Text fx:id="error1" fill="#dd1111" layoutX="31.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Please Fill the Required Fields" visible="false">
                <font>
@@ -75,6 +75,20 @@
             <Text fx:id="error3" fill="#dd1111" layoutX="31.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Please Enter a Valied ItemID" visible="false">
                <font>
                   <Font name="System Bold" size="15.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="249.0" layoutY="524.0" prefHeight="103.0" prefWidth="221.0" style="-fx-background-color: #69ef6d; -fx-background-radius: 50;">
+         <children>
+            <Text layoutX="75.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total ">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Text>
+            <Text fx:id="total" fill="#1e1dcf" layoutX="70.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="16500.00">
+               <font>
+                  <Font size="20.0" />
                </font>
             </Text>
          </children>

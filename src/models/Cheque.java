@@ -10,14 +10,24 @@ public class Cheque {
     private String id, issuedDate, expireDate, bankName, branchName;
     private double amout;
     private Connection con = connection.getConnection();
+    private int type;
 
-    public Cheque(String id, String issuedDate, String expireDate, String bankName, String branchName, double amout) {
+    public Cheque(String id, String issuedDate, String expireDate, String bankName, String branchName, double amout, int type) {
         this.id = id;
         this.issuedDate = issuedDate;
         this.expireDate = expireDate;
         this.bankName = bankName;
         this.branchName = branchName;
         this.amout = amout;
+        this.type = type;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getId() {
@@ -76,9 +86,9 @@ public class Cheque {
         insq.setString(1,this.id);
         insq.setDouble(2,this.amout);
         insq.setString(3,this.bankName);
-        insq.setString(4,this.branchName);
+        insq.setString(6,this.branchName);
         insq.setString(5,this.expireDate);
-        insq.setString(6,this.issuedDate);
+        insq.setString(4,this.issuedDate);
         insq.setString(7,"1");
         insq.execute();
         con.close();
@@ -99,7 +109,7 @@ public class Cheque {
             String expireDate = resultSet.getString("expire_date");
             String issuedDate = resultSet.getString("issue_date");
             int status = resultSet.getInt("status");
-            Cheque current = new Cheque(id,issuedDate,expireDate,bank,branch,amount);
+            Cheque current = new Cheque(id,issuedDate,expireDate,bank,branch,amount,status);
             allRec.add(current);
         }
         con.close();

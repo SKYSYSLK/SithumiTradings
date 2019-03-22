@@ -57,6 +57,8 @@ public class editBuyController implements Initializable {
     public JFXTextField itemSellPrice;
     public Text error2;
     public Text error3;
+    @FXML
+    private Text total;
 
     private t_invoice invoice;
     private final buyInvoiceController InvoicesWindow;
@@ -75,6 +77,7 @@ public class editBuyController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
     public editBuyController(buyInvoiceController invoiceController) throws SQLException, ParseException {
@@ -92,6 +95,9 @@ public class editBuyController implements Initializable {
         invoiceItemTable.setItems(FXCollections.observableArrayList(t_invoiceItem.getItems(this.invoice.getId())));
         System.out.println(this.invoice==null);
         fillTextData(this.invoice);
+
+        //Set total bill
+        setTotalBill();
 
         back.setOnMouseClicked(event -> {
             try {
@@ -112,7 +118,7 @@ public class editBuyController implements Initializable {
             String item_name = itemName.getText();
             String invoiceId = invoice_id.getText();
             int item_quantity = Integer.parseInt(itemQuantity.getText());
-            double sell_price = Double.parseDouble(itemBuyPrice.getText());
+            double sell_price = Double.parseDouble(itemSellPrice.getText());
             double buy_price = Double.parseDouble(itemBuyPrice.getText());
             t_invoiceItem currentItem = new t_invoiceItem(item_id,invoiceId,item_name,item_quantity,sell_price,buy_price);
             try {
@@ -121,26 +127,23 @@ public class editBuyController implements Initializable {
                 e.printStackTrace();
             }
 
-            t_invoiceItem currentSelectedItem = invoiceItemTable.getSelectionModel().getSelectedItem();
-            int newQuantity = currentSelectedItem.getQuantity()-item_quantity;
-
-            try {
-                Item cItem = Item.getItem(item_id);
-                cItem.addAmount(newQuantity);
-                cItem.update();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
             invoiceItemTable.getItems().remove(invoiceItemTable.getSelectionModel().getSelectedItem());
             invoiceItemTable.getItems().add(currentItem);
+            setTotalBill();
             itemId.clear();
             itemName.clear();
             itemQuantity.clear();
             itemBuyPrice.clear();
             itemSellPrice.clear();
-
         });
+    }
+
+    private void setTotalBill() {
+        double sumOfItem = 0;
+        for(t_invoiceItem tableItem:invoiceItemTable.getItems()){
+            sumOfItem+=tableItem.getBuyPrice()*tableItem.getQuantity();
+        }
+        total.setText("RS "+Double.toString(sumOfItem)+" /=");
     }
 
     private void fetchItemData() {
