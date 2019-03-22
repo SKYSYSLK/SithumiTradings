@@ -65,6 +65,7 @@ public class InvoiceItem {
         Connection con = connection.getConnection();
         ArrayList<InvoiceItem> allRec = new ArrayList<>();
         String query = "SELECT * FROM invoiceItems WHERE invoice_id = ?";
+//        System.out.println(query);
         PreparedStatement selectq = con.prepareStatement(query);
         selectq.setString(1,invoiceId);
         ResultSet resultSet = selectq.executeQuery();
@@ -77,6 +78,7 @@ public class InvoiceItem {
             allRec.add(current);
         }
         con.close();
+//        System.out.println(allRec);
         return allRec;
     }
 
@@ -90,6 +92,7 @@ public class InvoiceItem {
         insq.setFloat(5, (float) this.sellPrice);
         insq.execute();
         con.close();
+//        System.out.println("query");
     }
 
     public void update() throws SQLException {

@@ -68,9 +68,12 @@ public class t_invoice {
             String date_issue = invoice.getDate_issue();
             String chequeNo = invoice.getCheque_id();
             allRec.add(new t_invoice(id,shopName,date_issue,chequeNo,amount));
+            System.out.println(invoice.getCheque_id());
         }
         return allRec;
     }
+
+
 
     public void delete() throws SQLException {
         Invoice current = Invoice.getInvoice(this.id);

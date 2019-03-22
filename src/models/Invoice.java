@@ -25,7 +25,7 @@ public class Invoice {
     }
 
     public int getType() {
-        return type;
+        return this.type;
     }
 
     public void setType(int type) {
