@@ -16,11 +16,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -90,11 +92,11 @@ public class sellController implements Initializable {
     }
 
 
-    public static ArrayList<itemcalculated> calculate() throws SQLException{
+    private static ArrayList<itemcalculated> calculate() throws SQLException{
 //        System.out.println(thisInvoice);
 
         ObservableList<t_invoiceItem> itemData = FXCollections.observableArrayList(
-                t_invoiceItem.getItems("0000")
+                t_invoiceItem.getItems("2323")
         );
         ArrayList allRec = new ArrayList();
         itemData.forEach((item) -> {
@@ -156,7 +158,9 @@ public class sellController implements Initializable {
         System.out.println(invoiceId);
         InvoiceItem newItem = new InvoiceItem(itemNo,invoiceId,buyPrice,sellPrice,qty);
         newItem.save();
-        this.calculate();
+        itemcalculated.removeAll(itemcalculated);
+        itemcalculated = FXCollections.observableArrayList(calculate());
+        itemTable.setItems(itemcalculated);
 
     }
 
@@ -171,18 +175,31 @@ public class sellController implements Initializable {
 
     }
 
-    public void addInvoice() throws SQLException{
-        String invoiceId = this.invoiceid.getText();
-        String date = this.date.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        double Total = 0;
-        String cheque = "Cash";
-        int type = 2;
-        int shopId = Integer.parseInt(this.shopid.getText());
+    public void addInvoice(MouseEvent mouseEvent) throws SQLException, ParseException, IOException {
 
-        Invoice newInvoice = new Invoice(invoiceId,shopId,date,Total,cheque,type);
-        newInvoice.save();
-        System.out.println(newInvoice.getId()+" Written");
-        this.itempane.setDisable(false);
+        if(this.invoiceid.getText()==null || this.date.getValue() == null  ||this.shopid.getText() == null){
+            FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/alert/saveFail.fxml"));
+            Stage model = new Stage();
+            Parent root = load.load();
+            model.setTitle("Error");
+            model.initModality(Modality.APPLICATION_MODAL);
+            model.setScene(new Scene(root));
+            model.show();
+        }
+        else{
+            String invoiceId = this.invoiceid.getText();
+            String date = this.date.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            double Total = 0;
+            String cheque = "Cash";
+            int type = 2;
+            int shopId = Integer.parseInt(this.shopid.getText());
+
+            Invoice newInvoice = new Invoice(invoiceId,shopId,date,Total,cheque,type);
+            newInvoice.save();
+            System.out.println(newInvoice.getId()+" Written");
+            this.itempane.setDisable(false);
+        }
+
     }
 
 
