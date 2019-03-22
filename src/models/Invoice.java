@@ -81,19 +81,20 @@ public class Invoice {
     }
 
     public void save() throws SQLException {
-        String query = "INSERT INTO invoices(id,shop_id,amount,date_issued,cheque_id)" +
-                "VALUES(?,?,?,?,?)";
+        String query = "INSERT INTO invoices(id,shop_id,amount,date_issued,cheque_id,type)" +
+                "VALUES(?,?,?,?,?,?)";
         PreparedStatement insq = con.prepareStatement(query);
         insq.setString(1,this.id);
         insq.setInt(2,this.shop_id);
         insq.setDouble(3,this.amount);
         insq.setString(4,this.date_issue);
         insq.setString(5,this.cheque_id);
+        insq.setInt(6,this.type);
         insq.execute();
         con.close();
     }
 
-    public static ArrayList<Invoice> getAll() throws SQLException {
+    public static ArrayList<Invoice> getAll(int Invoicetype) throws SQLException {
         Connection con = connection.getConnection();
         ArrayList<Invoice> allRecords = new ArrayList<>();
         String query = "SELECT * FROM invoices";
@@ -106,7 +107,11 @@ public class Invoice {
             String date_issue = result.getString("date_issued");
             String cheque_id = result.getString("cheque_id");
             int type = result.getInt("type");
-            allRecords.add(new Invoice(id,shop_id,date_issue,amount,cheque_id,type));
+            if (type==Invoicetype){
+                allRecords.add(new Invoice(id,shop_id,date_issue,amount,cheque_id,type));
+            }
+
+
         }
         con.close();
         return allRecords;

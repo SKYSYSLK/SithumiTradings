@@ -58,22 +58,20 @@ public class t_invoice {
         this.amount = amount;
     }
 
-    public static ArrayList<t_invoice> getAll() throws SQLException {
-        ArrayList<Invoice> allInv = Invoice.getAll();
+    public static ArrayList<t_invoice> getAll(int type) throws SQLException {
+        ArrayList<Invoice> allInv = Invoice.getAll(type);
         ArrayList<t_invoice> allRec = new ArrayList<>();
         for(Invoice invoice: allInv){
             String id = invoice.getId();
-            String shopName = Shop.getShopName(invoice.getShop_id());
+            String shopName =Shop.getShopName(invoice.getShop_id());
+//                    Shop.getShopName(invoice.getShop_id());
             double amount = invoice.getAmount();
             String date_issue = invoice.getDate_issue();
             String chequeNo = invoice.getCheque_id();
             allRec.add(new t_invoice(id,shopName,date_issue,chequeNo,amount));
-            System.out.println(invoice.getCheque_id());
         }
         return allRec;
     }
-
-
 
     public void delete() throws SQLException {
         Invoice current = Invoice.getInvoice(this.id);

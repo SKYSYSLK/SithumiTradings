@@ -52,7 +52,7 @@ public class buyInvoiceController implements Initializable {
 //        itemTable1 = invoiceTable;
     }
     private ObservableList<t_invoice> itemData = FXCollections.observableArrayList(
-            t_invoice.getAll()
+            t_invoice.getAll(1)
     );
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {

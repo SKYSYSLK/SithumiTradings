@@ -1,5 +1,7 @@
 package models;
 
+import jdk.nashorn.internal.ir.Expression;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -124,9 +126,17 @@ public class Shop {
         PreparedStatement selectq = con.prepareStatement(quey);
         selectq.setInt(1,id);
         ResultSet resultSet = selectq.executeQuery();
-        String name = resultSet.getString("name");
-        con.close();
-        return name;
+        try {
+            String name = resultSet.getString("name");
+            con.close();
+            return name;
+        }
+        catch(Exception e){
+            String name="ERR: Shop Name not found!";
+            con.close();
+            return name;
+        }
+
     }
 
     public static int getShopId(String name) throws SQLException {
