@@ -1,11 +1,14 @@
 package models;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class t_cheque {
     private String id,bank,branch,issueDate,expireDate,type;
     private double amount;
+    private Connection con = connection.getConnection();
 
     public t_cheque(String id, String bank, String branch, String issueDate, String expireDate, String type, double amount) {
         this.id = id;
@@ -86,5 +89,36 @@ public class t_cheque {
             currentAll.add(new t_cheque(item.getId(),item.getBankName(),item.getBranchName(),item.getIssuedDate(),item.getExpireDate(),cType,item.getAmout()));
         }
         return currentAll;
+    }
+
+    public void delete() throws SQLException {
+        String query = "DELETE FROM cheques WHERE id = ?";
+        PreparedStatement delq = con.prepareStatement(query);
+        delq.setString(1,this.id);
+        delq.execute();
+        con.close();
+    }
+
+    public void update() throws SQLException {
+        int chequeType=-1;
+        switch (this.type) {
+            case "Due":
+                chequeType = 1;
+                break;
+            case "Issued":
+                chequeType = 2;
+                break;
+            case "Settled":
+                chequeType = 3;
+                break;
+        }
+        Cheque currentCheque = Cheque.getCheque(this.id);
+        currentCheque.setAmout(this.amount);
+        currentCheque.setBankName(this.bank);
+        currentCheque.setBranchName(this.branch);
+        currentCheque.setExpireDate(this.expireDate);
+        currentCheque.setIssuedDate(this.issueDate);
+        currentCheque.setType(chequeType);
+        currentCheque.update();
     }
 }

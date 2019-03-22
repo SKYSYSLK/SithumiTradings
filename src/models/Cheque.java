@@ -115,4 +115,35 @@ public class Cheque {
         con.close();
         return allRec;
     }
+
+    public void update() throws SQLException {
+        String query = "UPDATE cheques SET amount=?, bank=?, issue_date=?, expire_date=?, branch=?, status=?" +
+                "WHERE id=?";
+        PreparedStatement upq = con.prepareStatement(query);
+        upq.setDouble(1,this.amout);
+        upq.setString(2,this.bankName);
+        upq.setString(3,this.issuedDate);
+        upq.setString(4,this.expireDate);
+        upq.setString(5,this.branchName);
+        upq.setInt(6,this.type);
+        upq.setString(7,this.id);
+        upq.execute();
+        con.close();
+    }
+
+    public static Cheque getCheque(String id) throws SQLException {
+        Connection con = connection.getConnection();
+        String query = "SELECT * FROM cheques WHERE id=?";
+        PreparedStatement selectq = con.prepareStatement(query);
+        selectq.setString(1,id);
+        ResultSet resultSet = selectq.executeQuery();
+        double amount = resultSet.getDouble("amount");
+        String bank = resultSet.getString("bank");
+        String branch = resultSet.getString("branch");
+        String issueDate = resultSet.getString("issue_date");
+        String expireDate = resultSet.getString("expire_date");
+        int type = resultSet.getInt("status");
+        con.close();
+        return new Cheque(id,issueDate,expireDate,bank,branch,amount,type);
+    }
 }

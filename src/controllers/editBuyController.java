@@ -159,9 +159,8 @@ public class editBuyController implements Initializable {
         invoice_id.setText(invoice.getId());
         cheque_no.getSelectionModel().select(invoice.getCheque_number());
         shop_id.getSelectionModel().select(invoice.getShopName());
-//        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-//        LocalDate issueDate = LocalDate.parse(invoice.getDateIsssued(),df);
-//        date_issue.setValue(issueDate);
+        DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        date_issue.setValue(LocalDate.parse(invoice.getDateIsssued(),fomatter));
     }
 
     private void fillShopCombo() throws SQLException {

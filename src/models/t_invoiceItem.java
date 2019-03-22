@@ -94,7 +94,6 @@ public class t_invoiceItem {
 
     public void update() throws SQLException {
         InvoiceItem currentItem = new InvoiceItem(this.itemNo,this.invoiceId,this.buyPrice,this.sellPrice,this.quantity);
-//        System.out.println(currentItem.getQuantity());
         currentItem.update();
     }
 }

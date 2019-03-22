@@ -19,7 +19,7 @@
             <Font name="Agency FB Bold" size="65.0" />
          </font>
       </Text>
-      <TableView fx:id="chequesTable" layoutX="43.0" layoutY="143.0" prefHeight="341.0" prefWidth="675.0">
+      <TableView fx:id="chequesTable" layoutX="43.0" layoutY="143.0" onMouseClicked="#fetchData" prefHeight="341.0" prefWidth="675.0">
          <columns>
             <TableColumn fx:id="cId" prefWidth="115.00003051757812" text="ID" />
             <TableColumn fx:id="cAmount" prefWidth="76.0" text="Amount" />
@@ -59,7 +59,7 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <Text fx:id="income" fill="#1e1dcf" layoutX="70.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="16500.00">
+            <Text fx:id="issuedBill" fill="#1e1dcf" layoutX="70.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="16500.00">
                <font>
                   <Font size="20.0" />
                </font>
@@ -73,7 +73,7 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <Text fx:id="profit" fill="#1e1dcf" layoutX="70.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="16500.00">
+            <Text fx:id="dueBill" fill="#1e1dcf" layoutX="70.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="16500.00">
                <font>
                   <Font size="20.0" />
                </font>
