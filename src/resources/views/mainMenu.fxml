@@ -91,12 +91,12 @@
       </Text>
       <ScrollPane layoutX="588.0" layoutY="213.0" prefHeight="446.0" prefWidth="434.0" style="-fx-background-color: white;">
          <content>
-            <TableView prefHeight="441.0" prefWidth="431.0">
+            <TableView fx:id="recentCheques" prefHeight="441.0" prefWidth="431.0">
               <columns>
                 <TableColumn fx:id="id" prefWidth="134.0" text="Check ID" />
                 <TableColumn fx:id="amount" prefWidth="101.0" text="Amount" />
-                  <TableColumn prefWidth="95.0" text="Issue Date" />
-                  <TableColumn prefWidth="98.0" text="Expire Date" />
+                  <TableColumn fx:id="issueDate" prefWidth="95.0" text="Issue Date" />
+                  <TableColumn fx:id="expireDate" prefWidth="98.0" text="Expire Date" />
               </columns>
             </TableView>
          </content></ScrollPane>

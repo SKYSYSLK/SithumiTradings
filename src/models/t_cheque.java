@@ -121,4 +121,19 @@ public class t_cheque {
         currentCheque.setType(chequeType);
         currentCheque.update();
     }
+    public static ArrayList<t_cheque> getRecent() throws SQLException {
+        ArrayList<Cheque> allRec = Cheque.getAll();
+        ArrayList<t_cheque> currentAll = new ArrayList<>();
+        for(Cheque item:allRec){
+            String cType = "";
+            switch (item.getType()){
+                case 1: cType = "Due"; break;
+                case 2: cType = "Issued";break;
+                case 3: cType = "Settled";break;
+            }
+            if(item.getType()==2)
+            currentAll.add(new t_cheque(item.getId(),item.getBankName(),item.getBranchName(),item.getIssuedDate(),item.getExpireDate(),cType,item.getAmout()));
+        }
+        return currentAll;
+    }
 }

@@ -8,20 +8,29 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import models.t_cheque;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.DateFormatSymbols;
 import java.util.Arrays;
 import java.util.Locale;
 
 public class mainMenu {
     public BarChart week;
-    public PieChart day;
     public CategoryAxis xAxis;
     public NumberAxis yAxis;
+    public TableColumn<t_cheque, String> id;
+    public TableColumn<t_cheque, String> amount;
+    public TableColumn<t_cheque, String> issueDate;
+    public TableColumn<t_cheque, String> expireDate;
+    public TableView<t_cheque> recentCheques;
     @FXML
     private JFXButton reports;
     @FXML
@@ -35,7 +44,16 @@ public class mainMenu {
 
     private ObservableList<String> Days = FXCollections.observableArrayList();
 
+    public mainMenu() throws SQLException {
+    }
+
     public void initialize(){
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        expireDate.setCellValueFactory(new PropertyValueFactory<>("expireDate"));
+        issueDate.setCellValueFactory(new PropertyValueFactory<>("issueDate"));
+        recentCheques.setItems(chequesData);
+
         // Weekly Chart Data
         String[] months = DateFormatSymbols.getInstance(Locale.ENGLISH).getWeekdays();
         Days.addAll(Arrays.asList(Arrays.copyOfRange(months,1,8)));
@@ -43,6 +61,9 @@ public class mainMenu {
         setData();
 
     }
+    private ObservableList<t_cheque> chequesData = FXCollections.observableArrayList(
+            t_cheque.getRecent()
+    );
 
     public void openItems(MouseEvent mouseEvent) throws IOException {
         Stage thiswind = (Stage) reports.getScene().getWindow();

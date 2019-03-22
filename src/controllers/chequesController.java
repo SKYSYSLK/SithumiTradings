@@ -51,7 +51,7 @@ public class chequesController implements Initializable {
     public TableColumn<t_cheque,String> cIssueDate;
     public TableColumn<t_cheque,String> cExpireDate;
     public TableColumn<t_cheque,String> cType;
-    public ArrayList<t_cheque> allRows;
+    private ArrayList<t_cheque> allRows;
     public Text dueBill;
     public Text issuedBill;
 
