@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -41,12 +42,6 @@ public class mainMenu {
         xAxis.setCategories(Days);
         setData();
 
-        // Daily Chart Data
-//        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-//                new PieChart.Data("Income",5000),
-//                new PieChart.Data("spent",2000)
-//        );
-//        day.setData(pieChartData);
     }
 
     public void openItems(MouseEvent mouseEvent) throws IOException {
@@ -107,5 +102,14 @@ public class mainMenu {
             series1.getData().add(new XYChart.Data<>(Days.get(i),dayCounter[i]));
         }
         week.getData().add(series1);
+    }
+
+    public void openCheques(MouseEvent mouseEvent) throws IOException {
+        FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/cheques.fxml"));
+        Stage thiswind = (Stage) reports.getScene().getWindow();
+        Parent root = load.load();
+        thiswind.setTitle("Manage Cheque");
+        thiswind.setScene(new Scene(root));
+        thiswind.show();
     }
 }

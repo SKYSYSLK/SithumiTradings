@@ -127,5 +127,6 @@ public class Item {
         upq.setInt(1,allQuantity);
         upq.setString(2,this.id);
         upq.execute();
+        con.close();
     }
 }
