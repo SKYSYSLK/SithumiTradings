@@ -113,14 +113,14 @@ public class chequesController implements Initializable {
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
         Stage thisWindow = (Stage)chequesTable.getScene().getWindow();
-        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("../resources/views/mainMenu.fxml"));
+        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("/resources/views/mainMenu.fxml"));
         Parent root = backLoader.load();
         thisWindow.setTitle("Invoices");
         thisWindow.setScene(new Scene(root));
     }
 
     public void addNewCheque(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/addCheque.fxml"));
+        FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/addCheque.fxml"));
         Stage model = new Stage();
         Parent root = load.load();
         model.setTitle("Add New Cheque");

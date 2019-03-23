@@ -57,14 +57,14 @@ public class buyInvoiceController implements Initializable {
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
         Stage thisWindow = (Stage)invoiceTable.getScene().getWindow();
-        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("../resources/views/mainMenu.fxml"));
+        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("/resources/views/mainMenu.fxml"));
         Parent root = backLoader.load();
         thisWindow.setTitle("Main Menu ");
         thisWindow.setScene(new Scene(root));
     }
 
     public void addNew(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/Buy.fxml"));
+        FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/Buy.fxml"));
         Stage model = (Stage)back.getScene().getWindow();
         Parent root = load.load();
         model.setTitle("Add New Record");
@@ -81,7 +81,7 @@ public class buyInvoiceController implements Initializable {
 
     public void editRecord(MouseEvent mouseEvent) throws SQLException, ParseException, IOException {
         if(invoiceTable.getSelectionModel().getSelectedItem()==null){
-            FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/alert/selectItemError.fxml"));
+            FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/alert/selectItemError.fxml"));
             Stage model = new Stage();
             Parent root = load.load();
             model.setTitle("Error");

@@ -67,7 +67,7 @@ public class mainMenu {
 
     public void openItems(MouseEvent mouseEvent) throws IOException {
         Stage thiswind = (Stage) reports.getScene().getWindow();
-        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/items.fxml"));
+        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("/resources/views/items.fxml"));
         Parent root = (Parent) itemsView.load();
         thiswind.setTitle("Manage Items in your stock");
         thiswind.setScene(new Scene(root));
@@ -77,7 +77,7 @@ public class mainMenu {
 
     public void openReports(MouseEvent mouseEvent) throws IOException {
         Stage thiswind = (Stage) reports.getScene().getWindow();
-        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/reports.fxml"));
+        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("/resources/views/reports.fxml"));
         Parent root = (Parent) itemsView.load();
         thiswind.setTitle("Manage Items in your stock");
         thiswind.setScene(new Scene(root));
@@ -87,7 +87,7 @@ public class mainMenu {
 
     public void openSell(MouseEvent mouseEvent) throws IOException {
         Stage thiswind = (Stage) reports.getScene().getWindow();
-        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/sellInvoice.fxml"));
+        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("/resources/views/sellInvoice.fxml"));
         Parent root = (Parent) itemsView.load();
         thiswind.setTitle("Manage Daily Business");
         thiswind.setScene(new Scene(root));
@@ -97,7 +97,7 @@ public class mainMenu {
 
     public void openBuy(MouseEvent mouseEvent) throws IOException {
         Stage thiswind = (Stage) reports.getScene().getWindow();
-        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/buyInvoice.fxml"));
+        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("/resources/views/buyInvoice.fxml"));
         Parent root = (Parent) itemsView.load();
         thiswind.setTitle("Manage Buying Invoices");
         thiswind.setScene(new Scene(root));
@@ -107,7 +107,7 @@ public class mainMenu {
 
     public void openShops(MouseEvent mouseEvent) throws IOException {
         Stage thiswind = (Stage) reports.getScene().getWindow();
-        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/shops.fxml"));
+        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("/resources/views/shops.fxml"));
         Parent root = (Parent) itemsView.load();
         thiswind.setTitle("Manage Shops related to your business");
         thiswind.setScene(new Scene(root));
@@ -133,7 +133,7 @@ public class mainMenu {
     }
 
     public void openCheques(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/cheques.fxml"));
+        FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/cheques.fxml"));
         Stage thiswind = (Stage) reports.getScene().getWindow();
         Parent root = load.load();
         thiswind.setTitle("Manage Cheque");

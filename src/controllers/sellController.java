@@ -148,7 +148,7 @@ public class sellController implements Initializable {
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
         Stage thisWindow = (Stage) itemTable.getScene().getWindow();
-        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("../resources/views/sellInvoice.fxml"));
+        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("/resources/views/sellInvoice.fxml"));
         Parent root = backLoader.load();
         thisWindow.setTitle("Invoices");
         thisWindow.setScene(new Scene(root));
@@ -162,7 +162,7 @@ public class sellController implements Initializable {
             this.add.setDisable(false);
         } else {
             itemName.setText("Item could not be found");
-            FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/alert/idErr.fxml"));
+            FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/alert/idErr.fxml"));
             Stage model = new Stage();
             Parent root = load.load();
             model.setTitle("Error");
@@ -241,7 +241,7 @@ public class sellController implements Initializable {
     public void addInvoice(MouseEvent mouseEvent) throws SQLException, ParseException, IOException {
         if(!isEdit){
             if (this.currinvoice.getText() == null || this.date.getValue() == null || this.shopid.getValue() == null) {
-                FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/alert/saveFail.fxml"));
+                FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/alert/saveFail.fxml"));
                 Stage model = new Stage();
                 Parent root = load.load();
                 model.setTitle("Error");
@@ -273,7 +273,7 @@ public class sellController implements Initializable {
         }
         else{
             if (this.currinvoice.getText() == null || this.date.getValue() == null || this.shopid.getValue() == null) {
-                FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/alert/saveFail.fxml"));
+                FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/alert/saveFail.fxml"));
                 Stage model = new Stage();
                 Parent root = load.load();
                 model.setTitle("Error");
@@ -321,7 +321,7 @@ public class sellController implements Initializable {
 
 
     public void addChequeDialog(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/addCheque.fxml"));
+        FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/addCheque.fxml"));
         Stage model = new Stage();
         Parent root = load.load();
         model.setTitle("Add New Cheque");

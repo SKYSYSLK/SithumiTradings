@@ -65,7 +65,7 @@ public class shopController implements Initializable {
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
         Stage thisWindow = (Stage) shopTable.getScene().getWindow();
-        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("../resources/views/mainMenu.fxml"));
+        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("/resources/views/mainMenu.fxml"));
         Parent root = backLoader.load();
         thisWindow.setTitle("Main Menu");
         thisWindow.setScene(new Scene(root));
@@ -89,7 +89,7 @@ public class shopController implements Initializable {
 
         //Refresh Table
         Stage thiswind = (Stage) shopTable.getScene().getWindow();
-        FXMLLoader shopsView = new FXMLLoader(getClass().getResource("../resources/views/shops.fxml"));
+        FXMLLoader shopsView = new FXMLLoader(getClass().getResource("/resources/views/shops.fxml"));
         Parent root = (Parent) shopsView.load();
         thiswind.setTitle("Manage Shops related to your business");
         thiswind.setScene(new Scene(root));

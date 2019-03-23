@@ -61,14 +61,14 @@ public class SellInvoiceController implements Initializable {
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
         Stage thisWindow = (Stage)invoiceTable.getScene().getWindow();
-        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("../resources/views/mainMenu.fxml"));
+        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("/resources/views/mainMenu.fxml"));
         Parent root = backLoader.load();
         thisWindow.setTitle("Main Menu ");
         thisWindow.setScene(new Scene(root));
     }
 
     public void addNew(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/Sell.fxml"));
+        FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/Sell.fxml"));
         Stage model = (Stage)back.getScene().getWindow();
         Parent root = load.load();
         model.setTitle("Add New Record");
@@ -85,7 +85,7 @@ public class SellInvoiceController implements Initializable {
 
     public void editRecord(MouseEvent mouseEvent) throws SQLException, ParseException, IOException {
         if(invoiceTable.getSelectionModel().getSelectedItem()==null){
-            FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/alert/selectItemError.fxml"));
+            FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/alert/selectItemError.fxml"));
             Stage model = new Stage();
             Parent root = load.load();
             model.setTitle("Error");
@@ -96,7 +96,7 @@ public class SellInvoiceController implements Initializable {
         }else{
             t_invoice currentSelected = invoiceTable.getSelectionModel().getSelectedItem();
             System.out.println(currentSelected.getShopName());
-            FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/Sell.fxml"));
+            FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/Sell.fxml"));
             Stage model = (Stage)back.getScene().getWindow();
             Parent root = load.load();
             sellController controller = load.getController();

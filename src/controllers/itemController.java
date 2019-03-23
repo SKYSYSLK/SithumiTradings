@@ -65,7 +65,7 @@ public class itemController implements Initializable {
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
         Stage thisWindow = (Stage)itemTable.getScene().getWindow();
-        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("../resources/views/mainMenu.fxml"));
+        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("/resources/views/mainMenu.fxml"));
         Parent root = backLoader.load();
         thisWindow.setTitle("Main Menu");
         thisWindow.setScene(new Scene(root));
@@ -87,7 +87,7 @@ public class itemController implements Initializable {
 
         //Refresh Table
         Stage thiswind = (Stage) itemTable.getScene().getWindow();
-        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/items.fxml"));
+        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("/resources/views/items.fxml"));
         Parent root = (Parent) itemsView.load();
         thiswind.setTitle("Manage Items in your stock");
         thiswind.setScene(new Scene(root));

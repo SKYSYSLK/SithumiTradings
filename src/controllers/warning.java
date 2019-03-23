@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 public class warning {
     public static void saveSuccess() throws IOException {
-        FXMLLoader errorWindow = new FXMLLoader(warning.class.getResource("../resources/views/alert/saveSuccess.fxml"));
+        FXMLLoader errorWindow = new FXMLLoader(warning.class.getResource("/resources/views/alert/saveSuccess.fxml"));
         Stage current = new Stage();
         Parent model = (Parent) errorWindow.load();
         current.setTitle("Save Successfully");
@@ -21,7 +21,7 @@ public class warning {
         current.show();
     }
     static void incomplete() throws IOException {
-        FXMLLoader errorWindow = new FXMLLoader(warning.class.getResource("../resources/views/alert/saveFail.fxml"));
+        FXMLLoader errorWindow = new FXMLLoader(warning.class.getResource("/resources/views/alert/saveFail.fxml"));
         Stage current = new Stage();
         Parent model = (Parent) errorWindow.load();
         current.setTitle("Save Unsuccessful");

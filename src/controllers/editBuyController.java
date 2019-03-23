@@ -83,7 +83,7 @@ public class editBuyController implements Initializable {
     public editBuyController(buyInvoiceController invoiceController) throws SQLException, ParseException {
         this.InvoicesWindow = invoiceController;
         currentStage = (Stage) invoiceController.invoiceTable.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/views/editInvoiceBuy.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/views/editInvoiceBuy.fxml"));
         loader.setController(this);
         try {
             currentStage.setScene(new Scene(loader.load()));
@@ -183,7 +183,7 @@ public class editBuyController implements Initializable {
 
     public void backMenu() throws IOException {
         Stage thisWindow = (Stage)invoiceItemTable.getScene().getWindow();
-        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("../resources/views/buyInvoice.fxml"));
+        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("/resources/views/buyInvoice.fxml"));
         Parent root = backLoader.load();
         thisWindow.setTitle("Invoices");
         thisWindow.setScene(new Scene(root));
