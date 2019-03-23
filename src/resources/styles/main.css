@@ -94,6 +94,7 @@
             radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
 }
 
+
 .body{
     -fx-background-color: #c3c4c4,
     linear-gradient(#d6d6d6 50%, white 100%),
