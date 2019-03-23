@@ -12,9 +12,9 @@
    <children>
       <Pane prefHeight="60.0" prefWidth="600.0" styleClass="header" stylesheets="@../styles/main.css">
          <children>
-            <Text fill="#dddddd" layoutX="194.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add new Record">
+            <Text fill="#dddddd" layoutX="195.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Record" textAlignment="CENTER">
                <font>
-                  <Font size="29.0" />
+                  <Font size="28.0" />
                </font>
             </Text>
          </children>
