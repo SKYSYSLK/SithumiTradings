@@ -109,6 +109,17 @@ public class chequesController implements Initializable {
         currentCheque.update();
         chequesTable.getItems().remove(chequesTable.getSelectionModel().getSelectedItem());
         chequesTable.getItems().add(currentCheque);
+        clearInputs();
+    }
+
+    private void clearInputs() {
+        cheque_id.clear();
+        bank_name.clear();
+        branch_name.clear();
+        type.getSelectionModel().clearSelection();
+        amount1.clear();
+        issued_date.setValue(null);
+        expire_date.setValue(null);
     }
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
