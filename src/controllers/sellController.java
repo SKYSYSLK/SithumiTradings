@@ -181,9 +181,10 @@ public class sellController implements Initializable {
             int sellQuantity = Integer.parseInt(this.itemquantity.getText());
             InvoiceItem updateitem = new InvoiceItem(currentSelected.getItemNo(),currID,currentSelected.getBuyPrice(),sellUpdate,sellQuantity);
             updateitem.update();
-            getTotal();
+
             calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(currID));
             itemTable.setItems(calculatedItems);
+            getTotal();
 
 
         }
@@ -230,37 +231,70 @@ public class sellController implements Initializable {
     }
 
     public void addInvoice(MouseEvent mouseEvent) throws SQLException, ParseException, IOException {
-
-        if (this.currinvoice.getText() == null || this.date.getValue() == null || this.shopid.getValue() == null) {
-            FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/alert/saveFail.fxml"));
-            Stage model = new Stage();
-            Parent root = load.load();
-            model.setTitle("Error");
-            model.initModality(Modality.APPLICATION_MODAL);
-            model.setScene(new Scene(root));
-            model.show();
-        } else {
-            String invoiceId = this.currinvoice.getText();
-            String date = this.date.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            double Total = 0;
-            String cheque;
-            if (!cash.isSelected()) {
-                cheque = cheque_no.getValue().toString();
+        if(!isEdit){
+            if (this.currinvoice.getText() == null || this.date.getValue() == null || this.shopid.getValue() == null) {
+                FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/alert/saveFail.fxml"));
+                Stage model = new Stage();
+                Parent root = load.load();
+                model.setTitle("Error");
+                model.initModality(Modality.APPLICATION_MODAL);
+                model.setScene(new Scene(root));
+                model.show();
             } else {
-                cheque = "CASH";
+                String invoiceId = this.currinvoice.getText();
+                String date = this.date.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                double Total = 0;
+                String cheque;
+                if (!cash.isSelected()) {
+                    cheque = cheque_no.getValue().toString();
+                } else {
+                    cheque = "CASH";
+                }
+
+                int type = 2;
+                int shopId = Shop.getShopId(shopid.getValue().toString());
+
+                Invoice newInvoice = new Invoice(invoiceId, shopId, date, Total, cheque, type);
+                newInvoice.save();
+                System.out.println(newInvoice.getId() + " Written");
+                this.itempane.setDisable(false);
+                this.invoicepane.setDisable(true);
             }
 
-            int type = 2;
-            int shopId = Shop.getShopId(shopid.getValue().toString());
 
-            Invoice newInvoice = new Invoice(invoiceId, shopId, date, Total, cheque, type);
-            newInvoice.save();
-            System.out.println(newInvoice.getId() + " Written");
-            this.itempane.setDisable(false);
-            this.invoicepane.setDisable(true);
+        }
+        else{
+            if (this.currinvoice.getText() == null || this.date.getValue() == null || this.shopid.getValue() == null) {
+                FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/alert/saveFail.fxml"));
+                Stage model = new Stage();
+                Parent root = load.load();
+                model.setTitle("Error");
+                model.initModality(Modality.APPLICATION_MODAL);
+                model.setScene(new Scene(root));
+                model.show();
+            } else {
+                String invoiceId = this.currinvoice.getText();
+                String date = this.date.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                double Total = 0;
+                String cheque;
+                if (!cash.isSelected()) {
+                    cheque = cheque_no.getValue().toString();
+                } else {
+                    cheque = "CASH";
+                }
+
+                int type = 2;
+                int shopId = Shop.getShopId(shopid.getValue().toString());
+
+                Invoice newInvoice = new Invoice(invoiceId, shopId, date, Total, cheque, type);
+                newInvoice.update();
+                backMenu(mouseEvent);
+
+
         }
 
-    }
+
+    }}
 
     public void paymode() throws SQLException {
 //        System.out.println(this.paymode.getSelectedToggle().getUserData());
@@ -357,9 +391,12 @@ public class sellController implements Initializable {
         else {
             itemcalculated currentSelected = itemTable.getSelectionModel().getSelectedItem();
             System.out.println("Editing" + currentSelected.getName());
+            getName(mouseEvent);
             this.itemId.setText(currentSelected.getItemNo());
             this.itemquantity.setText(Integer.toString(currentSelected.getQuantity()));
             this.itemSellPrice.setText(Double.toString(currentSelected.getSellPrice()));
+            this.currinvoice.setText(currID);
+
 
 
         }
