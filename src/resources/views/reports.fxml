@@ -19,13 +19,13 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1355.0" styleClass="body" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.reportController">
    <children>
       <Pane layoutX="21.0" layoutY="167.0" prefHeight="445.0" prefWidth="756.0" styleClass="formbody" stylesheets="@../styles/main.css" />
-      <TableView fx:id="reportTable" layoutX="38.0" layoutY="193.0" prefHeight="395.0" prefWidth="718.0">
+      <TableView fx:id="shopReportTable" layoutX="38.0" layoutY="193.0" prefHeight="395.0" prefWidth="718.0">
          <columns>
-            <TableColumn fx:id="shop_no" prefWidth="101.0" text="C1" />
-            <TableColumn fx:id="name" prefWidth="192.0" text="C2" />
-            <TableColumn fx:id="type" prefWidth="124.0" text="C3" />
-            <TableColumn fx:id="contact" prefWidth="152.0" text="C4" />
-            <TableColumn fx:id="address" prefWidth="155.0" text="C5" />
+            <TableColumn fx:id="invoice_id" prefWidth="101.0" text="Invoice No" />
+            <TableColumn fx:id="issued_date" prefWidth="192.0" text="Issued Date" />
+            <TableColumn fx:id="amount" prefWidth="124.0" text="Amount" />
+            <TableColumn fx:id="cheque_id" prefWidth="152.0" text="Cheque ID" />
+            <TableColumn fx:id="type" prefWidth="155.0" text="Type" />
          </columns>
       </TableView>
       <AnchorPane layoutX="796.0" layoutY="168.0" prefHeight="445.0" prefWidth="505.0" styleClass="formbody" stylesheets="@../styles/main.css">
@@ -34,9 +34,9 @@
             <RadioButton fx:id="shop_reports_radio" layoutX="43.0" layoutY="40.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="Shopwise Reports Generating" />
             <RadioButton fx:id="time_reports_radio" layoutX="43.0" layoutY="155.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="Time Range Reports Generating" />
             <ComboBox fx:id="shop_list" layoutX="81.0" layoutY="84.0" prefHeight="25.0" prefWidth="303.0" promptText="Select the Shop" />
-            <DatePicker fx:id="from_date" layoutX="156.0" layoutY="189.0" prefHeight="25.0" prefWidth="226.0" />
+            <DatePicker fx:id="from_date" disable="true" layoutX="156.0" layoutY="189.0" prefHeight="25.0" prefWidth="226.0" />
             <Label layoutX="81.0" layoutY="189.0" prefHeight="25.0" prefWidth="49.0" text="From" />
-            <DatePicker fx:id="to_date" layoutX="157.0" layoutY="229.0" prefHeight="25.0" prefWidth="226.0" />
+            <DatePicker fx:id="to_date" disable="true" layoutX="157.0" layoutY="229.0" prefHeight="25.0" prefWidth="226.0" />
             <Label layoutX="82.0" layoutY="229.0" prefHeight="25.0" prefWidth="49.0" text="To" />
          </children>
       </AnchorPane>
@@ -69,5 +69,14 @@
             </Text>
          </children>
       </Pane>
+      <TableView fx:id="timeReportTable" layoutX="39.0" layoutY="193.0" prefHeight="395.0" prefWidth="718.0" visible="false">
+         <columns>
+            <TableColumn fx:id="invoice_id1" prefWidth="101.0" text="x1" />
+            <TableColumn fx:id="issued_date1" prefWidth="192.0" text="x2" />
+            <TableColumn fx:id="amount1" prefWidth="124.0" text="x3" />
+            <TableColumn fx:id="cheque_id1" prefWidth="152.0" text="x4" />
+            <TableColumn fx:id="type1" prefWidth="155.0" text="x5" />
+         </columns>
+      </TableView>
    </children>
 </AnchorPane>
