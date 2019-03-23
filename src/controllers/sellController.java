@@ -73,20 +73,23 @@ public class sellController implements Initializable {
     private ToggleGroup paymode = new ToggleGroup();
     private LocalDate today = LocalDate.now();
     private int chequefield;
-
+    private boolean isEdit=false;
     public sellController() throws SQLException {
     }
 
-    public void getSelected(MouseEvent mouseEvent) {
-    }
+//    public void getSelected(MouseEvent mouseEvent) {
+//    }
 
     public void setInvoice(String id) {
         this.currID = id;
         System.out.println(currID + "on Edit Mode");
     }
 
-    public void setUpdate(boolean b) {
-        if(b){isEdit();}
+    public void setUpdate(boolean b) throws SQLException {
+        this.isEdit =b;
+        if(b){
+            isEdit();
+        }
     }
 
 
@@ -170,7 +173,21 @@ public class sellController implements Initializable {
         }
     }
 
-    public void addItem(MouseEvent mouseEvent) throws SQLException {
+    public void addItem(MouseEvent mouseEvent) throws SQLException, IOException, ParseException {
+        if (isEdit){
+//            this.editRecord(mouseEvent);
+            itemcalculated currentSelected = itemTable.getSelectionModel().getSelectedItem();
+            double sellUpdate=Double.parseDouble(this.itemSellPrice.getText());
+            int sellQuantity = Integer.parseInt(this.itemquantity.getText());
+            InvoiceItem updateitem = new InvoiceItem(currentSelected.getItemNo(),currID,currentSelected.getBuyPrice(),sellUpdate,sellQuantity);
+            updateitem.update();
+            getTotal();
+            calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(currID));
+            itemTable.setItems(calculatedItems);
+
+
+        }
+        else{
         calculatedItems.removeAll(calculatedItems);
         String itemNo = itemId.getText();
         String invoiceId = this.currinvoice.getText();
@@ -188,7 +205,7 @@ public class sellController implements Initializable {
         clearinput();
         this.add.setDisable(true);
         Invoice.addAmount(invoiceId,sellPrice*qty);
-        getTotal();
+        getTotal();}
 
 
 
@@ -311,17 +328,42 @@ public class sellController implements Initializable {
 
 //Edit methods here
 
-    public void isEdit(){
-        System.out.println(this.currID);
+    public void isEdit() throws SQLException{
+//        System.out.println(this.currID);
         this.currinvoice.setText(this.currID);
         this.itempane.setDisable(false);
         this.add.setText("Update");
         this.addinvoice.setText("Update");
-
+        calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(currID));
+//        itemTable.setItems(calculatedItems);
         itemTable.setItems(calculatedItems);
+        getTotal();
     }
 
 
-}
 
+    public void editRecord(MouseEvent mouseEvent) throws SQLException, IOException{
+            itemcalculated currentSelected = itemTable.getSelectionModel().getSelectedItem();
+            double sellUpdate=Double.parseDouble(this.itemSellPrice.getText());
+            int sellQuantity = Integer.parseInt(this.itemquantity.getText());
+            InvoiceItem updateitem = new InvoiceItem(currentSelected.getItemNo(),currID,currentSelected.getBuyPrice(),sellUpdate,sellQuantity);
+            updateitem.update();
+    }
+
+    public void getSelected(MouseEvent mouseEvent) throws SQLException, ParseException, IOException {
+        if(itemTable.getSelectionModel().getSelectedItem()==null){
+            System.out.println("None Selected");
+        }
+        else {
+            itemcalculated currentSelected = itemTable.getSelectionModel().getSelectedItem();
+            System.out.println("Editing" + currentSelected.getName());
+            this.itemId.setText(currentSelected.getItemNo());
+            this.itemquantity.setText(Integer.toString(currentSelected.getQuantity()));
+            this.itemSellPrice.setText(Double.toString(currentSelected.getSellPrice()));
+
+
+        }
+    }
+
+}
 

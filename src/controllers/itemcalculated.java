@@ -1,5 +1,6 @@
 package controllers;
 
+import models.InvoiceItem;
 import models.t_invoiceItem;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -44,6 +45,12 @@ public class itemcalculated {
     public double getSellPrice() {
         return sellPrice;
     }
+
+    public double getBuyPrice() {
+        return sellPrice-(itemProfit/quantity) ;
+    }
+
+
 
 
     public static ArrayList<itemcalculated> getItems(String id) throws SQLException {
