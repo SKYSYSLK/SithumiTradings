@@ -87,7 +87,7 @@ public class mainMenu {
 
     public void openSell(MouseEvent mouseEvent) throws IOException {
         Stage thiswind = (Stage) reports.getScene().getWindow();
-        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/daily.fxml"));
+        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/sellInvoice.fxml"));
         Parent root = (Parent) itemsView.load();
         thiswind.setTitle("Manage Daily Business");
         thiswind.setScene(new Scene(root));

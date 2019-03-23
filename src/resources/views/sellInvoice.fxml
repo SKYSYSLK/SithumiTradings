@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1355.0" styleClass="body" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SellInvoiceController">
+
+
+    <children>
+        <Pane layoutX="26.0" layoutY="154.0" prefHeight="438.0" prefWidth="764.0" styleClass="formbody" stylesheets="@../styles/main.css" />
+
+        <!--Invoice Table-->
+        <TableView fx:id="invoiceTable" layoutX="43.0" layoutY="171.0"
+                   onMouseClicked="#getSelected"
+                   prefHeight="403.0" prefWidth="729.0">
+            <columns>
+                <TableColumn fx:id="invoice_id" prefWidth="94.00001525878906" text="ID" />
+                <TableColumn fx:id="shopName" prefWidth="177.0" text="Shop Name" />
+                <TableColumn fx:id="amount" prefWidth="136.0" text="Amount" />
+                <TableColumn fx:id="dateIssue" prefWidth="117.0" text="Date Issue" />
+                <TableColumn fx:id="checkNo" prefWidth="202.0" text="Cheque Number" />
+            </columns>
+        </TableView>
+
+        <!--Back Button-->
+        <JFXButton fx:id="back" layoutX="43.0" layoutY="612.0" onMouseClicked="#backMenu" prefHeight="56.0" prefWidth="148.0" styleClass="button1" stylesheets="@../styles/main.css" text="Back">
+            <graphic>
+                <ImageView fitHeight="37.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../icons/left-arrow.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <font>
+                <Font size="27.0" />
+            </font>
+        </JFXButton>
+
+        <!--Action Buttons-->
+        <JFXButton layoutX="1179.0" layoutY="212.0" onMouseClicked="#addNew" prefHeight="57.0" prefWidth="138.0" styleClass="button2" stylesheets="@../styles/main.css" text="ADD NEW" />
+        <JFXButton layoutX="1179.0" layoutY="365.0" onMouseClicked="#delete" prefHeight="57.0" prefWidth="138.0" styleClass="buttondelete" stylesheets="@../styles/main.css" text="DELETE" />
+        <JFXButton layoutX="1179.0" layoutY="288.0" onMouseClicked="#editRecord" prefHeight="57.0" prefWidth="138.0" styleClass="buttonEdit" stylesheets="@../styles/main.css" style="-fx-background-color: #42b6f4;" text="EDIT" />
+
+        <!--Header-->
+        <Pane layoutX="-11.0" layoutY="-1.0" prefHeight="127.0" prefWidth="1370.0" styleClass="header" stylesheets="@../styles/main.css">
+            <children>
+                <Text fontSmoothingType="LCD" layoutX="407.0" layoutY="40.0" lineSpacing="5.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SITHUMI TRADINGS" x="50.0" y="50.0">
+                    <fill>
+                        <LinearGradient cycleMethod="REFLECT" endX="1.0" endY="0.319047619047619" startX="1.0" startY="1.0">
+                            <stops>
+                                <Stop color="WHITE" />
+                                <Stop color="WHITE" offset="1.0" />
+                            </stops>
+                        </LinearGradient>
+                    </fill>
+                    <font>
+                        <Font name="Arial Narrow Bold" size="64.0" />
+                    </font>
+                </Text>
+            </children>
+        </Pane>
+    </children>
+
+</AnchorPane>
