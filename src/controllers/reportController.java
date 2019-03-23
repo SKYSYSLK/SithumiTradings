@@ -13,8 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import models.Report;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
+//import org.apache.pdfbox.pdmodel.PDDocument;
+//import org.apache.pdfbox.pdmodel.PDPage;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,15 +56,15 @@ public class reportController implements Initializable {
         fileChooser.setTitle("Save Report");
         File file = fileChooser.showSaveDialog(thisWindow);
         if( file != null) {
-            try {
-                PDDocument testDoc = new PDDocument();
-                PDPage blankPage = new PDPage();
-                testDoc.addPage(blankPage);
-                testDoc.save(file);
-                testDoc.close();
-            } catch (IOException ex) {
-                System.out.println(ex.getMessage());
-            }
+//            try {
+//                PDDocument testDoc = new PDDocument();
+//                PDPage blankPage = new PDPage();
+//                testDoc.addPage(blankPage);
+//                testDoc.save(file);
+//                testDoc.close();
+//            } catch (IOException ex) {
+//                System.out.println(ex.getMessage());
+//            }
         }
     }
 }
