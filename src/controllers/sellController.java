@@ -177,14 +177,20 @@ public class sellController implements Initializable {
         if (isEdit){
 //            this.editRecord(mouseEvent);
             itemcalculated currentSelected = itemTable.getSelectionModel().getSelectedItem();
+            int prevAmount = currentSelected.getQuantity();
             double sellUpdate=Double.parseDouble(this.itemSellPrice.getText());
             int sellQuantity = Integer.parseInt(this.itemquantity.getText());
+
+            changeStock(currentSelected.getItemNo(),prevAmount-sellQuantity);
+
             InvoiceItem updateitem = new InvoiceItem(currentSelected.getItemNo(),currID,currentSelected.getBuyPrice(),sellUpdate,sellQuantity);
             updateitem.update();
 
             calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(currID));
             itemTable.setItems(calculatedItems);
             getTotal();
+
+
 
 
         }
@@ -197,6 +203,8 @@ public class sellController implements Initializable {
         int qty = Integer.parseInt(itemquantity.getText());
         double sellPrice = Double.parseDouble(itemSellPrice.getText());
         double buyPrice = this.getBuy();
+
+        changeStock(itemNo,-qty);
 
         System.out.println(invoiceId);
         InvoiceItem newItem = new InvoiceItem(itemNo, invoiceId, buyPrice, sellPrice, qty);
@@ -289,6 +297,9 @@ public class sellController implements Initializable {
                 Invoice newInvoice = new Invoice(invoiceId, shopId, date, Total, cheque, type);
                 newInvoice.update();
                 backMenu(mouseEvent);
+                calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(currID));
+                itemTable.setItems(calculatedItems);
+                getTotal();
 
 
         }
@@ -356,8 +367,11 @@ public class sellController implements Initializable {
     }
 
 
-    private void reduceStock(){
-
+    private void changeStock(String id,int amount) throws SQLException{
+        int currStock = Item.getItem(id).getQuantity();
+        System.out.println("Changing Stocks by"+amount);
+        Item currItem = new Item(id,"dummy",currStock,0,0);
+        currItem.addAmount(amount);
     }
 
 //Edit methods here
