@@ -9,28 +9,30 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1355.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.chequesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1355.0" styleClass="body" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.chequesController">
    <children>
-      <Text layoutX="421.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SITHUMI TRADINGS" x="50.0" y="50.0" AnchorPane.bottomAnchor="586.0" AnchorPane.leftAnchor="471.0" AnchorPane.rightAnchor="470.4501953125" AnchorPane.topAnchor="23.0">
-         <font>
-            <Font name="Agency FB Bold" size="65.0" />
-         </font>
-      </Text>
-      <TableView fx:id="chequesTable" layoutX="43.0" layoutY="143.0" onMouseClicked="#fetchData" prefHeight="341.0" prefWidth="675.0">
-         <columns>
-            <TableColumn fx:id="cId" prefWidth="115.00003051757812" text="ID" />
-            <TableColumn fx:id="cAmount" prefWidth="76.0" text="Amount" />
-            <TableColumn fx:id="cBank" prefWidth="89.0" text="Bank" />
-            <TableColumn fx:id="cBranch" prefWidth="91.0" text="Branch" />
-            <TableColumn fx:id="cIssueDate" prefWidth="96.0" text="Issue Date" />
-            <TableColumn fx:id="cExpireDate" prefWidth="113.0" text="Expire Date" />
-            <TableColumn fx:id="cType" prefWidth="92.0" text="Type" />
-         </columns>
-      </TableView>
-      <JFXButton fx:id="back" layoutX="43.0" layoutY="74.0" onMouseClicked="#backMenu" prefHeight="56.0" prefWidth="148.0" style="-fx-background-color: #edb290;" text="Back">
+      <Pane layoutX="27.0" layoutY="157.0" prefHeight="435.0" prefWidth="749.0" styleClass="formbody" stylesheets="@../styles/main.css">
+         <children>
+            <TableView fx:id="chequesTable" layoutX="14.0" layoutY="19.0" onMouseClicked="#fetchData" prefHeight="399.0" prefWidth="719.0">
+               <columns>
+                  <TableColumn fx:id="cId" prefWidth="115.00003051757812" text="ID" />
+                  <TableColumn fx:id="cAmount" prefWidth="76.0" text="Amount" />
+                  <TableColumn fx:id="cBank" prefWidth="89.0" text="Bank" />
+                  <TableColumn fx:id="cBranch" prefWidth="91.0" text="Branch" />
+                  <TableColumn fx:id="cIssueDate" prefWidth="96.0" text="Issue Date" />
+                  <TableColumn fx:id="cExpireDate" prefWidth="113.0" text="Expire Date" />
+                  <TableColumn fx:id="cType" prefWidth="92.0" text="Type" />
+               </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <JFXButton fx:id="back" layoutX="25.0" layoutY="615.0" onMouseClicked="#backMenu" prefHeight="56.0" prefWidth="148.0" styleClass="button1" text="Back">
          <graphic>
              <ImageView fitHeight="37.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                  <Image url="@../icons/left-arrow.png" />
@@ -40,49 +42,66 @@
             <Font size="27.0" />
          </font>
       </JFXButton>
-      <AnchorPane layoutX="804.0" layoutY="148.0" prefHeight="280.0" prefWidth="505.0" style="-fx-background-color: #9bedf2; -fx-background-radius: 20;">
+      <AnchorPane layoutX="991.0" layoutY="157.0" prefHeight="519.0" prefWidth="347.0" styleClass="formbody">
          <children>
-            <JFXButton fx:id="add" layoutX="377.0" layoutY="235.0" onMouseClicked="#updateItem" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #2bf246;" text="Update" />
-            <JFXTextField fx:id="cheque_id" layoutX="26.0" layoutY="31.0" prefHeight="25.0" prefWidth="177.0" promptText="Cheque Number" />
-            <JFXTextField fx:id="amount1" layoutX="26.0" layoutY="191.0" prefHeight="25.0" prefWidth="177.0" promptText="amount" />
-            <JFXDatePicker fx:id="issued_date" layoutX="26.0" layoutY="129.0" prefHeight="28.0" prefWidth="171.0" promptText="Issue Date" />
-            <JFXDatePicker fx:id="expire_date" layoutX="235.0" layoutY="129.0" prefHeight="28.0" prefWidth="171.0" promptText="Expire Date" />
-            <JFXTextField fx:id="bank_name" layoutX="26.0" layoutY="83.0" prefHeight="25.0" prefWidth="177.0" promptText="Bank Name" />
-            <JFXTextField fx:id="branch_name" layoutX="232.0" layoutY="83.0" prefHeight="25.0" prefWidth="177.0" promptText="Branch Name" />
-            <JFXComboBox fx:id="type" layoutX="232.0" layoutY="190.0" prefHeight="25.0" prefWidth="171.0" promptText="Type" />
+            <JFXButton fx:id="add" layoutX="183.0" layoutY="457.0" onMouseClicked="#updateItem" prefHeight="37.0" prefWidth="116.0" styleClass="button2" text="Update" />
+            <JFXTextField fx:id="cheque_id" layoutX="49.0" layoutY="32.0" prefHeight="25.0" prefWidth="249.0" promptText="Cheque Number" />
+            <JFXTextField fx:id="amount1" layoutX="49.0" layoutY="271.0" prefHeight="25.0" prefWidth="249.0" promptText="amount" />
+            <JFXDatePicker fx:id="issued_date" layoutX="49.0" layoutY="328.0" prefHeight="28.0" prefWidth="249.0" promptText="Issue Date" />
+            <JFXDatePicker fx:id="expire_date" layoutX="50.0" layoutY="382.0" prefHeight="28.0" prefWidth="249.0" promptText="Expire Date" />
+            <JFXTextField fx:id="bank_name" layoutX="49.0" layoutY="84.0" prefHeight="25.0" prefWidth="249.0" promptText="Bank Name" />
+            <JFXTextField fx:id="branch_name" layoutX="50.0" layoutY="146.0" prefHeight="25.0" prefWidth="249.0" promptText="Branch Name" />
+            <JFXComboBox fx:id="type" layoutX="50.0" layoutY="209.0" prefHeight="25.0" prefWidth="249.0" promptText="Type" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="100.0" layoutY="525.0" prefHeight="103.0" prefWidth="221.0" style="-fx-background-color: #69ef6d; -fx-background-radius: 50;">
+      <AnchorPane layoutX="282.0" layoutY="618.0" prefHeight="57.0" prefWidth="221.0" styleClass="borders">
          <children>
-            <Text layoutX="82.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Issued">
+            <Text layoutX="14.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Issued : ">
                <font>
                   <Font size="20.0" />
                </font>
             </Text>
-            <Text fx:id="issuedBill" fill="#1e1dcf" layoutX="70.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="16500.00">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="438.0" layoutY="525.0" prefHeight="103.0" prefWidth="221.0" style="-fx-background-color: #69ef6d; -fx-background-radius: 50;">
-         <children>
-            <Text layoutX="93.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Due">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
-            <Text fx:id="dueBill" fill="#1e1dcf" layoutX="70.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="16500.00">
+            <Text fx:id="issuedBill" fill="#a80000" layoutX="84.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="16500.00">
                <font>
                   <Font size="20.0" />
                </font>
             </Text>
          </children>
       </AnchorPane>
-      <JFXButton layoutX="817.0" layoutY="484.0" onMouseClicked="#addNewCheque" prefHeight="80.0" prefWidth="177.0" text="Add New Cheque" />
-      <JFXButton layoutX="1086.0" layoutY="484.0" onMouseClicked="#showDueCheques" prefHeight="80.0" prefWidth="177.0" text="Show Due Cheques" />
-      <JFXButton layoutX="825.0" layoutY="577.0" onMouseClicked="#showIssuedCheques" prefHeight="80.0" prefWidth="177.0" text="Show Issued Cheques" />
-      <JFXButton layoutX="1086.0" layoutY="577.0" onMouseClicked="#showSettledCheques" prefHeight="80.0" prefWidth="177.0" text="Show Settled Cheques" />
+      <AnchorPane layoutX="554.0" layoutY="619.0" prefHeight="57.0" prefWidth="221.0" styleClass="borders">
+         <children>
+            <Text layoutX="12.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Due : ">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <Text fx:id="dueBill" fill="#a80000" layoutX="68.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="16500.00">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <JFXButton layoutX="793.0" layoutY="293.0" onMouseClicked="#addNewCheque" prefHeight="37.0" prefWidth="177.0" styleClass="button3" text="Add New Cheque" />
+      <JFXButton layoutX="793.0" layoutY="340.0" onMouseClicked="#showDueCheques" prefHeight="37.0" prefWidth="177.0" styleClass="button3" text="Show Due Cheques" />
+      <JFXButton layoutX="793.0" layoutY="386.0" onMouseClicked="#showIssuedCheques" prefHeight="28.0" prefWidth="177.0" styleClass="button3" text="Show Issued Cheques" />
+      <JFXButton layoutX="793.0" layoutY="433.0" onMouseClicked="#showSettledCheques" prefHeight="25.0" prefWidth="177.0" styleClass="button3" text="Show Settled Cheques" />
+      <Pane layoutX="-2.0" layoutY="-1.0" prefHeight="127.0" prefWidth="1380.0" styleClass="header" stylesheets="@../styles/main.css">
+         <children>
+            <Text fontSmoothingType="LCD" layoutX="407.0" layoutY="40.0" lineSpacing="5.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SITHUMI TRADINGS" x="50.0" y="50.0">
+               <font>
+                  <Font name="Arial Narrow Bold" size="64.0" />
+               </font>
+               <fill>
+                  <LinearGradient cycleMethod="REFLECT" endX="1.0" endY="0.319047619047619" startX="1.0" startY="1.0">
+                     <stops>
+                        <Stop color="WHITE" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Text>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
