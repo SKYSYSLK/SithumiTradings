@@ -99,7 +99,7 @@ public class buyController implements Initializable {
     }
 
     private void fillChequeCombo() throws SQLException {
-        ArrayList<Cheque> allCheques = Cheque.getAll();
+        ArrayList<Cheque> allCheques = Cheque.getAll(2);
         for(Cheque cheque:allCheques){
             cheque_no.getItems().add(cheque.getId());
         }
@@ -113,7 +113,7 @@ public class buyController implements Initializable {
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
         Stage thisWindow = (Stage)invoiceItemTable.getScene().getWindow();
-        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("../resources/views/buyInvoice.fxml"));
+        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("/resources/views/buyInvoice.fxml"));
         Parent root = backLoader.load();
         thisWindow.setTitle("Invoices");
         thisWindow.setScene(new Scene(root));
@@ -128,7 +128,7 @@ public class buyController implements Initializable {
     }
 
     public void addChequeDialog(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/addCheque.fxml"));
+        FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/addCheque.fxml"));
         Stage model = new Stage();
         Parent root = load.load();
         model.setTitle("Add New Cheque");
@@ -160,7 +160,22 @@ public class buyController implements Initializable {
         currentInvoice = currentInv;
         hideAllErrors();
         addInvoice.setDisable(true);
-        // Success Message Box shows here
+        setDisabled();
+    }
+
+    private void setDisabled() {
+        invoice_id.setDisable(true);
+        cheque_no.setDisable(true);
+        shop_id.setDisable(true);
+        date_issue.setDisable(true);
+    }
+
+    private void clearInputs() {
+        itemId.clear();
+        itemName.clear();
+        itemQuantity.clear();
+        itemSellPrice.clear();
+        itemBuyPrice.clear();
     }
 
     public void hideError(KeyEvent keyEvent) {
@@ -199,6 +214,7 @@ public class buyController implements Initializable {
         enteredItem.update();
 
         hideAllErrors();
+        clearInputs();
     }
 
     public void fetchData(MouseEvent inputMethodEvent) throws SQLException {

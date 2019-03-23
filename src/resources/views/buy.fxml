@@ -47,7 +47,6 @@
             <JFXComboBox fx:id="cheque_no" editable="true" layoutX="31.0" layoutY="80.0" prefHeight="25.0" prefWidth="347.0" promptText="Select the Cheque Number" />
             <JFXButton fx:id="addCheque" layoutX="426.0" layoutY="78.0" onMouseClicked="#addChequeDialog" prefHeight="37.0" prefWidth="111.0" styleClass="button3" stylesheets="@../styles/main.css" text="Add Cheque" />
             <JFXComboBox fx:id="shop_id" editable="true" layoutX="31.0" layoutY="136.0" prefHeight="25.0" prefWidth="346.0" promptText="Select the Shop" />
-            <JFXButton fx:id="addShop" layoutX="426.0" layoutY="135.0" onMouseClicked="#addShopWindow" prefHeight="37.0" prefWidth="111.0" styleClass="button3" text="Add Shop" />
             <JFXDatePicker fx:id="date_issue" layoutX="31.0" layoutY="188.0" prefHeight="25.0" prefWidth="351.0" promptText="Date Issue" />
             <Text fx:id="error1" fill="#dd1111" layoutX="31.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Please Fill the Required Fields" visible="false">
                <font>
@@ -69,12 +68,12 @@
             <JFXTextField fx:id="itemQuantity" layoutX="32.0" layoutY="110.0" prefHeight="32.0" prefWidth="184.0" promptText="Quantity" />
             <JFXTextField fx:id="itemBuyPrice" layoutX="31.0" layoutY="191.0" prefHeight="32.0" prefWidth="184.0" promptText="Buy Price" />
             <JFXTextField fx:id="itemSellPrice" layoutX="294.0" layoutY="112.0" prefHeight="32.0" prefWidth="210.0" promptText="Sell Price" />
-            <Text fx:id="error2" fill="#dd1111" layoutX="31.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Please Fill the Invoice Details" visible="false">
+            <Text fx:id="error2" fill="#dd1111" layoutX="28.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Please Fill the Invoice Details" visible="false">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Text>
-            <Text fx:id="error3" fill="#dd1111" layoutX="31.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Please Enter a Valied ItemID" visible="false">
+            <Text fx:id="error3" fill="#dd1111" layoutX="30.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* Please Enter a Valied ItemID" visible="false">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>

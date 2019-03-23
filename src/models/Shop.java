@@ -1,9 +1,8 @@
 package models;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import jdk.nashorn.internal.ir.Expression;
+
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Shop {
@@ -17,6 +16,14 @@ public class Shop {
         this.name = name;
         this.contact = contact;
         this.address = address;
+    }
+
+    public Shop(int type, String name, String contact, String address) {
+        this.type = type;
+        this.name = name;
+        this.contact = contact;
+        this.address = address;
+        this.con = con;
     }
 
     public int getId() {
@@ -60,45 +67,76 @@ public class Shop {
     }
 
     public void save() throws SQLException {
-        String query = "INSERT INTO shops( name, contact, address, type ) VALUES (?,?,?,?)";
+        String query = "INSERT INTO shops(id, name, contact, address, type ) VALUES (?,?,?,?,?)";
         PreparedStatement insq = con.prepareStatement(query);
-        insq.setString(1,name);
-        insq.setString(2,contact);
-        insq.setString(3,address);
-        insq.setInt(4,type);
+        insq.setInt(1,this.id);
+        insq.setString(2,this.name);
+        insq.setString(3,this.contact);
+        insq.setString(4,this.address);
+        insq.setInt(5,this.type);
+
+        insq.execute();
+        con.close();
+    }
+    public void delete() throws SQLException {
+        String query = "DELETE FROM shops WHERE id=?";
+        PreparedStatement insq = con.prepareStatement(query);
+        insq.setInt(1,this.id);
         insq.execute();
         con.close();
     }
 
+//    public static ArrayList<Shop> getAll() throws SQLException {
+//        Connection con = connection.getConnection();
+//        ArrayList<Shop> allRec = new ArrayList<>();
+//        String query = "SELECT * FROM shops";
+//        PreparedStatement selectq = con.prepareStatement(query);
+//        ResultSet result = selectq.executeQuery();
+//        while (result.next()){
+//            int id = result.getInt("id");
+//            String name = result.getString(".");
+//            String contact = result.getString("contact");
+//            String address = result.getString("address");
+//            int type = result.getInt("type");
+//            allRec.add(new Shop(id,type,name,contact,address));
+//        }
+//        con.close();
+//        return allRec;
+//    }
+
     public static ArrayList<Shop> getAll() throws SQLException {
+        ArrayList<Shop> shops = new ArrayList<>();
         Connection con = connection.getConnection();
-        ArrayList<Shop> allRec = new ArrayList<>();
-        String query = "SELECT * FROM shops";
-        PreparedStatement selectq = con.prepareStatement(query);
-        ResultSet result = selectq.executeQuery();
+        String selectQuery = "SELECT * FROM shops";
+        Statement select = con.createStatement();
+        ResultSet result = select.executeQuery(selectQuery);
         while (result.next()){
-            int id = result.getInt("id");
-            String name = result.getString("name");
-            String contact = result.getString("contact");
-            String address = result.getString("address");
-            int type = result.getInt("type");
-            allRec.add(new Shop(id,type,name,contact,address));
+            shops.add(new Shop(
+                    result.getInt("id"),
+                    result.getInt("type"),
+                    result.getString("name"),
+                    result.getString("contact"),
+                    result.getString("address")
+            ));
         }
         con.close();
-        return allRec;
+        return shops;
     }
 
+
     public void update() throws SQLException {
-        String upQuery = "UPDATE shops SET name=?,contact=?,address=?,type=? WHERE id=?";
+        String upQuery = "UPDATE shops SET id=?,name=?,contact=?,address=?,type=? WHERE id=?";
         PreparedStatement upq = con.prepareStatement(upQuery);
-        upq.setInt(5,this.id);
-        upq.setString(1,this.name);
-        upq.setString(2,this.getContact());
-        upq.setString(3,this.getAddress());
-        upq.setInt(4,this.getType());
+        upq.setInt(1,this.id);
+        upq.setString(2,this.name);
+        upq.setString(3,this.contact);
+        upq.setString(4,this.address);
+        upq.setInt(5,this.type);
+        upq.setInt(6,this.id);
         upq.execute();
         con.close();
     }
+
 
     public static String getShopName(int id) throws SQLException {
         Connection con = connection.getConnection();
@@ -106,9 +144,17 @@ public class Shop {
         PreparedStatement selectq = con.prepareStatement(quey);
         selectq.setInt(1,id);
         ResultSet resultSet = selectq.executeQuery();
-        String name = resultSet.getString("name");
-        con.close();
-        return name;
+        try {
+            String name = resultSet.getString("name");
+            con.close();
+            return name;
+        }
+        catch(Exception e){
+            String name="ERR: Shop Name not found!";
+            con.close();
+            return name;
+        }
+
     }
 
     public static int getShopId(String name) throws SQLException {

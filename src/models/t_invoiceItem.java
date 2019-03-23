@@ -89,6 +89,7 @@ public class t_invoiceItem {
             String itemName = Objects.requireNonNull(Item.getItem(item_id)).getName();
             allRec.add(new t_invoiceItem(item_id,invoice_id,itemName,quantity, sellPrice, buyPrice));
         }
+//        System.out.println(allRec);
         return allRec;
     }
 

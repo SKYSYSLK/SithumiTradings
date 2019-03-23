@@ -38,6 +38,7 @@ public class itemController implements Initializable {
     public JFXTextField u_buyPrice;
     public JFXTextField u_sellPrice;
     public JFXButton update;
+    public JFXButton delete;
     public JFXTextField a_itemId;
     public JFXTextField a_name;
     public JFXTextField a_quantity;
@@ -58,6 +59,7 @@ public class itemController implements Initializable {
         buyPrice.setCellValueFactory(new PropertyValueFactory<>("buyPrice"));
         sellPrice.setCellValueFactory(new PropertyValueFactory<>("sellPrice"));
         itemTable.setItems(itemData);
+
     }
     private ObservableList<Item> itemData = FXCollections.observableArrayList(
             Item.getAll()
@@ -65,33 +67,55 @@ public class itemController implements Initializable {
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
         Stage thisWindow = (Stage)itemTable.getScene().getWindow();
-        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("../resources/views/mainMenu.fxml"));
+        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("/resources/views/mainMenu.fxml"));
         Parent root = backLoader.load();
         thisWindow.setTitle("Main Menu");
         thisWindow.setScene(new Scene(root));
     }
 
     public void updateItem(MouseEvent mouseEvent) throws IOException, SQLException {
-        String itemId = u_itemId.getText();
-        String itemName = u_name.getText();
-        if(itemId.equals("")||itemName.equals("")||u_quantity.getText().equals("")||u_buyPrice.getText().equals("")||u_sellPrice.getText().equals("")) {
+        String itemId = a_itemId.getText();
+        String itemName = a_name.getText();
+        if(itemId.equals("")||itemName.equals("")||a_quantity.getText().equals("")||a_buyPrice.getText().equals("")||a_sellPrice.getText().equals("")) {
             warning.incomplete();
             return;
         }
-        int quantity = Integer.parseInt(u_quantity.getText());
-        float buyPrice = Float.parseFloat(u_buyPrice.getText());
-        float sellPrice = Float.parseFloat(u_sellPrice.getText());
+        int quantity = Integer.parseInt(a_quantity.getText());
+        float buyPrice = Float.parseFloat(a_buyPrice.getText());
+        float sellPrice = Float.parseFloat(a_sellPrice.getText());
 
         Item newItem = new Item(itemId,itemName,quantity,buyPrice,sellPrice);
         newItem.update();
 
         //Refresh Table
         Stage thiswind = (Stage) itemTable.getScene().getWindow();
-        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("../resources/views/items.fxml"));
+        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("/resources/views/items.fxml"));
         Parent root = (Parent) itemsView.load();
         thiswind.setTitle("Manage Items in your stock");
         thiswind.setScene(new Scene(root));
         thiswind.show();
+        warning.updateSuccess();
+    }
+
+    public void deleteItem(MouseEvent mouseEvent) throws IOException, SQLException {
+        String itemId = a_itemId.getText();
+
+        if(itemId.equals("")) {
+            warning.notSelected();
+            return;
+        }
+
+        Item newItem = new Item(itemId,"",1,1,1);
+        newItem.deleteItemDB();
+
+        //Refresh Table
+        Stage thiswind = (Stage) itemTable.getScene().getWindow();
+        FXMLLoader itemsView = new FXMLLoader(getClass().getResource("/resources/views/items.fxml"));
+        Parent root = (Parent) itemsView.load();
+        thiswind.setTitle("Manage Items in your stock");
+        thiswind.setScene(new Scene(root));
+        thiswind.show();
+        warning.deleteSuccess();
     }
 
     public void addItem(MouseEvent mouseEvent) throws SQLException, IOException {
@@ -115,6 +139,7 @@ public class itemController implements Initializable {
         a_quantity.clear();
         a_sellPrice.clear();
         a_buyPrice.clear();
+        warning.saveSuccess();
     }
 
     public void getSelected(MouseEvent mouseEvent) {
@@ -125,11 +150,11 @@ public class itemController implements Initializable {
     private void onEdit(){
         if(itemTable.getSelectionModel().getSelectedItem()!=null){
             Item current = itemTable.getSelectionModel().getSelectedItem();
-            u_itemId.setText(current.getId());
-            u_name.setText(current.getName());
-            u_quantity.setText(Integer.toString(current.getQuantity()));
-            u_buyPrice.setText(Float.toString(current.getBuyPrice()));
-            u_sellPrice.setText(Float.toString(current.getSellPrice()));
+            a_itemId.setText(current.getId());
+            a_name.setText(current.getName());
+            a_quantity.setText(Integer.toString(current.getQuantity()));
+            a_buyPrice.setText(Float.toString(current.getBuyPrice()));
+            a_sellPrice.setText(Float.toString(current.getSellPrice()));
         }
     }
 }

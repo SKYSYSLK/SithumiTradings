@@ -15,14 +15,19 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Item;
 import models.t_invoice;
+import models.Invoice;
+import models.t_invoiceItem;
+
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Array;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class buyInvoiceController implements Initializable {
+public class SellInvoiceController implements Initializable {
 
     public TableColumn<Item, String> invoice_id;
     public TableColumn<Item, String> shopName;
@@ -33,7 +38,7 @@ public class buyInvoiceController implements Initializable {
     public TableView<t_invoice> invoiceTable;
 //    private static TableView<Item> itemTable1;
 
-    public buyInvoiceController() throws SQLException {
+    public SellInvoiceController() throws SQLException {
     }
 
     public void getSelected(MouseEvent mouseEvent) {
@@ -48,11 +53,10 @@ public class buyInvoiceController implements Initializable {
         checkNo.setCellValueFactory(new PropertyValueFactory<>("cheque_number"));
         amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
 
-        invoiceTable.setItems(itemData);
-//        itemTable1 = invoiceTable;
-    }
+        invoiceTable.setItems(itemData);}
+
     private ObservableList<t_invoice> itemData = FXCollections.observableArrayList(
-            t_invoice.getAll(1)
+            t_invoice.getAll(2)
     );
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
@@ -64,7 +68,7 @@ public class buyInvoiceController implements Initializable {
     }
 
     public void addNew(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/Buy.fxml"));
+        FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/Sell.fxml"));
         Stage model = (Stage)back.getScene().getWindow();
         Parent root = load.load();
         model.setTitle("Add New Record");
@@ -89,12 +93,21 @@ public class buyInvoiceController implements Initializable {
             model.setScene(new Scene(root));
             model.show();
             return;
+        }else{
+            t_invoice currentSelected = invoiceTable.getSelectionModel().getSelectedItem();
+            System.out.println(currentSelected.getShopName());
+            FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/Sell.fxml"));
+            Stage model = (Stage)back.getScene().getWindow();
+            Parent root = load.load();
+            sellController controller = load.getController();
+            controller.setInvoice(currentSelected.getId());
+            controller.setUpdate(true);
+            model.setTitle("Update Record");
+            model.setScene(new Scene(root));
+            model.show();
         }
-        editBuyController editController = new editBuyController(this);
-        editController.showStage();
+
     }
 
-    public t_invoice getSelectedRow(){
-        return invoiceTable.getSelectionModel().getSelectedItem();
-    }
+
 }

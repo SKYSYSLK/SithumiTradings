@@ -1,6 +1,7 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,15 +35,11 @@ public class shopController implements Initializable {
     public TableColumn<Shop, String> name;
     public JFXTextField u_shopId;
     public JFXTextField u_name;
-    public JFXTextField u_type;
+    public JFXComboBox u_type;
     public JFXTextField u_contact;
     public JFXTextField u_address;
     public JFXButton update;
-    public JFXTextField a_shopId;
-    public JFXTextField a_name;
-    public JFXTextField a_type;
-    public JFXTextField a_contact;
-    public JFXTextField a_address;
+    public JFXButton deleteShop;
     public JFXButton add;
     public JFXButton back;
 
@@ -58,29 +55,35 @@ public class shopController implements Initializable {
         contact.setCellValueFactory(new PropertyValueFactory<>("contact"));
         address.setCellValueFactory(new PropertyValueFactory<>("address"));
         shopTable.setItems(shopData);
+        fillShopTypes();
     }
+
+    private void fillShopTypes() {
+        u_type.getItems().add("sell");
+        u_type.getItems().add("buy");
+    }
+
     private ObservableList<Shop> shopData = FXCollections.observableArrayList(
             Shop.getAll()
     );
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
         Stage thisWindow = (Stage) shopTable.getScene().getWindow();
-        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("../resources/views/mainMenu.fxml"));
+        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("/resources/views/mainMenu.fxml"));
         Parent root = backLoader.load();
         thisWindow.setTitle("Main Menu");
         thisWindow.setScene(new Scene(root));
     }
 
-    public void updateItem(MouseEvent mouseEvent) throws IOException, SQLException {
-//        String shopId = u_shopId.getText();
+    public void updateShop(MouseEvent mouseEvent) throws IOException, SQLException {
         String shopName = u_name.getText();
-        if(u_shopId.getText().equals("")||shopName.equals("")|| u_type.getText().equals("")|| u_contact.getText().equals("")|| u_address.getText().equals("")) {
+        if(u_shopId.getText().equals("")||shopName.equals("")|| u_type.getSelectionModel().getSelectedItem().toString().equals("")|| u_contact.getText().equals("")|| u_address.getText().equals("")) {
             warning.incomplete();
             return;
         }
 
         int shopId = Integer.parseInt(u_shopId.getText());
-        int type = Integer.parseInt(u_type.getText());
+        int type = getShopType(u_type.getSelectionModel().getSelectedItem().toString());
         String contact = u_contact.getText();
         String address = u_address.getText();
 
@@ -89,36 +92,79 @@ public class shopController implements Initializable {
 
         //Refresh Table
         Stage thiswind = (Stage) shopTable.getScene().getWindow();
-        FXMLLoader shopsView = new FXMLLoader(getClass().getResource("../resources/views/shops.fxml"));
+        FXMLLoader shopsView = new FXMLLoader(getClass().getResource("/resources/views/shops.fxml"));
         Parent root = (Parent) shopsView.load();
         thiswind.setTitle("Manage Shops related to your business");
         thiswind.setScene(new Scene(root));
         thiswind.show();
+        warning.updateSuccess();
+    }
+
+    public void deleteShop(MouseEvent mouseEvent) throws IOException, SQLException {
+        String shopName = u_name.getText();
+        if(u_shopId.getText().equals("")||shopName.equals("")|| u_type.getSelectionModel().getSelectedItem().toString().equals("")|| u_contact.getText().equals("")|| u_address.getText().equals("")) {
+            warning.notSelected();
+            return;
+        }
+
+        int shopId = Integer.parseInt(u_shopId.getText());
+        int type = getShopType(u_type.getSelectionModel().getSelectedItem().toString());
+        String contact = u_contact.getText();
+        String address = u_address.getText();
+
+        Shop newShop = new Shop(shopId,type,shopName,contact,address);
+        newShop.delete();
+
+        //Refresh Table
+        Stage thiswind = (Stage) shopTable.getScene().getWindow();
+        FXMLLoader shopsView = new FXMLLoader(getClass().getResource("/resources/views/shops.fxml"));
+        Parent root = (Parent) shopsView.load();
+        thiswind.setTitle("Manage Shops related to your business");
+        thiswind.setScene(new Scene(root));
+        thiswind.show();
+        warning.deleteSuccess();
+    }
+
+    private int getShopType(String selectedItem) {
+        if(selectedItem.equals("sell")){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+    private String getShopType(int selectedItem){
+        if(selectedItem==1){
+            return "sell";
+        }else {
+            return "buy";
+        }
     }
 
     public void addShop(MouseEvent mouseEvent) throws SQLException, IOException {
-//        String shopId = a_shopId.getText();
-        String shopName = a_name.getText();
-        if(a_shopId.getText().equals("")||shopName.equals("")|| a_type.getText().equals("")|| contact.getText().equals("")|| address.getText().equals("")) {
+
+        String shopName = u_name.getText();
+        if(shopName.equals("")|| u_type.getSelectionModel().getSelectedItem().toString().equals("")|| u_contact.getText().equals("")|| u_address.getText().equals("")) {
             warning.incomplete();
             return;
         }
 
-        int shopId = Integer.parseInt(a_shopId.getText());
-        int type = Integer.parseInt(a_type.getText());
-        String contact = a_contact.getText();
-        String address = a_address.getText();
+        int shopId = Integer.parseInt(u_shopId.getText());
+        int type = getShopType(u_type.getSelectionModel().getSelectedItem().toString());
+        String contact = u_contact.getText();
+        String address = u_address.getText();
 
         Shop newShop = new Shop(shopId,type,shopName,contact,address);
         newShop.save();
 
         //Refresh Table
         shopTable.getItems().add(newShop);
-        a_shopId.clear();
-        a_name.clear();
-        a_type.clear();
-        a_address.clear();
-        a_contact.clear();
+        u_shopId.clear();
+        u_name.clear();
+        u_type.getSelectionModel().clearSelection();
+        u_address.clear();
+        u_contact.clear();
+        warning.saveSuccess();
     }
 
     public void getSelected(MouseEvent mouseEvent) {
@@ -131,7 +177,7 @@ public class shopController implements Initializable {
             Shop current = shopTable.getSelectionModel().getSelectedItem();
             u_shopId.setText(Integer.toString(current.getId()));
             u_name.setText(current.getName());
-            u_type.setText(Integer.toString(current.getType()));
+            u_type.getSelectionModel().select(getShopType(current.getType()));
             u_contact.setText(current.getContact());
             u_address.setText(current.getAddress());
         }

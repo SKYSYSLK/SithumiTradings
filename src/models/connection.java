@@ -9,11 +9,12 @@ public class connection {
     {
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:src/resources/db/main.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:C:/db/main.db");
         }
         catch(SQLException e) {
             System.err.println(e.getMessage());
         }
         return connection;
+
     }
 }

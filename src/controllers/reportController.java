@@ -20,7 +20,6 @@ import models.Report;
 import models.Shop;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
@@ -66,8 +65,6 @@ public class reportController implements Initializable {
         cheque_id.setCellValueFactory(new PropertyValueFactory<>("cheque_id"));
         type.setCellValueFactory(new PropertyValueFactory<>("type"));
         shopReportTable.setItems(invoiceData);
-
-        System.out.println(reportController.selectedShopId + " " + invoiceData);
 
         shop_list.valueProperty().addListener((observable, oldValue, newValue) -> {
             try {

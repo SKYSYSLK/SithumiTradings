@@ -102,6 +102,15 @@ public class Item {
         upq.execute();
         con.close();
     }
+
+    public void deleteItemDB() throws SQLException {
+        String upQuery = "DELETE FROM items WHERE id=?";
+        PreparedStatement upq = con.prepareStatement(upQuery);
+        upq.setString(1,this.id);
+        upq.execute();
+        con.close();
+    }
+
     public static Item getItem(String itemId) throws SQLException {
         Connection con = connection.getConnection();
         String findQuery = "SELECT * FROM items WHERE id=?";
