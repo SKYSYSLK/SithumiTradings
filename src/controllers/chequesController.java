@@ -35,6 +35,7 @@ public class chequesController implements Initializable {
     public TableView<t_cheque> chequesTable;
     public JFXButton back;
     public JFXButton add;
+    public JFXButton deleteChequeBtn;
     public JFXTextField cheque_id;
     public JFXTextField amount1;
     public JFXDatePicker issued_date;
@@ -97,19 +98,53 @@ public class chequesController implements Initializable {
             t_cheque.getAll()
     );
 
-    public void updateItem(MouseEvent mouseEvent) throws SQLException {
-        String chequeNo = cheque_id.getText();
-        String bank = bank_name.getText();
-        String branch = branch_name.getText();
-        String issue = issued_date.getValue().toString();
-        String expire = expire_date.getValue().toString();
-        double amount = Double.parseDouble(amount1.getText());
-        String checkType = type.getSelectionModel().getSelectedItem().toString();
-        t_cheque currentCheque = new t_cheque(chequeNo,bank,branch,issue,expire,checkType,amount);
-        currentCheque.update();
-        chequesTable.getItems().remove(chequesTable.getSelectionModel().getSelectedItem());
-        chequesTable.getItems().add(currentCheque);
-        clearInputs();
+    public void updateItem(MouseEvent mouseEvent) throws SQLException, IOException {
+       try{
+           String chequeNo = cheque_id.getText();
+           String bank = bank_name.getText();
+           String branch = branch_name.getText();
+           String issue = issued_date.getValue().toString();
+           String expire = expire_date.getValue().toString();
+           double amount = Double.parseDouble(amount1.getText());
+           String checkType = type.getSelectionModel().getSelectedItem().toString();
+           t_cheque currentCheque = new t_cheque(chequeNo,bank,branch,issue,expire,checkType,amount);
+           currentCheque.update();
+           chequesTable.getItems().remove(chequesTable.getSelectionModel().getSelectedItem());
+           chequesTable.getItems().add(currentCheque);
+           clearInputs();
+
+           //Refresh Table
+           Stage thiswind = (Stage) chequesTable.getScene().getWindow();
+           FXMLLoader chequesView = new FXMLLoader(getClass().getResource("/resources/views/cheques.fxml"));
+           Parent root = (Parent) chequesView.load();
+           thiswind.setTitle("Manage Cheques");
+           thiswind.setScene(new Scene(root));
+           thiswind.show();
+       }catch(Exception e){
+           System.out.println(e);
+           warning.incomplete();
+       }
+    }
+
+    public void deleteCheques(MouseEvent mouseEvent) throws SQLException, IOException {
+        try{
+            String chequeNo = cheque_id.getText();
+            t_cheque currentCheque = new t_cheque(chequeNo,"","","","","",0);
+            currentCheque.delete();
+            chequesTable.getItems().remove(chequesTable.getSelectionModel().getSelectedItem());
+            clearInputs();
+
+            //Refresh Table
+            Stage thiswind = (Stage) chequesTable.getScene().getWindow();
+            FXMLLoader chequesView = new FXMLLoader(getClass().getResource("/resources/views/cheques.fxml"));
+            Parent root = (Parent) chequesView.load();
+            thiswind.setTitle("Manage Cheques");
+            thiswind.setScene(new Scene(root));
+            thiswind.show();
+        }catch(Exception e){
+            System.out.println(e);
+            warning.incomplete();
+        }
     }
 
     private void clearInputs() {

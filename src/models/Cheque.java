@@ -153,6 +153,15 @@ public class Cheque {
         con.close();
     }
 
+    public void delete() throws SQLException {
+        String query = "DELETE FROM cheques WHERE id=?" +
+                "WHERE id=?";
+        PreparedStatement upq = con.prepareStatement(query);
+        upq.setString(1,this.id);
+        upq.execute();
+        con.close();
+    }
+
     public static Cheque getCheque(String id) throws SQLException {
         Connection con = connection.getConnection();
         String query = "SELECT * FROM cheques WHERE id=?";

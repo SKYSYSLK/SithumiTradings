@@ -52,6 +52,7 @@
             <JFXTextField fx:id="bank_name" layoutX="49.0" layoutY="84.0" prefHeight="25.0" prefWidth="249.0" promptText="Bank Name" />
             <JFXTextField fx:id="branch_name" layoutX="50.0" layoutY="146.0" prefHeight="25.0" prefWidth="249.0" promptText="Branch Name" />
             <JFXComboBox fx:id="type" layoutX="50.0" layoutY="209.0" prefHeight="25.0" prefWidth="249.0" promptText="Type" />
+            <JFXButton fx:id="deleteChequeBtn" layoutX="49.0" layoutY="457.0" onMouseClicked="#deleteCheques" prefHeight="37.0" prefWidth="116.0" styleClass="buttondelete" text="Delete" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="282.0" layoutY="618.0" prefHeight="57.0" prefWidth="221.0" styleClass="borders">
