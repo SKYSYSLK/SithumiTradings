@@ -44,7 +44,7 @@
             <children>
                 <JFXDatePicker fx:id="date" layoutX="43.0" layoutY="29.0" onMouseEntered="#getToday" prefHeight="28.0" prefWidth="180.0" promptText="Date" />
                 <JFXTextField fx:id="currinvoice" layoutX="43.0" layoutY="70.0" prefHeight="25.0" prefWidth="180.0" promptText="Invoice ID" />
-                <JFXComboBox fx:id="shopid" layoutX="43.0" layoutY="113.0"  onAction="#fillShopCombo" prefHeight="26.0" prefWidth="180.0" promptText="Shop ID" />
+                <JFXComboBox fx:id="shopid" layoutX="43.0" layoutY="113.0" onMouseClicked="#fillShopCombo" onAction="#fillShopCombo" prefHeight="26.0" prefWidth="180.0" promptText="Shop ID" />
                 <!--<JFXTextField fx:id="shopid" layoutX="268.0" layoutY="77.0" prefHeight="25.0" prefWidth="180.0" promptText="Shop ID" />-->
                 <!--<JFXTextField fx:id="shopname" editable="false" layoutX="287.0" layoutY="112.0" onMouseClicked="#getName" prefHeight="25.0" prefWidth="180.0" promptText="Shop Name" />-->
                 <JFXRadioButton fx:id="cash" layoutX="289.0" layoutY="54.0" onMouseClicked="#paymode" selected="true" text="Cash" />
@@ -91,7 +91,7 @@
         </AnchorPane>
         <AnchorPane layoutX="438.0" layoutY="525.0" prefHeight="103.0" prefWidth="221.0" style="-fx-background-color: #69ef6d; -fx-background-radius: 50;">
             <children>
-                <Text layoutX="62.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Profit">
+                <Text fx:id="totalShow" layoutX="62.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Profit">
                     <font>
                         <Font size="20.0" />
                     </font>

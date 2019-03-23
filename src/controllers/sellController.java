@@ -21,12 +21,14 @@ import javafx.stage.Stage;
 import models.*;
 
 import java.io.IOException;
+import java.sql.Array;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ListIterator;
 import java.util.ResourceBundle;
 import controllers.itemcalculated;
 
@@ -45,7 +47,6 @@ public class sellController implements Initializable {
     public TableColumn<itemcalculated, Float> Total;
     public TableColumn<itemcalculated, Float> itemProfit;
     public TableColumn<itemcalculated, Float> sellPrice;
-
 
 
     public JFXTextField itemId;
@@ -67,15 +68,27 @@ public class sellController implements Initializable {
     public JFXRadioButton cheque;
     public JFXComboBox cheque_no;
     public JFXComboBox shopid;
+    public Text totalShow;
     private String currID;
     private ToggleGroup paymode = new ToggleGroup();
     private LocalDate today = LocalDate.now();
+    private int chequefield;
 
     public sellController() throws SQLException {
     }
 
     public void getSelected(MouseEvent mouseEvent) {
     }
+
+    public void setInvoice(String id) {
+        this.currID = id;
+        System.out.println(currID + "on Edit Mode");
+    }
+
+    public void setUpdate(boolean b) {
+        if(b){isEdit();}
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -86,11 +99,10 @@ public class sellController implements Initializable {
         Total.setCellValueFactory(new PropertyValueFactory<>("Total"));
         sellPrice.setCellValueFactory(new PropertyValueFactory<>("sellPrice"));
         add.setDisable(true);
-        itemTable.setItems(calculatedItems);
+//        itemTable.setItems(calculatedItems);
 
         cash.setToggleGroup(paymode);
         cheque.setToggleGroup(paymode);
-
 
 
     }
@@ -126,38 +138,39 @@ public class sellController implements Initializable {
 //    );
 
 
-    private ObservableList<itemcalculated> calculatedItems =FXCollections.observableArrayList(
+    private ObservableList<itemcalculated> calculatedItems = FXCollections.observableArrayList(
             itemcalculated.getItems("0000")
     );
 
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
-        Stage thisWindow = (Stage)itemTable.getScene().getWindow();
+        Stage thisWindow = (Stage) itemTable.getScene().getWindow();
         FXMLLoader backLoader = new FXMLLoader(getClass().getResource("../resources/views/sellInvoice.fxml"));
         Parent root = backLoader.load();
         thisWindow.setTitle("Invoices");
         thisWindow.setScene(new Scene(root));
     }
 
-    public void getName(MouseEvent mouseEvent) throws SQLException, IOException  {
+    public void getName(MouseEvent mouseEvent) throws SQLException, IOException {
         Item current = Item.getItem(itemId.getText());
-        if(current!=null) {
+        if (current != null) {
             itemName.setText(current.getName());
             itemSellPrice.setText(Float.toString(current.getSellPrice()));
             this.add.setDisable(false);
+        } else {
+            itemName.setText("Item could not be found");
+            FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/alert/idErr.fxml"));
+            Stage model = new Stage();
+            Parent root = load.load();
+            model.setTitle("Error");
+            model.initModality(Modality.APPLICATION_MODAL);
+            model.setScene(new Scene(root));
+            model.show();
+            return;
         }
-        else {itemName.setText("Item could not be found");
-        FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/alert/idErr.fxml"));
-        Stage model = new Stage();
-        Parent root = load.load();
-        model.setTitle("Error");
-        model.initModality(Modality.APPLICATION_MODAL);
-        model.setScene(new Scene(root));
-        model.show();
-        return;}
     }
 
-    public void addItem(MouseEvent mouseEvent) throws SQLException{
+    public void addItem(MouseEvent mouseEvent) throws SQLException {
         calculatedItems.removeAll(calculatedItems);
         String itemNo = itemId.getText();
         String invoiceId = this.currinvoice.getText();
@@ -168,28 +181,32 @@ public class sellController implements Initializable {
         double buyPrice = this.getBuy();
 
         System.out.println(invoiceId);
-        InvoiceItem newItem = new InvoiceItem(itemNo,invoiceId,buyPrice,sellPrice,qty);
+        InvoiceItem newItem = new InvoiceItem(itemNo, invoiceId, buyPrice, sellPrice, qty);
         newItem.save();
         calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(invoiceId));
         itemTable.setItems(calculatedItems);
         clearinput();
         this.add.setDisable(true);
+        Invoice.addAmount(invoiceId,sellPrice*qty);
+        getTotal();
+
+
 
     }
 
-    private void clearinput(){
+    private void clearinput() {
         itemId.clear();
         itemName.clear();
         itemquantity.clear();
         itemSellPrice.clear();
     }
 
-    public void getToday(){
+    public void getToday() {
 
     }
 
 
-    private float getBuy() throws SQLException{
+    private float getBuy() throws SQLException {
         Item current = Item.getItem(itemId.getText());
         return current.getBuyPrice();
 
@@ -197,7 +214,7 @@ public class sellController implements Initializable {
 
     public void addInvoice(MouseEvent mouseEvent) throws SQLException, ParseException, IOException {
 
-        if(this.currinvoice.getText()==null || this.date.getValue() == null  ||this.shopid.getValue() == null){
+        if (this.currinvoice.getText() == null || this.date.getValue() == null || this.shopid.getValue() == null) {
             FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/alert/saveFail.fxml"));
             Stage model = new Stage();
             Parent root = load.load();
@@ -205,32 +222,36 @@ public class sellController implements Initializable {
             model.initModality(Modality.APPLICATION_MODAL);
             model.setScene(new Scene(root));
             model.show();
-        }
-        else{
+        } else {
             String invoiceId = this.currinvoice.getText();
             String date = this.date.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             double Total = 0;
-            String cheque = "Cash";
-            int type = 2;
-            int shopId = Integer.parseInt(this.shopid.getValue().toString());
+            String cheque;
+            if (!cash.isSelected()) {
+                cheque = cheque_no.getValue().toString();
+            } else {
+                cheque = "CASH";
+            }
 
-            Invoice newInvoice = new Invoice(invoiceId,shopId,date,Total,cheque,type);
+            int type = 2;
+            int shopId = Shop.getShopId(shopid.getValue().toString());
+
+            Invoice newInvoice = new Invoice(invoiceId, shopId, date, Total, cheque, type);
             newInvoice.save();
-            System.out.println(newInvoice.getId()+" Written");
+            System.out.println(newInvoice.getId() + " Written");
             this.itempane.setDisable(false);
             this.invoicepane.setDisable(true);
         }
 
     }
 
-    public void paymode() throws SQLException{
+    public void paymode() throws SQLException {
 //        System.out.println(this.paymode.getSelectedToggle().getUserData());
-        if(cash.isSelected()){
+        if (cash.isSelected()) {
             System.out.println("paymode is cash");
             emptyCombo();
 
-        }
-        else{
+        } else {
             System.out.println("Paymode is Cheque");
             fillChequeCombo();
         }
@@ -249,25 +270,58 @@ public class sellController implements Initializable {
 
     private void fillChequeCombo() throws SQLException {
         ArrayList<Cheque> allCheques = Cheque.getAll();
-        for(Cheque cheque:allCheques){
+        for (Cheque cheque : allCheques) {
             cheque_no.getItems().add(cheque.getId());
         }
     }
 
     private void emptyCombo() throws SQLException {
         ArrayList<Cheque> allCheques = Cheque.getAll();
-        for(Cheque cheque:allCheques){
+        for (Cheque cheque : allCheques) {
             cheque_no.getItems().removeAll(cheque.getId());
         }
     }
 
     public void fillShopCombo() throws SQLException {
         ArrayList<Shop> allShops = Shop.getAll();
-        for(Shop shop:allShops){
+        for (Shop shop : allShops) {
             shopid.getItems().add(shop.getName());
         }
 
-        System.out.println( shopid.getValue()+" - "+ Shop.getShopId(shopid.getValue().toString()));
     }
 
+
+
+    private double getTotal() {
+        double sumOfItem = 0;
+        double profitofItem =0;
+        for(itemcalculated tableItem:itemTable.getItems()){
+            sumOfItem+=tableItem.getTotal();
+            profitofItem+= tableItem.getItemProfit();
+        }
+        income.setText("RS "+Double.toString(sumOfItem)+" /=");
+        profit.setText("RS "+Double.toString(profitofItem)+" /=");
+        return sumOfItem;
+    }
+
+
+    private void reduceStock(){
+
+    }
+
+//Edit methods here
+
+    public void isEdit(){
+        System.out.println(this.currID);
+        this.currinvoice.setText(this.currID);
+        this.itempane.setDisable(false);
+        this.add.setText("Update");
+        this.addinvoice.setText("Update");
+
+        itemTable.setItems(calculatedItems);
+    }
+
+
 }
+
+
