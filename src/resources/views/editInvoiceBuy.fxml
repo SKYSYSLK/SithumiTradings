@@ -81,14 +81,14 @@
             </Text>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="450.0" layoutY="602.0" prefHeight="57.0" prefWidth="326.0" style="-fx-background-color: white;" styleClass="borders">
+      <AnchorPane layoutX="412.0" layoutY="602.0" prefHeight="57.0" prefWidth="364.0" style="-fx-background-color: white;" styleClass="borders">
          <children>
-            <Text fill="#404040" layoutX="38.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total : ">
+            <Text fill="#404040" layoutX="16.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total : ">
                <font>
                   <Font size="28.0" />
                </font>
             </Text>
-            <Text fx:id="total" fill="#bc0000" layoutX="195.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="16500.00">
+            <Text fx:id="total" fill="#bc0000" layoutX="115.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="16500.00">
                <font>
                   <Font size="28.0" />
                </font>
