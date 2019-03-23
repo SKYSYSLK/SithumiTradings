@@ -4,25 +4,34 @@
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.addBuyItemController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="600.0" styleClass="body" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.addBuyItemController">
    <children>
-      <Text layoutX="194.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add new Record">
-         <font>
-            <Font size="29.0" />
-         </font>
-      </Text>
-      <JFXTextField fx:id="itemId" layoutX="48.0" layoutY="101.0" prefHeight="25.0" prefWidth="177.0" promptText="Item ID" />
-      <JFXTextField fx:id="itemName" editable="false" layoutX="283.0" layoutY="101.0" onMouseClicked="#findItem" prefHeight="25.0" prefWidth="177.0" promptText="Item Name" />
-      <JFXTextField fx:id="quantity" layoutX="48.0" layoutY="150.0" prefHeight="25.0" prefWidth="177.0" promptText="Quantity" />
-      <JFXTextField fx:id="buyPrice" layoutX="48.0" layoutY="200.0" prefHeight="25.0" prefWidth="177.0" promptText="Buy Price" />
-      <JFXTextField fx:id="sellPrice" layoutX="283.0" layoutY="200.0" prefHeight="25.0" prefWidth="177.0" promptText="Sell Price" />
-      <JFXDatePicker fx:id="day" layoutX="48.0" layoutY="257.0" prefHeight="28.0" prefWidth="171.0" promptText="Date" />
-      <JFXDatePicker fx:id="paymentDate" layoutX="286.0" layoutY="257.0" prefHeight="28.0" prefWidth="171.0" promptText="Payment Date" />
-      <JFXTextField fx:id="checkNo" layoutX="48.0" layoutY="313.0" prefHeight="25.0" prefWidth="177.0" promptText="Check No" />
-      <JFXButton fx:id="save" layoutX="372.0" layoutY="386.0" onMouseClicked="#save" prefHeight="39.0" prefWidth="88.0" style="-fx-background-color: #42f45f;" text="Save" />
-      <JFXButton fx:id="close" layoutX="478.0" layoutY="386.0" onMouseClicked="#close" prefHeight="39.0" prefWidth="88.0" style="-fx-background-color: #f48041;" text="Close" />
+      <Pane prefHeight="60.0" prefWidth="600.0" styleClass="header" stylesheets="@../styles/main.css">
+         <children>
+            <Text fill="#dddddd" layoutX="194.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add new Record">
+               <font>
+                  <Font size="29.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Pane layoutX="13.0" layoutY="79.0" prefHeight="291.0" prefWidth="575.0" styleClass="formbody">
+         <children>
+            <JFXTextField fx:id="checkNo" layoutX="338.0" layoutY="206.0" prefHeight="25.0" prefWidth="192.0" promptText="Check No" />
+            <JFXTextField fx:id="itemId" layoutX="53.0" layoutY="33.0" prefHeight="25.0" prefWidth="192.0" promptText="Item ID" />
+            <JFXTextField fx:id="itemName" editable="false" layoutX="341.0" layoutY="33.0" onMouseClicked="#findItem" prefHeight="25.0" prefWidth="192.0" promptText="Item Name" />
+            <JFXTextField fx:id="quantity" layoutX="53.0" layoutY="91.0" prefHeight="25.0" prefWidth="192.0" promptText="Quantity" />
+            <JFXTextField fx:id="buyPrice" layoutX="53.0" layoutY="148.0" prefHeight="25.0" prefWidth="192.0" promptText="Buy Price" />
+            <JFXTextField fx:id="sellPrice" layoutX="341.0" layoutY="91.0" prefHeight="25.0" prefWidth="192.0" promptText="Sell Price" />
+            <JFXDatePicker fx:id="day" layoutX="53.0" layoutY="205.0" prefHeight="28.0" prefWidth="192.0" promptText="Date" />
+            <JFXDatePicker fx:id="paymentDate" layoutX="341.0" layoutY="146.0" prefHeight="28.0" prefWidth="192.0" promptText="Payment Date" />
+         </children>
+      </Pane>
+      <JFXButton fx:id="save" layoutX="350.0" layoutY="388.0" onMouseClicked="#save" prefHeight="39.0" prefWidth="103.0" styleClass="button2" text="Save" />
+      <JFXButton fx:id="close" layoutX="484.0" layoutY="388.0" onMouseClicked="#close" prefHeight="39.0" prefWidth="103.0" styleClass="buttondelete" text="Close" />
    </children>
 </AnchorPane>
