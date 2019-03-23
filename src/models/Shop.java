@@ -18,6 +18,14 @@ public class Shop {
         this.address = address;
     }
 
+    public Shop(int type, String name, String contact, String address) {
+        this.type = type;
+        this.name = name;
+        this.contact = contact;
+        this.address = address;
+        this.con = con;
+    }
+
     public int getId() {
         return id;
     }

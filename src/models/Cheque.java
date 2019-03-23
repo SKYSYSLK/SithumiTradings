@@ -116,6 +116,28 @@ public class Cheque {
         return allRec;
     }
 
+    public static ArrayList<Cheque> getAll(int type) throws SQLException {
+        Connection con = connection.getConnection();
+        ArrayList<Cheque> allRec = new ArrayList<>();
+        String query = "SELECT * FROM cheques WHERE status=?";
+        PreparedStatement selectq = con.prepareStatement(query);
+        selectq.setInt(1,type);
+        ResultSet resultSet = selectq.executeQuery();
+        while (resultSet.next()){
+            String id = resultSet.getString("id");
+            double amount = resultSet.getDouble("amount");
+            String bank = resultSet.getString("bank");
+            String branch = resultSet.getString("branch");
+            String expireDate = resultSet.getString("expire_date");
+            String issuedDate = resultSet.getString("issue_date");
+            int status = resultSet.getInt("status");
+            Cheque current = new Cheque(id,issuedDate,expireDate,bank,branch,amount,status);
+            allRec.add(current);
+        }
+        con.close();
+        return allRec;
+    }
+
     public void update() throws SQLException {
         String query = "UPDATE cheques SET amount=?, bank=?, issue_date=?, expire_date=?, branch=?, status=?" +
                 "WHERE id=?";
