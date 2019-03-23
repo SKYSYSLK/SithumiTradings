@@ -67,12 +67,21 @@ public class Shop {
     }
 
     public void save() throws SQLException {
-        String query = "INSERT INTO shops( name, contact, address, type ) VALUES (?,?,?,?)";
+        String query = "INSERT INTO shops(id, name, contact, address, type ) VALUES (?,?,?,?,?)";
         PreparedStatement insq = con.prepareStatement(query);
-        insq.setString(1,this.name);
-        insq.setString(2,this.contact);
-        insq.setString(3,this.address);
-        insq.setInt(4,this.type);
+        insq.setInt(1,this.id);
+        insq.setString(2,this.name);
+        insq.setString(3,this.contact);
+        insq.setString(4,this.address);
+        insq.setInt(5,this.type);
+
+        insq.execute();
+        con.close();
+    }
+    public void delete() throws SQLException {
+        String query = "DELETE FROM shops WHERE id=?";
+        PreparedStatement insq = con.prepareStatement(query);
+        insq.setInt(1,this.id);
         insq.execute();
         con.close();
     }
@@ -116,13 +125,14 @@ public class Shop {
 
 
     public void update() throws SQLException {
-        String upQuery = "UPDATE shops SET name=?,contact=?,address=?,type=? WHERE id=?";
+        String upQuery = "UPDATE shops SET id=?,name=?,contact=?,address=?,type=? WHERE id=?";
         PreparedStatement upq = con.prepareStatement(upQuery);
-        upq.setInt(5,this.id);
-        upq.setString(1,this.name);
-        upq.setString(2,this.getContact());
-        upq.setString(3,this.getAddress());
-        upq.setInt(4,this.getType());
+        upq.setInt(1,this.id);
+        upq.setString(2,this.name);
+        upq.setString(3,this.contact);
+        upq.setString(4,this.address);
+        upq.setInt(5,this.type);
+        upq.setInt(6,this.id);
         upq.execute();
         con.close();
     }

@@ -71,7 +71,7 @@ public class mainMenu {
         Parent root = (Parent) itemsView.load();
         thiswind.setTitle("Manage Items in your stock");
         thiswind.setScene(new Scene(root));
-        thiswind.setMaximized(true);
+        thiswind.setMaximized(false);
         thiswind.show();
     }
 
@@ -81,7 +81,7 @@ public class mainMenu {
         Parent root = (Parent) itemsView.load();
         thiswind.setTitle("Manage Items in your stock");
         thiswind.setScene(new Scene(root));
-        thiswind.setMaximized(true);
+        thiswind.setMaximized(false);
         thiswind.show();
     }
 
@@ -91,7 +91,7 @@ public class mainMenu {
         Parent root = (Parent) itemsView.load();
         thiswind.setTitle("Manage Daily Business");
         thiswind.setScene(new Scene(root));
-        thiswind.setMaximized(true);
+        thiswind.setMaximized(false);
         thiswind.show();
     }
 
@@ -101,7 +101,7 @@ public class mainMenu {
         Parent root = (Parent) itemsView.load();
         thiswind.setTitle("Manage Buying Invoices");
         thiswind.setScene(new Scene(root));
-        thiswind.setMaximized(true);
+        thiswind.setMaximized(false);
         thiswind.show();
     }
 
@@ -111,7 +111,7 @@ public class mainMenu {
         Parent root = (Parent) itemsView.load();
         thiswind.setTitle("Manage Shops related to your business");
         thiswind.setScene(new Scene(root));
-        thiswind.setMaximized(true);
+        thiswind.setMaximized(false);
         thiswind.show();
     }
 
