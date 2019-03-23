@@ -4,23 +4,29 @@
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="359.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.addChequeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="359.0" prefWidth="600.0" styleClass="body" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.addChequeController">
    <children>
-      <Text layoutX="194.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Cheque">
+      <Pane prefHeight="71.0" prefWidth="600.0" styleClass="header" stylesheets="@../styles/main.css" />
+      <Text fill="WHITE" layoutX="194.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add  New Cheque">
          <font>
             <Font size="29.0" />
          </font>
       </Text>
-      <JFXTextField fx:id="cheque_id" layoutX="48.0" layoutY="101.0" prefHeight="25.0" prefWidth="177.0" promptText="Cheque Number" />
-      <JFXTextField fx:id="amount1" layoutX="283.0" layoutY="101.0" prefHeight="25.0" prefWidth="177.0" promptText="amount" />
-      <JFXDatePicker fx:id="issued_date" layoutX="48.0" layoutY="158.0" prefHeight="28.0" prefWidth="171.0" promptText="Issue Date" />
-      <JFXDatePicker fx:id="expire_date" layoutX="286.0" layoutY="158.0" prefHeight="28.0" prefWidth="171.0" promptText="Expire Date" />
-      <JFXTextField fx:id="bank_name" layoutX="48.0" layoutY="222.0" prefHeight="25.0" prefWidth="177.0" promptText="Bank Name" />
-      <JFXButton fx:id="save" layoutX="373.0" layoutY="295.0" onMouseClicked="#save" prefHeight="39.0" prefWidth="88.0" style="-fx-background-color: #42f45f;" text="Save" />
-      <JFXButton fx:id="close" layoutX="479.0" layoutY="295.0" onMouseClicked="#close" prefHeight="39.0" prefWidth="88.0" style="-fx-background-color: #f48041;" text="Close" />
-      <JFXTextField fx:id="branch_name" layoutX="284.0" layoutY="222.0" prefHeight="25.0" prefWidth="177.0" promptText="Branch Name" />
+      <Pane layoutX="30.0" layoutY="88.0" prefHeight="200.0" prefWidth="541.0" styleClass="formbody" stylesheets="@../styles/main.css">
+         <children>
+            <JFXTextField fx:id="cheque_id" layoutX="38.0" layoutY="23.0" prefHeight="25.0" prefWidth="196.0" promptText="Cheque Number" />
+            <JFXTextField fx:id="amount1" layoutX="301.0" layoutY="23.0" prefHeight="25.0" prefWidth="196.0" promptText="amount" />
+            <JFXDatePicker fx:id="issued_date" layoutX="38.0" layoutY="83.0" prefHeight="28.0" prefWidth="196.0" promptText="Issue Date" />
+            <JFXDatePicker fx:id="expire_date" layoutX="301.0" layoutY="83.0" prefHeight="28.0" prefWidth="196.0" promptText="Expire Date" />
+            <JFXTextField fx:id="bank_name" layoutX="38.0" layoutY="151.0" prefHeight="25.0" prefWidth="196.0" promptText="Bank Name" />
+            <JFXTextField fx:id="branch_name" layoutX="298.0" layoutY="151.0" prefHeight="25.0" prefWidth="196.0" promptText="Branch Name" />
+         </children>
+      </Pane>
+      <JFXButton fx:id="save" layoutX="322.0" layoutY="301.0" onMouseClicked="#save" prefHeight="39.0" prefWidth="105.0" styleClass="button2" stylesheets="@../styles/main.css" text="Save" />
+      <JFXButton fx:id="close" layoutX="473.0" layoutY="301.0" onMouseClicked="#close" prefHeight="39.0" prefWidth="98.0" styleClass="buttondelete" text="Close" />
    </children>
 </AnchorPane>
