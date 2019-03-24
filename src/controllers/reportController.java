@@ -60,7 +60,7 @@ public class reportController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         invoice_id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        issued_date.setCellValueFactory(new PropertyValueFactory<>("date_issued"));
+        issued_date.setCellValueFactory(new PropertyValueFactory<>("date_issue"));
         amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
         cheque_id.setCellValueFactory(new PropertyValueFactory<>("cheque_id"));
         type.setCellValueFactory(new PropertyValueFactory<>("type"));
