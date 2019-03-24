@@ -4,6 +4,7 @@ import be.quodlibet.boxable.BaseTable;
 import be.quodlibet.boxable.Cell;
 import be.quodlibet.boxable.Row;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDatePicker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -31,8 +32,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class reportController implements Initializable {
@@ -46,8 +49,8 @@ public class reportController implements Initializable {
 
     public JFXButton generate_report;
     public ComboBox shop_list;
-    public DatePicker from_date;
-    public DatePicker to_date;
+    public JFXDatePicker from_date;
+    public JFXDatePicker to_date;
     public JFXButton back;
     public CheckBox time_reports_check;
 
@@ -67,6 +70,7 @@ public class reportController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         generate_report.setDisable(true);
+        time_reports_check.setDisable(true);
 
         invoice_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         issued_date.setCellValueFactory(new PropertyValueFactory<>("date_issue"));
@@ -84,8 +88,43 @@ public class reportController implements Initializable {
                 }
                 shopReportTable.setItems(invoiceData);
                 generate_report.setDisable(false);
+                time_reports_check.setDisable(false);
             } catch (SQLException e) {
                 e.printStackTrace();
+            }
+        });
+
+        from_date.valueProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                ArrayList<Invoice> temp = Report.getInvoicesByShop(reportController.selectedShopId);
+                invoiceData.removeAll(invoiceData);
+                for (Invoice invoice : temp) {
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    Date date1 = format.parse(invoice.getDate_issue());
+                    Date date2 = format.parse(from_date.getValue().toString());
+                if(date1.compareTo(date2) >= 0)
+                    invoiceData.add(invoice);
+                }
+                shopReportTable.setItems(invoiceData);
+            } catch (Exception ex) {
+                System.err.println(ex);
+            }
+        });
+
+        to_date.valueProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                ObservableList<Invoice> temp = FXCollections.observableArrayList(invoiceData);
+                invoiceData.removeAll(invoiceData);
+                for (Invoice invoice : temp) {
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    Date date1 = format.parse(invoice.getDate_issue());
+                    Date date2 = format.parse(to_date.getValue().toString());
+                    if(date1.compareTo(date2) <= 0)
+                        invoiceData.add(invoice);
+                }
+                shopReportTable.setItems(invoiceData);
+            } catch (Exception ex) {
+                System.err.println(ex);
             }
         });
 
