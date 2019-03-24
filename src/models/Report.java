@@ -5,49 +5,38 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Report {
-    private String id, generated_date;
-    private Connection con = connection.getConnection();
 
-    public Report(String id, String generated_date) {
-        this.id = id;
-        this.generated_date = generated_date;
+    private String bank, branch, issueDate, expireDate, type;
+//    private Connection con;
+
+    public Report() {
     }
 
-    public String getId() {
-        return id;
+    public void generateShopBasedReport(int shopId) {
+
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public static ArrayList<Invoice> getInvoicesByShop(int shopId) throws SQLException {
+        Connection con = connection.getConnection();
+        ArrayList<Invoice> allRecords = new ArrayList<>();
+        String query = "SELECT * FROM invoices WHERE shop_id = ?";
+        PreparedStatement selectq = con.prepareStatement(query);
+        selectq.setInt(1, shopId);
+        ResultSet result = selectq.executeQuery();
+        while (result.next()) {
+            String id = result.getString("id");
+            Double amount = result.getDouble("amount");
+            String date_issue = result.getString("date_issued");
+            String cheque_id = result.getString("cheque_id");
+            int type = result.getInt("type");
+            allRecords.add(new Invoice(id, shopId, date_issue, amount, cheque_id, type));
+        }
+        con.close();
+        return allRecords;
     }
-
-    public String getGenerated_date() {
-        return generated_date;
-    }
-
-    public void setGenerated_date(String generated_date) {
-        this.generated_date = generated_date;
-    }
-
-//    public static ArrayList<Report> getAll() throws SQLException {
-//        Connection con = connection.getConnection();
-//        ArrayList<Report> allRec = new ArrayList<>();
-//        String query = "SELECT * FROM shops";
-//        PreparedStatement selectq = con.prepareStatement(query);
-//        ResultSet result = selectq.executeQuery();
-//        while (result.next()){
-//            int id = result.getInt("id");
-//            String name = result.getString("name");
-//            String contact = result.getString("contact");
-//            String address = result.getString("address");
-//            int type = result.getInt("type");
-//            allRec.add(new Report(id,type,name,contact,address));
-//        }
-//        con.close();
-//        return allRec;
-//    }
 //
 //    public void update() throws SQLException {
 //        String upQuery = "UPDATE shops SET name=?,contact=?,address=?,type=? WHERE id=?";
