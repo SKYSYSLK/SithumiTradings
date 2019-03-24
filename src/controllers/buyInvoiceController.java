@@ -72,9 +72,12 @@ public class buyInvoiceController implements Initializable {
         model.show();
     }
 
-    public void delete(MouseEvent mouseEvent) throws SQLException {
+    public void delete(MouseEvent mouseEvent) throws SQLException, IOException {
         t_invoice item = invoiceTable.getSelectionModel().getSelectedItem();
-        if(item==null) return;
+        if(item==null) {
+            warning.notSelected();
+            return;
+        }
         item.delete();
         invoiceTable.getItems().remove(item);
     }

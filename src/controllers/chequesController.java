@@ -141,6 +141,7 @@ public class chequesController implements Initializable {
             thiswind.setTitle("Manage Cheques");
             thiswind.setScene(new Scene(root));
             thiswind.show();
+            warning.deleteSuccess();
         }catch(Exception e){
             System.out.println(e);
             warning.incomplete();
