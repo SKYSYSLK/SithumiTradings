@@ -6,8 +6,8 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Shop {
-    private int id,type;
-    private String name,contact,address;
+    private int id, type;
+    private String name, contact, address;
     private Connection con = connection.getConnection();
 
     public Shop(int id, int type, String name, String contact, String address) {
@@ -69,19 +69,20 @@ public class Shop {
     public void save() throws SQLException {
         String query = "INSERT INTO shops(id, name, contact, address, type ) VALUES (?,?,?,?,?)";
         PreparedStatement insq = con.prepareStatement(query);
-        insq.setInt(1,this.id);
-        insq.setString(2,this.name);
-        insq.setString(3,this.contact);
-        insq.setString(4,this.address);
-        insq.setInt(5,this.type);
+        insq.setInt(1, this.id);
+        insq.setString(2, this.name);
+        insq.setString(3, this.contact);
+        insq.setString(4, this.address);
+        insq.setInt(5, this.type);
 
         insq.execute();
         con.close();
     }
+
     public void delete() throws SQLException {
         String query = "DELETE FROM shops WHERE id=?";
         PreparedStatement insq = con.prepareStatement(query);
-        insq.setInt(1,this.id);
+        insq.setInt(1, this.id);
         insq.execute();
         con.close();
     }
@@ -92,7 +93,7 @@ public class Shop {
         String selectQuery = "SELECT * FROM shops";
         Statement select = con.createStatement();
         ResultSet result = select.executeQuery(selectQuery);
-        while (result.next()){
+        while (result.next()) {
             shops.add(new Shop(
                     result.getInt("id"),
                     result.getInt("type"),
@@ -109,12 +110,12 @@ public class Shop {
     public void update() throws SQLException {
         String upQuery = "UPDATE shops SET id=?,name=?,contact=?,address=?,type=? WHERE id=?";
         PreparedStatement upq = con.prepareStatement(upQuery);
-        upq.setInt(1,this.id);
-        upq.setString(2,this.name);
-        upq.setString(3,this.contact);
-        upq.setString(4,this.address);
-        upq.setInt(5,this.type);
-        upq.setInt(6,this.id);
+        upq.setInt(1, this.id);
+        upq.setString(2, this.name);
+        upq.setString(3, this.contact);
+        upq.setString(4, this.address);
+        upq.setInt(5, this.type);
+        upq.setInt(6, this.id);
         upq.execute();
         con.close();
     }
@@ -124,15 +125,14 @@ public class Shop {
         Connection con = connection.getConnection();
         String quey = "SELECT name FROM shops WHERE id = ? LIMIT 1";
         PreparedStatement selectq = con.prepareStatement(quey);
-        selectq.setInt(1,id);
+        selectq.setInt(1, id);
         ResultSet resultSet = selectq.executeQuery();
         try {
             String name = resultSet.getString("name");
             con.close();
             return name;
-        }
-        catch(Exception e){
-            String name="ERR: Shop Name not found!";
+        } catch (Exception e) {
+            String name = "ERR: Shop Name not found!";
             con.close();
             return name;
         }
@@ -143,10 +143,26 @@ public class Shop {
         Connection con = connection.getConnection();
         String query = "SELECT id FROM shops WHERE name=?";
         PreparedStatement selectq = con.prepareStatement(query);
-        selectq.setString(1,name);
+        selectq.setString(1, name);
         ResultSet resultSet = selectq.executeQuery();
         int id = resultSet.getInt("id");
         con.close();
         return id;
+    }
+
+    public static Shop getShopById(int id) throws SQLException {
+        Connection con = connection.getConnection();
+        String query = "SELECT * FROM shops WHERE id = ? LIMIT 1";
+        PreparedStatement selectq = con.prepareStatement(query);
+        selectq.setInt(1, id);
+        ResultSet resultSet = selectq.executeQuery();
+
+        int shopId = resultSet.getInt("id");
+        String shopName = resultSet.getString("name");
+        int shopType = resultSet.getInt("type");
+        String shopContact = resultSet.getString("contact");
+        String shopAddress = resultSet.getString("address");
+        con.close();
+        return new Shop(shopId,shopType,shopName,shopContact,shopAddress);
     }
 }

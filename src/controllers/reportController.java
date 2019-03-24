@@ -44,14 +44,11 @@ public class reportController implements Initializable {
     public TableColumn cheque_id;
     public TableColumn type;
 
-    public TableView<Report> timeReportTable;
-
     public JFXButton generate_report;
     public ComboBox shop_list;
     public DatePicker from_date;
     public DatePicker to_date;
     public JFXButton back;
-    public CheckBox shop_reports_check;
     public CheckBox time_reports_check;
 
     private static int selectedShopId = 0;
@@ -69,6 +66,8 @@ public class reportController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        generate_report.setDisable(true);
+
         invoice_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         issued_date.setCellValueFactory(new PropertyValueFactory<>("date_issued"));
         amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
@@ -84,6 +83,7 @@ public class reportController implements Initializable {
                     invoiceData.add(invoice);
                 }
                 shopReportTable.setItems(invoiceData);
+                generate_report.setDisable(false);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -130,6 +130,8 @@ public class reportController implements Initializable {
 
     public void generateShopRelatedReport(int shopId, File file) throws IOException, SQLException {
 
+        Shop shop = Shop.getShopById(shopId);
+
         // Create a document and add a page to it
         PDDocument document = new PDDocument();
         PDPage page = new PDPage(PDRectangle.A4);
@@ -157,7 +159,6 @@ public class reportController implements Initializable {
 
         String pageTitle = "GENERATED REPORT";
         int pageTitleFontSize = 18;
-        String pageShopName = Shop.getShopName(shopId);
         String pageCreationTime = Calendar.getInstance().getTime().toString();
 
         float titleWidth = fontBold.getStringWidth(pageTitle) / 1000 * pageTitleFontSize;
@@ -171,7 +172,7 @@ public class reportController implements Initializable {
         stream.showText(pageTitle);
         stream.newLine();
         stream.setFont(fontPlain, 10);
-        stream.newLineAtOffset(-15, 0);
+        stream.newLineAtOffset(-5, 0);
         stream.showText("Generated on " + pageCreationTime);
         stream.newLine();
         stream.endText();
@@ -192,22 +193,22 @@ public class reportController implements Initializable {
         stream.setFont(fontBold, 10);
         stream.showText("Shop Name : ");
         stream.setFont(fontItalic, 10);
-        stream.showText(pageShopName);
+        stream.showText(shop.getName());
         stream.newLine();
         stream.setFont(fontBold, 10);
         stream.showText("Shop Type : ");
         stream.setFont(fontItalic, 10);
-        stream.showText(pageShopName);
+        stream.showText(String.valueOf(shop.getType()));
         stream.newLine();
         stream.setFont(fontBold, 10);
         stream.showText("Shop Contact : ");
         stream.setFont(fontItalic, 10);
-        stream.showText(pageShopName);
+        stream.showText(shop.getContact());
         stream.newLine();
         stream.setFont(fontBold, 10);
         stream.showText("Shop Address : ");
         stream.setFont(fontItalic, 10);
-        stream.showText(pageShopName);
+        stream.showText(shop.getAddress());
         stream.newLine();
         stream.newLine();
 
@@ -222,12 +223,12 @@ public class reportController implements Initializable {
         stream.setFont(fontBold, 10);
         stream.showText("Shop Name : ");
         stream.setFont(fontItalic, 10);
-        stream.showText(pageShopName);
+        stream.showText("sds");
         stream.newLine();
         stream.setFont(fontBold, 10);
         stream.showText("Shop Type : ");
         stream.setFont(fontItalic, 10);
-        stream.showText(pageShopName);
+        stream.showText("fsfs");
         stream.newLine();
         stream.newLine();
         stream.newLine();
@@ -271,6 +272,24 @@ public class reportController implements Initializable {
         cell = row.createCell(20, "Type : ");
         cell.setFont(fontPlain);
 
+        for(Invoice invoice: invoiceData) {
+            Row<PDPage> rowData = baseTable.createRow(15f);
+            cell = rowData.createCell(20, invoice.getId());
+            cell.setFont(fontPlain);
+
+            cell = rowData.createCell(20, invoice.getDate_issue());
+            cell.setFont(fontPlain);
+
+            cell = rowData.createCell(20, String.valueOf(invoice.getAmount()));
+            cell.setFont(fontPlain);
+
+            cell = rowData.createCell(20, invoice.getCheque_id());
+            cell.setFont(fontPlain);
+
+            cell = rowData.createCell(20, String.valueOf(invoice.getType()));
+            cell.setFont(fontPlain);
+        }
+
         baseTable.draw();
 
         stream.close();
@@ -287,11 +306,6 @@ public class reportController implements Initializable {
     }
 
     public void enableSelections() {
-        if (shop_reports_check.isSelected()) {
-            shop_list.setDisable(false);
-        } else {
-            shop_list.setDisable(true);
-        }
         if (time_reports_check.isSelected()) {
             from_date.setDisable(false);
             to_date.setDisable(false);
