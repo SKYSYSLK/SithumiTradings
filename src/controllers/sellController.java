@@ -181,19 +181,33 @@ public class sellController implements Initializable {
             double sellUpdate=Double.parseDouble(this.itemSellPrice.getText());
             int sellQuantity = Integer.parseInt(this.itemquantity.getText());
 
-            changeStock(currentSelected.getItemNo(),prevAmount-sellQuantity);
-
-            InvoiceItem updateitem = new InvoiceItem(currentSelected.getItemNo(),currID,currentSelected.getBuyPrice(),sellUpdate,sellQuantity);
-            updateitem.update();
-
-            calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(currID));
-            itemTable.setItems(calculatedItems);
-            getTotal();
-
-
-
+//            changeStock(currentSelected.getItemNo(),prevAmount-sellQuantity);
+            if(checkStock(currentSelected.getItemNo(),-prevAmount+sellQuantity)){
+                InvoiceItem updateitem = new InvoiceItem(currentSelected.getItemNo(),currID,currentSelected.getBuyPrice(),sellUpdate,sellQuantity);
+                updateitem.updateSales();
+                calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(currID));
+                itemTable.setItems(calculatedItems);
+                clearinput();
+                this.add.setDisable(true);
+                Invoice InvoiceCurr = Invoice.getInvoice(currID);
+                InvoiceCurr.setAmount(getTotal());
+                InvoiceCurr.update();
+                getTotal();}
 
         }
+
+
+//            InvoiceItem updateitem = new InvoiceItem(currentSelected.getItemNo(),currID,currentSelected.getBuyPrice(),sellUpdate,sellQuantity);
+//            updateitem.updateSales();
+
+//            calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(currID));
+//            itemTable.setItems(calculatedItems);
+//            getTotal();
+
+
+
+
+
         else{
         calculatedItems.removeAll(calculatedItems);
         String itemNo = itemId.getText();
@@ -204,17 +218,19 @@ public class sellController implements Initializable {
         double sellPrice = Double.parseDouble(itemSellPrice.getText());
         double buyPrice = this.getBuy();
 
-        changeStock(itemNo,-qty);
+            if(checkStock(itemNo,qty)){
+                Item.getItem(itemNo).addAmount(-qty);
+                System.out.println(invoiceId);
+                InvoiceItem newItem = new InvoiceItem(itemNo, invoiceId, buyPrice, sellPrice, qty);
+                newItem.save();
+                calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(invoiceId));
+                itemTable.setItems(calculatedItems);
+                clearinput();
+                this.add.setDisable(true);
+                Invoice.addAmount(invoiceId,sellPrice*qty);
+                getTotal();}
 
-        System.out.println(invoiceId);
-        InvoiceItem newItem = new InvoiceItem(itemNo, invoiceId, buyPrice, sellPrice, qty);
-        newItem.save();
-        calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(invoiceId));
-        itemTable.setItems(calculatedItems);
-        clearinput();
-        this.add.setDisable(true);
-        Invoice.addAmount(invoiceId,sellPrice*qty);
-        getTotal();}
+        }
 
 
 
@@ -367,11 +383,23 @@ public class sellController implements Initializable {
     }
 
 
-    private void changeStock(String id,int amount) throws SQLException{
-        int currStock = Item.getItem(id).getQuantity();
-        System.out.println("Changing Stocks by"+amount);
-        Item currItem = new Item(id,"dummy",currStock,0,0);
-        currItem.addAmount(amount);
+    private boolean checkStock(String id,int amount) throws SQLException, IOException{
+        if(Item.getItem(id).getQuantity()-amount <0){
+            System.out.println("sales exceed stocks" + amount);
+            FXMLLoader load = new FXMLLoader(getClass().getResource("../resources/views/alert/stocksEmpty.fxml"));
+            Stage model = new Stage();
+            Parent root = load.load();
+            model.setTitle("Error");
+            model.initModality(Modality.APPLICATION_MODAL);
+            model.setScene(new Scene(root));
+            model.show();
+            return false;
+        }
+        else{
+            return true;
+        }
+
+
     }
 
 //Edit methods here

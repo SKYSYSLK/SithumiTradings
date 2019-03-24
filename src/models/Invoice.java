@@ -78,6 +78,7 @@ public class Invoice {
 
     public void setAmount(double amount) {
         this.amount = amount;
+        System.out.println("Changed Amount to:" + amount);
     }
 
     public void save() throws SQLException {
@@ -129,6 +130,8 @@ public class Invoice {
         upq.setString(6,this.id);
         upq.execute();
         con.close();
+
+        System.out.println("Invoice "+ this.id + " Updated "+"\n" +"Amount: "+ this.amount);
     }
 
     public static Invoice getInvoice(String invoice_id) throws SQLException {

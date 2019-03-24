@@ -3,3 +3,5 @@ out
 *.iml
 *.db
 *.log
+
+src/resources/db/main.db

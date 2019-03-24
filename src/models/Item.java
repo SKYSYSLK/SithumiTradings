@@ -92,6 +92,7 @@ public class Item {
     }
     public void update() throws SQLException {
         String upQuery = "UPDATE items SET name=?,quantity=?,buyPrice=?,sellPrice=?,available=? WHERE id=?";
+        System.out.println("FROM update(): " + this.getQuantity());
         PreparedStatement upq = con.prepareStatement(upQuery);
         upq.setString(6,this.id);
         upq.setString(1,this.name);
@@ -122,11 +123,14 @@ public class Item {
     }
     public void addAmount(int amount) throws SQLException {
         int allQuantity = this.quantity + amount;
+        System.out.println(this.id + " Current stock: " +this.quantity);
+        this.quantity = allQuantity;
         String query = "UPDATE items SET Quantity = ? WHERE id = ?";
         PreparedStatement upq = con.prepareStatement(query);
         upq.setInt(1,allQuantity);
         upq.setString(2,this.id);
         upq.execute();
         con.close();
+        System.out.println("Queried Stock on " + this.id +" by " + amount + "New Stock: "+ this.quantity);
     }
 }
