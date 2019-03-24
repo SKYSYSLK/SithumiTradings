@@ -174,50 +174,47 @@ public class sellController implements Initializable {
     }
 
     public void addItem(MouseEvent mouseEvent) throws SQLException, IOException, ParseException {
-        if (isEdit){
+        try{
+            if (isEdit){
 //            this.editRecord(mouseEvent);
-            itemcalculated currentSelected = itemTable.getSelectionModel().getSelectedItem();
-            int prevAmount = currentSelected.getQuantity();
-            double sellUpdate=Double.parseDouble(this.itemSellPrice.getText());
-            int sellQuantity = Integer.parseInt(this.itemquantity.getText());
+                itemcalculated currentSelected = itemTable.getSelectionModel().getSelectedItem();
+                int prevAmount = currentSelected.getQuantity();
+                double sellUpdate=Double.parseDouble(this.itemSellPrice.getText());
+                int sellQuantity = Integer.parseInt(this.itemquantity.getText());
 
-            changeStock(currentSelected.getItemNo(),prevAmount-sellQuantity);
+                changeStock(currentSelected.getItemNo(),prevAmount-sellQuantity);
 
-            InvoiceItem updateitem = new InvoiceItem(currentSelected.getItemNo(),currID,currentSelected.getBuyPrice(),sellUpdate,sellQuantity);
-            updateitem.update();
+                InvoiceItem updateitem = new InvoiceItem(currentSelected.getItemNo(),currID,currentSelected.getBuyPrice(),sellUpdate,sellQuantity);
+                updateitem.update();
 
-            calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(currID));
-            itemTable.setItems(calculatedItems);
-            getTotal();
+                calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(currID));
+                itemTable.setItems(calculatedItems);
+                getTotal();
+            }
+            else{
+                calculatedItems.removeAll(calculatedItems);
+                String itemNo = itemId.getText();
+                String invoiceId = this.currinvoice.getText();
+                String name = itemName.getText();
 
+                int qty = Integer.parseInt(itemquantity.getText());
+                double sellPrice = Double.parseDouble(itemSellPrice.getText());
+                double buyPrice = this.getBuy();
 
+                changeStock(itemNo,-qty);
 
-
+                System.out.println(invoiceId);
+                InvoiceItem newItem = new InvoiceItem(itemNo, invoiceId, buyPrice, sellPrice, qty);
+                newItem.save();
+                calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(invoiceId));
+                itemTable.setItems(calculatedItems);
+                clearinput();
+                this.add.setDisable(true);
+                Invoice.addAmount(invoiceId,sellPrice*qty);
+                getTotal();}
+        }catch(Exception e){
+            System.out.println(e);
         }
-        else{
-        calculatedItems.removeAll(calculatedItems);
-        String itemNo = itemId.getText();
-        String invoiceId = this.currinvoice.getText();
-        String name = itemName.getText();
-// Implement Try Catch Error
-        int qty = Integer.parseInt(itemquantity.getText());
-        double sellPrice = Double.parseDouble(itemSellPrice.getText());
-        double buyPrice = this.getBuy();
-
-        changeStock(itemNo,-qty);
-
-        System.out.println(invoiceId);
-        InvoiceItem newItem = new InvoiceItem(itemNo, invoiceId, buyPrice, sellPrice, qty);
-        newItem.save();
-        calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(invoiceId));
-        itemTable.setItems(calculatedItems);
-        clearinput();
-        this.add.setDisable(true);
-        Invoice.addAmount(invoiceId,sellPrice*qty);
-        getTotal();}
-
-
-
     }
 
     private void clearinput() {

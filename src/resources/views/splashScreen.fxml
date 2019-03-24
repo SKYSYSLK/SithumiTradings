@@ -4,24 +4,24 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #42d9f4;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="70.0" layoutY="59.0" text="SITHUMI TRADINGS" underline="true">
-         <font>
-            <Font name="Franklin Gothic Medium" size="55.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="147.0" fitWidth="189.0" layoutX="227.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../icons/handshake.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="112.0" fitWidth="126.0" layoutX="237.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../icons/lg.double-ring-spinner.gif" />
-         </image>
-      </ImageView>
+      <Pane prefHeight="400.0" prefWidth="600.0" styleClass="header" stylesheets="@../styles/main.css">
+         <children>
+            <Label layoutX="179.0" layoutY="144.0" prefHeight="41.0" prefWidth="315.0" text="SITHUMI TRADINGS" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Helvetica" size="27.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="41.0" fitWidth="236.0" layoutX="222.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/YVPG.gif" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
