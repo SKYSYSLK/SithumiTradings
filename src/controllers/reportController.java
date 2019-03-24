@@ -19,7 +19,9 @@ import models.Invoice;
 import models.Report;
 import models.Shop;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
@@ -30,6 +32,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 
 public class reportController implements Initializable {
@@ -41,23 +44,29 @@ public class reportController implements Initializable {
     public TableColumn cheque_id;
     public TableColumn type;
 
-    public TableView<Report> timeReportTable;
-
     public JFXButton generate_report;
-    public RadioButton shop_reports_radio;
-    public RadioButton time_reports_radio;
     public ComboBox shop_list;
     public DatePicker from_date;
     public DatePicker to_date;
     public JFXButton back;
+    public CheckBox time_reports_check;
 
     private static int selectedShopId = 0;
+
+    // Create a new font object selecting one of the PDF base fonts
+    private PDFont fontPlain = PDType1Font.HELVETICA;
+    private PDFont fontBold = PDType1Font.HELVETICA_BOLD;
+    private PDFont fontItalic = PDType1Font.HELVETICA_OBLIQUE;
+    private PDFont fontMono = PDType1Font.COURIER;
+
 
     public reportController() throws SQLException {
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        generate_report.setDisable(true);
 
         invoice_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         issued_date.setCellValueFactory(new PropertyValueFactory<>("date_issue"));
@@ -74,6 +83,7 @@ public class reportController implements Initializable {
                     invoiceData.add(invoice);
                 }
                 shopReportTable.setItems(invoiceData);
+                generate_report.setDisable(false);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -85,6 +95,8 @@ public class reportController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        enableSelections();
     }
 
     private ObservableList<Invoice> invoiceData = FXCollections.observableArrayList(
@@ -99,7 +111,7 @@ public class reportController implements Initializable {
         thisWindow.setScene(new Scene(root));
     }
 
-    public void generateReport() throws IOException {
+    public void generateReport() throws IOException, SQLException {
         Stage thisWindow = (Stage) shopReportTable.getScene().getWindow();
 
         // Saving location
@@ -112,13 +124,13 @@ public class reportController implements Initializable {
         }
     }
 
-    private void createAndSaveDocument(File file) throws IOException {
+    private void createAndSaveDocument(File file) throws IOException, SQLException {
+        generateShopRelatedReport(2, file);
+    }
 
-        // Create a new font object selecting one of the PDF base fonts
-        PDFont fontPlain = PDType1Font.HELVETICA;
-        PDFont fontBold = PDType1Font.HELVETICA_BOLD;
-        PDFont fontItalic = PDType1Font.HELVETICA_OBLIQUE;
-        PDFont fontMono = PDType1Font.COURIER;
+    public void generateShopRelatedReport(int shopId, File file) throws IOException, SQLException {
+
+        Shop shop = Shop.getShopById(shopId);
 
         // Create a document and add a page to it
         PDDocument document = new PDDocument();
@@ -126,49 +138,180 @@ public class reportController implements Initializable {
         PDRectangle rect = page.getMediaBox();
         document.addPage(page);
 
+        //Creating the PDDocumentInformation object
+        PDDocumentInformation pdd = document.getDocumentInformation();
+
+        //Setting the author of the document
+        pdd.setAuthor("SkySys Software Solutions");
+
+        // Setting the title of the document
+        pdd.setTitle("Sithumi Tradings - Business Report");
+
+        //Setting the created date of the document
+        Calendar date = Calendar.getInstance();
+        pdd.setCreationDate(date);
+
+        // Text streams
+        PDPageContentStream stream = new PDPageContentStream(document, page);
+
+        // Page attributes
+        float pageMargin = 40;
+
+        String pageTitle = "GENERATED REPORT";
+        int pageTitleFontSize = 18;
+        String pageCreationTime = Calendar.getInstance().getTime().toString();
+
+        float titleWidth = fontBold.getStringWidth(pageTitle) / 1000 * pageTitleFontSize;
+        float titleHeight = fontBold.getFontDescriptor().getFontBoundingBox().getHeight() / 1000 * pageTitleFontSize;
+
+        // header
+        stream.beginText();
+        stream.setLeading(16f);
+        stream.setFont(fontBold, pageTitleFontSize);
+        stream.newLineAtOffset((rect.getWidth() - titleWidth) / 2, rect.getHeight() - pageMargin - titleHeight);
+        stream.showText(pageTitle);
+        stream.newLine();
+        stream.setFont(fontPlain, 10);
+        stream.newLineAtOffset(-5, 0);
+        stream.showText("Generated on " + pageCreationTime);
+        stream.newLine();
+        stream.endText();
+
+        // shop details
+        stream.beginText();
+        stream.setLeading(14.5f);
+
+        stream.setFont(fontBold, 14);
+        stream.newLineAtOffset(pageMargin, rect.getHeight() - pageMargin - 60);
+        stream.showText("Shop Details");
+        stream.newLine();
+        stream.setFont(fontBold, 10);
+        stream.showText("Shop ID : ");
+        stream.setFont(fontItalic, 10);
+        stream.showText(String.valueOf(shopId));
+        stream.newLine();
+        stream.setFont(fontBold, 10);
+        stream.showText("Shop Name : ");
+        stream.setFont(fontItalic, 10);
+        stream.showText(shop.getName());
+        stream.newLine();
+        stream.setFont(fontBold, 10);
+        stream.showText("Shop Type : ");
+        stream.setFont(fontItalic, 10);
+        stream.showText(String.valueOf(shop.getType()));
+        stream.newLine();
+        stream.setFont(fontBold, 10);
+        stream.showText("Shop Contact : ");
+        stream.setFont(fontItalic, 10);
+        stream.showText(shop.getContact());
+        stream.newLine();
+        stream.setFont(fontBold, 10);
+        stream.showText("Shop Address : ");
+        stream.setFont(fontItalic, 10);
+        stream.showText(shop.getAddress());
+        stream.newLine();
+        stream.newLine();
+
+        stream.setFont(fontBold, 14);
+        stream.showText("Business Details");
+        stream.newLine();
+        stream.setFont(fontBold, 10);
+        stream.showText("Total x : ");
+        stream.setFont(fontItalic, 10);
+        stream.showText(String.valueOf(shopId));
+        stream.newLine();
+        stream.setFont(fontBold, 10);
+        stream.showText("Shop Name : ");
+        stream.setFont(fontItalic, 10);
+        stream.showText("sds");
+        stream.newLine();
+        stream.setFont(fontBold, 10);
+        stream.showText("Shop Type : ");
+        stream.setFont(fontItalic, 10);
+        stream.showText("fsfs");
+        stream.newLine();
+        stream.newLine();
+        stream.newLine();
+
+        stream.endText();
+
         //Dummy Table
-        float margin = 50;
-        // starting y position is whole page height subtracted by top and bottom margin
-        float yStartNewPage = page.getMediaBox().getHeight() - (2 * margin);
+        // starting y position is whole page height subtracted by top and bottom pageMargin
+        float yStartNewPage = rect.getHeight() - pageMargin - 250;
         float yStart = yStartNewPage;
         float bottomMargin = 20;
-        // we want table across whole page width (subtracted by left and right margin ofcourse)
-        float tableWidth = page.getMediaBox().getWidth() - (2 * margin);
+        // we want table across whole page width (subtracted by left and right pageMargin of course)
+        float tableWidth = page.getMediaBox().getWidth() - (2 * pageMargin);
 
         BaseTable baseTable = new BaseTable(yStart, yStartNewPage, bottomMargin, tableWidth,
-                margin, document, page, true, true);
+                pageMargin, document, page, true, true);
 
         // Create Header row
         Row<PDPage> headerRow = baseTable.createRow(15f);
-        Cell<PDPage> cell = headerRow.createCell(100, "Awesome Facts About Belgium");
+        Cell<PDPage> cell = headerRow.createCell(100, "Related Invoice Details");
         cell.setFont(fontBold);
-        cell.setFillColor(Color.BLACK);
+        cell.setFillColor(Color.GRAY);
         cell.setTextColor(Color.WHITE);
 
         baseTable.addHeaderRow(headerRow);
 
         // Create 2 column row
         Row<PDPage> row = baseTable.createRow(15f);
-        cell = row.createCell(30, "Source:");
+        cell = row.createCell(20, "Invoice ID : ");
         cell.setFont(fontPlain);
 
-        cell = row.createCell(70, "http://www.factsofbelgium.com/");
+        cell = row.createCell(20, "Issued Date : ");
         cell.setFont(fontPlain);
+
+        cell = row.createCell(20, "Amount : ");
+        cell.setFont(fontPlain);
+
+        cell = row.createCell(20, "Cheque No : ");
+        cell.setFont(fontPlain);
+
+        cell = row.createCell(20, "Type : ");
+        cell.setFont(fontPlain);
+
+        for(Invoice invoice: invoiceData) {
+            Row<PDPage> rowData = baseTable.createRow(15f);
+            cell = rowData.createCell(20, invoice.getId());
+            cell.setFont(fontPlain);
+
+            cell = rowData.createCell(20, invoice.getDate_issue());
+            cell.setFont(fontPlain);
+
+            cell = rowData.createCell(20, String.valueOf(invoice.getAmount()));
+            cell.setFont(fontPlain);
+
+            cell = rowData.createCell(20, invoice.getCheque_id());
+            cell.setFont(fontPlain);
+
+            cell = rowData.createCell(20, String.valueOf(invoice.getType()));
+            cell.setFont(fontPlain);
+        }
 
         baseTable.draw();
 
+        stream.close();
+
         document.save(file);
         document.close();
-    }
-
-    public void generateShopRelatedReport(int shopId) {
-
     }
 
     private void fillShopCombo() throws SQLException {
         ArrayList<Shop> allShops = Shop.getAll();
         for (Shop shop : allShops) {
             shop_list.getItems().add(shop.getName());
+        }
+    }
+
+    public void enableSelections() {
+        if (time_reports_check.isSelected()) {
+            from_date.setDisable(false);
+            to_date.setDisable(false);
+        } else {
+            from_date.setDisable(true);
+            to_date.setDisable(true);
         }
     }
 }
