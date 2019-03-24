@@ -11,12 +11,12 @@
    <children>
       <Pane prefHeight="400.0" prefWidth="600.0" styleClass="header" stylesheets="@../styles/main.css">
          <children>
-            <Label layoutX="69.0" layoutY="111.0" text="SITHUMI TRADINGS" textFill="WHITE">
+            <Label layoutX="179.0" layoutY="144.0" prefHeight="41.0" prefWidth="315.0" text="SITHUMI TRADINGS" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="Franklin Gothic Medium" size="55.0" />
+                  <Font name="Helvetica" size="27.0" />
                </font>
             </Label>
-            <ImageView fitHeight="75.0" fitWidth="461.0" layoutX="143.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="41.0" fitWidth="236.0" layoutX="222.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/YVPG.gif" />
                </image>
