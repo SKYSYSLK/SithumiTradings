@@ -96,14 +96,31 @@ public class reportController implements Initializable {
 
         from_date.valueProperty().addListener((observable, oldValue, newValue) -> {
             try {
-                ObservableList<Invoice> temp = FXCollections.observableArrayList(invoiceData);
+                ArrayList<Invoice> temp = Report.getInvoicesByShop(reportController.selectedShopId);
                 invoiceData.removeAll(invoiceData);
                 for (Invoice invoice : temp) {
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     Date date1 = format.parse(invoice.getDate_issue());
                     Date date2 = format.parse(from_date.getValue().toString());
-                if(date1.compareTo(date2) <= 0)
+                if(date1.compareTo(date2) >= 0)
                     invoiceData.add(invoice);
+                }
+                shopReportTable.setItems(invoiceData);
+            } catch (Exception ex) {
+                System.err.println(ex);
+            }
+        });
+
+        to_date.valueProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                ObservableList<Invoice> temp = FXCollections.observableArrayList(invoiceData);
+                invoiceData.removeAll(invoiceData);
+                for (Invoice invoice : temp) {
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    Date date1 = format.parse(invoice.getDate_issue());
+                    Date date2 = format.parse(to_date.getValue().toString());
+                    if(date1.compareTo(date2) <= 0)
+                        invoiceData.add(invoice);
                 }
                 shopReportTable.setItems(invoiceData);
             } catch (Exception ex) {
