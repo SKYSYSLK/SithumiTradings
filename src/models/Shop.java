@@ -86,24 +86,6 @@ public class Shop {
         con.close();
     }
 
-//    public static ArrayList<Shop> getAll() throws SQLException {
-//        Connection con = connection.getConnection();
-//        ArrayList<Shop> allRec = new ArrayList<>();
-//        String query = "SELECT * FROM shops";
-//        PreparedStatement selectq = con.prepareStatement(query);
-//        ResultSet result = selectq.executeQuery();
-//        while (result.next()){
-//            int id = result.getInt("id");
-//            String name = result.getString(".");
-//            String contact = result.getString("contact");
-//            String address = result.getString("address");
-//            int type = result.getInt("type");
-//            allRec.add(new Shop(id,type,name,contact,address));
-//        }
-//        con.close();
-//        return allRec;
-//    }
-
     public static ArrayList<Shop> getAll() throws SQLException {
         ArrayList<Shop> shops = new ArrayList<>();
         Connection con = connection.getConnection();
