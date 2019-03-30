@@ -11,7 +11,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
@@ -55,6 +58,7 @@ public class reportController implements Initializable {
     public CheckBox time_reports_check;
 
     private static int selectedShopId = 0;
+    private static int activateGenerateButton = 0;
 
     // Create a new font object selecting one of the PDF base fonts
     private PDFont fontPlain = PDType1Font.HELVETICA;
@@ -69,6 +73,7 @@ public class reportController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // disable the buttons and check box at start
         generate_report.setDisable(true);
         time_reports_check.setDisable(true);
 
@@ -79,6 +84,7 @@ public class reportController implements Initializable {
         type.setCellValueFactory(new PropertyValueFactory<>("type"));
         shopReportTable.setItems(invoiceData);
 
+        // shop list combo box listener
         shop_list.valueProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 reportController.selectedShopId = Shop.getShopId((String) newValue);
@@ -88,12 +94,14 @@ public class reportController implements Initializable {
                 }
                 shopReportTable.setItems(invoiceData);
                 generate_report.setDisable(false);
+                reportController.activateGenerateButton = 2;
                 time_reports_check.setDisable(false);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         });
 
+        // from date event listener
         from_date.valueProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 ArrayList<Invoice> temp = Report.getInvoicesByShop(reportController.selectedShopId);
@@ -102,15 +110,22 @@ public class reportController implements Initializable {
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     Date date1 = format.parse(invoice.getDate_issue());
                     Date date2 = format.parse(from_date.getValue().toString());
-                if(date1.compareTo(date2) >= 0)
-                    invoiceData.add(invoice);
+                    if (date1.compareTo(date2) >= 0)
+                        invoiceData.add(invoice);
                 }
                 shopReportTable.setItems(invoiceData);
+                if (reportController.activateGenerateButton == 0) {
+                    reportController.activateGenerateButton = 1;
+                } else {
+                    generate_report.setDisable(false);
+                    reportController.activateGenerateButton = 2;
+                }
             } catch (Exception ex) {
                 System.err.println(ex);
             }
         });
 
+        // to date event listener
         to_date.valueProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 ObservableList<Invoice> temp = FXCollections.observableArrayList(invoiceData);
@@ -119,10 +134,16 @@ public class reportController implements Initializable {
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     Date date1 = format.parse(invoice.getDate_issue());
                     Date date2 = format.parse(to_date.getValue().toString());
-                    if(date1.compareTo(date2) <= 0)
+                    if (date1.compareTo(date2) <= 0)
                         invoiceData.add(invoice);
                 }
                 shopReportTable.setItems(invoiceData);
+                if (reportController.activateGenerateButton == 0) {
+                    reportController.activateGenerateButton = 1;
+                } else {
+                    generate_report.setDisable(false);
+                    reportController.activateGenerateButton = 2;
+                }
             } catch (Exception ex) {
                 System.err.println(ex);
             }
@@ -135,6 +156,7 @@ public class reportController implements Initializable {
             e.printStackTrace();
         }
 
+        // time based check box selection
         enableSelections();
     }
 
@@ -144,28 +166,26 @@ public class reportController implements Initializable {
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
         Stage thisWindow = (Stage) shopReportTable.getScene().getWindow();
-        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("../resources/views/mainMenu.fxml"));
+        FXMLLoader backLoader = new FXMLLoader(getClass().getResource("/resources/views/mainMenu.fxml"));
         Parent root = backLoader.load();
         thisWindow.setTitle("Main Menu");
         thisWindow.setScene(new Scene(root));
     }
 
+    // generate button click action
     public void generateReport() throws IOException, SQLException {
         Stage thisWindow = (Stage) shopReportTable.getScene().getWindow();
-
         // Saving location
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Report");
         File file = fileChooser.showSaveDialog(thisWindow);
 
         if (file != null) {
-            createAndSaveDocument(file);
+            generateShopRelatedReport(reportController.selectedShopId, file);
+            warning.saveSuccess();
         }
     }
 
-    private void createAndSaveDocument(File file) throws IOException, SQLException {
-        generateShopRelatedReport(2, file);
-    }
 
     public void generateShopRelatedReport(int shopId, File file) throws IOException, SQLException {
 
@@ -210,6 +230,10 @@ public class reportController implements Initializable {
         stream.newLineAtOffset((rect.getWidth() - titleWidth) / 2, rect.getHeight() - pageMargin - titleHeight);
         stream.showText(pageTitle);
         stream.newLine();
+        stream.setFont(fontPlain, 8);
+        stream.newLineAtOffset(rect.getWidth() - 10, rect.getHeight() - 10);
+        stream.showText("01");
+        stream.newLine();
         stream.setFont(fontPlain, 10);
         stream.newLineAtOffset(-5, 0);
         stream.showText("Generated on " + pageCreationTime);
@@ -237,7 +261,7 @@ public class reportController implements Initializable {
         stream.setFont(fontBold, 10);
         stream.showText("Shop Type : ");
         stream.setFont(fontItalic, 10);
-        if(shop.getType()==0) {
+        if (shop.getType() == 0) {
             stream.showText("Buy");
         } else {
             stream.showText("Sell");
@@ -258,7 +282,7 @@ public class reportController implements Initializable {
         stream.setFont(fontBold, 14);
         stream.showText("Business Details");
         stream.newLine();
-        if(time_reports_check.isSelected()){
+        if (time_reports_check.isSelected()) {
             stream.setFont(fontBold, 10);
             stream.showText("From : ");
             stream.setFont(fontItalic, 10);
@@ -318,7 +342,7 @@ public class reportController implements Initializable {
         cell = row.createCell(20, "Type");
         cell.setFont(fontBold);
 
-        for(Invoice invoice: invoiceData) {
+        for (Invoice invoice : invoiceData) {
             Row<PDPage> rowData = baseTable.createRow(15f);
             cell = rowData.createCell(20, invoice.getId());
             cell.setFont(fontPlain);
@@ -332,7 +356,7 @@ public class reportController implements Initializable {
             cell = rowData.createCell(20, invoice.getCheque_id());
             cell.setFont(fontPlain);
 
-            if(invoice.getType()==1) {
+            if (invoice.getType() == 1) {
                 cell = rowData.createCell(20, "Buy Invoice");
             } else {
                 cell = rowData.createCell(20, "Sell Invoice");
@@ -356,10 +380,15 @@ public class reportController implements Initializable {
         }
     }
 
+    // time based check box selection action
     public void enableSelections() {
         if (time_reports_check.isSelected()) {
             from_date.setDisable(false);
+            from_date.setValue(null);
             to_date.setDisable(false);
+            to_date.setValue(null);
+            generate_report.setDisable(true);
+            reportController.activateGenerateButton = 0;
         } else {
             from_date.setDisable(true);
             to_date.setDisable(true);
@@ -369,10 +398,10 @@ public class reportController implements Initializable {
     public double totalProfit() {
         double buy = 0;
         double sell = 0;
-        for(Invoice invoice: invoiceData) {
-            if(invoice.getType()==1) {
+        for (Invoice invoice : invoiceData) {
+            if (invoice.getType() == 1) {
                 buy += invoice.getAmount();
-            } else if(invoice.getType()==2) {
+            } else if (invoice.getType() == 2) {
                 sell += invoice.getAmount();
             }
         }

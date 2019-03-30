@@ -31,7 +31,7 @@
          <children>
             <JFXButton fx:id="generate_report" layoutX="315.0" layoutY="374.0" onMouseClicked="#generateReport" prefHeight="37.0" prefWidth="148.0" styleClass="button2" stylesheets="@../styles/main.css" text="Generate Report" />
             <ComboBox fx:id="shop_list" layoutX="77.0" layoutY="67.0" prefHeight="25.0" prefWidth="353.0" promptText="Select the Shop" />
-            <CheckBox fx:id="time_reports_check" layoutX="79.0" layoutY="159.0" mnemonicParsing="false" onAction="#enableSelections" prefHeight="17.0" prefWidth="191.0" text="Time Range Reports Generating" />
+            <CheckBox fx:id="time_reports_check" layoutX="79.0" layoutY="159.0" onAction="#enableSelections" mnemonicParsing="false" prefHeight="17.0" prefWidth="191.0" text="Time Range Reports Generating" />
             <JFXDatePicker fx:id="from_date" layoutX="146.0" layoutY="190.0" prefHeight="28.0" prefWidth="226.0" promptText="From" />
             <JFXDatePicker fx:id="to_date" layoutX="146.0" layoutY="230.0" prefHeight="28.0" prefWidth="226.0" promptText="To" />
          </children>
