@@ -3,6 +3,9 @@ package controllers;
 import be.quodlibet.boxable.BaseTable;
 import be.quodlibet.boxable.Cell;
 import be.quodlibet.boxable.Row;
+import be.quodlibet.boxable.page.DefaultPageProvider;
+import be.quodlibet.boxable.page.PageProvider;
+import be.quodlibet.boxable.utils.PDStreamUtils;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import javafx.collections.FXCollections;
@@ -63,9 +66,6 @@ public class reportController implements Initializable {
     // Create a new font object selecting one of the PDF base fonts
     private PDFont fontPlain = PDType1Font.HELVETICA;
     private PDFont fontBold = PDType1Font.HELVETICA_BOLD;
-    private PDFont fontItalic = PDType1Font.HELVETICA_OBLIQUE;
-    private PDFont fontMono = PDType1Font.COURIER;
-
 
     public reportController() throws SQLException {
     }
@@ -186,8 +186,7 @@ public class reportController implements Initializable {
         }
     }
 
-
-    public void generateShopRelatedReport(int shopId, File file) throws IOException, SQLException {
+    private void generateShopRelatedReport(int shopId, File file) throws IOException, SQLException {
 
         Shop shop = Shop.getShopById(shopId);
 
@@ -197,26 +196,22 @@ public class reportController implements Initializable {
         PDRectangle rect = page.getMediaBox();
         document.addPage(page);
 
-        //Creating the PDDocumentInformation object
-        PDDocumentInformation pdd = document.getDocumentInformation();
-
-        //Setting the author of the document
-        pdd.setAuthor("SkySys Software Solutions");
-
-        // Setting the title of the document
-        pdd.setTitle("Sithumi Tradings - Business Report");
-
-        //Setting the created date of the document
-        Calendar date = Calendar.getInstance();
-        pdd.setCreationDate(date);
-
         // Text streams
         PDPageContentStream stream = new PDPageContentStream(document, page);
 
-        // Page attributes
-        float pageMargin = 40;
+        createReportMetaData(document.getDocumentInformation());
+        createReportHeaderSection(stream, rect);
+        createReportShopSection(stream, rect, shop);
+        createReportTableSection(document, page, rect);
+        addFooterAndBorder(document, rect);
 
-        String pageTitle = "GENERATED REPORT";
+        stream.close();
+        document.save(file);
+        document.close();
+    }
+
+    private void createReportHeaderSection(PDPageContentStream stream, PDRectangle rect) throws IOException {
+        String pageTitle = "REPORT GENERATION";
         int pageTitleFontSize = 18;
         String pageCreationTime = Calendar.getInstance().getTime().toString();
 
@@ -226,41 +221,53 @@ public class reportController implements Initializable {
         // header
         stream.beginText();
         stream.setLeading(16f);
+
         stream.setFont(fontBold, pageTitleFontSize);
-        stream.newLineAtOffset((rect.getWidth() - titleWidth) / 2, rect.getHeight() - pageMargin - titleHeight);
+        stream.newLineAtOffset((rect.getWidth() - titleWidth) / 2, rect.getHeight() - 40 - titleHeight);
         stream.showText(pageTitle);
         stream.newLine();
-        stream.setFont(fontPlain, 8);
-        stream.newLineAtOffset(rect.getWidth() - 10, rect.getHeight() - 10);
-        stream.showText("01");
-        stream.newLine();
+
         stream.setFont(fontPlain, 10);
-        stream.newLineAtOffset(-5, 0);
+        stream.newLineAtOffset(0, 0);
         stream.showText("Generated on " + pageCreationTime);
         stream.newLine();
-        stream.endText();
 
-        // shop details
+        stream.endText();
+    }
+
+    private void createReportMetaData(PDDocumentInformation pdd) {
+        //Setting the author of the document
+        pdd.setAuthor("SkySys Software Solutions");
+
+        // Setting the title of the document
+        pdd.setTitle("Sithumi Tradings - Business Report");
+
+        //Setting the created date of the document
+        Calendar date = Calendar.getInstance();
+        pdd.setCreationDate(date);
+    }
+
+    private void createReportShopSection(PDPageContentStream stream, PDRectangle rect, Shop shop) throws IOException {
+
         stream.beginText();
         stream.setLeading(14.5f);
-
         stream.setFont(fontBold, 14);
-        stream.newLineAtOffset(pageMargin, rect.getHeight() - pageMargin - 60);
+        stream.newLineAtOffset(40, rect.getHeight() - 100);
         stream.showText("Shop Details");
         stream.newLine();
         stream.setFont(fontBold, 10);
         stream.showText("Shop ID : ");
-        stream.setFont(fontItalic, 10);
-        stream.showText(String.valueOf(shopId));
+        stream.setFont(fontPlain, 10);
+        stream.showText(String.valueOf(shop.getId()));
         stream.newLine();
         stream.setFont(fontBold, 10);
         stream.showText("Shop Name : ");
-        stream.setFont(fontItalic, 10);
+        stream.setFont(fontPlain, 10);
         stream.showText(shop.getName());
         stream.newLine();
         stream.setFont(fontBold, 10);
         stream.showText("Shop Type : ");
-        stream.setFont(fontItalic, 10);
+        stream.setFont(fontPlain, 10);
         if (shop.getType() == 0) {
             stream.showText("Buy");
         } else {
@@ -269,12 +276,12 @@ public class reportController implements Initializable {
         stream.newLine();
         stream.setFont(fontBold, 10);
         stream.showText("Shop Contact : ");
-        stream.setFont(fontItalic, 10);
+        stream.setFont(fontPlain, 10);
         stream.showText(shop.getContact());
         stream.newLine();
         stream.setFont(fontBold, 10);
         stream.showText("Shop Address : ");
-        stream.setFont(fontItalic, 10);
+        stream.setFont(fontPlain, 10);
         stream.showText(shop.getAddress());
         stream.newLine();
         stream.newLine();
@@ -285,36 +292,35 @@ public class reportController implements Initializable {
         if (time_reports_check.isSelected()) {
             stream.setFont(fontBold, 10);
             stream.showText("From : ");
-            stream.setFont(fontItalic, 10);
+            stream.setFont(fontPlain, 10);
             stream.showText(from_date.getValue().toString());
             stream.newLine();
             stream.setFont(fontBold, 10);
             stream.showText("To : ");
-            stream.setFont(fontItalic, 10);
+            stream.setFont(fontPlain, 10);
             stream.showText(to_date.getValue().toString());
             stream.newLine();
         }
         stream.setFont(fontBold, 10);
         stream.showText("Total Profit : ");
-        stream.setFont(fontItalic, 10);
+        stream.setFont(fontPlain, 10);
         stream.showText(String.valueOf(totalProfit()));
-
-        stream.newLine();
         stream.newLine();
         stream.newLine();
 
         stream.endText();
+    }
 
-        //Dummy Table
+    private void createReportTableSection(PDDocument document, PDPage page, PDRectangle rect) throws IOException {
         // starting y position is whole page height subtracted by top and bottom pageMargin
-        float yStartNewPage = rect.getHeight() - pageMargin - 250;
-        float yStart = yStartNewPage;
-        float bottomMargin = 20;
+        float pageMargin = 40;
+        float yStartNewPage = rect.getHeight() - pageMargin;
+        float yStart = yStartNewPage - 250;
+        float bottomMargin = 30;
         // we want table across whole page width (subtracted by left and right pageMargin of course)
-        float tableWidth = page.getMediaBox().getWidth() - (2 * pageMargin);
+        float tableWidth = rect.getWidth() - (2 * pageMargin);
 
-        BaseTable baseTable = new BaseTable(yStart, yStartNewPage, bottomMargin, tableWidth,
-                pageMargin, document, page, true, true);
+        BaseTable baseTable = new BaseTable(yStart, yStartNewPage, bottomMargin, tableWidth, pageMargin, document, page, true, true);
 
         // Create Header row
         Row<PDPage> headerRow = baseTable.createRow(15f);
@@ -343,6 +349,7 @@ public class reportController implements Initializable {
         cell.setFont(fontBold);
 
         for (Invoice invoice : invoiceData) {
+
             Row<PDPage> rowData = baseTable.createRow(15f);
             cell = rowData.createCell(20, invoice.getId());
             cell.setFont(fontPlain);
@@ -366,11 +373,33 @@ public class reportController implements Initializable {
         }
 
         baseTable.draw();
+    }
 
-        stream.close();
+    private void addFooterAndBorder(PDDocument document, PDRectangle rect) throws IOException {
+        // get all number of pages.
 
-        document.save(file);
-        document.close();
+        int numberOfPages = document.getNumberOfPages();
+        String text = "Product of SKYSYS software solutions";
+
+        for (int i = 0; i < numberOfPages; i++) {
+            PDPage fpage = document.getPage(i);
+
+            // content stream to write content in pdf page.
+            PDPageContentStream contentStream = new PDPageContentStream(document, fpage, PDPageContentStream.AppendMode.APPEND, true);
+            PDStreamUtils.write(contentStream, text,
+                    PDType1Font.HELVETICA, 10, (rect.getWidth() - fontPlain.getStringWidth(text) / 100) / 2, 30, Color.GRAY);//set stayle and size
+            PDStreamUtils.write(contentStream, String.valueOf(i + 1),
+                    PDType1Font.HELVETICA, 10, rect.getWidth() - 40, 30, Color.GRAY);
+
+            // Add a page border
+            contentStream.addRect(15, 15, rect.getWidth() - 30, rect.getHeight() - 30);
+            contentStream.setLineWidth(2);
+            contentStream.setStrokingColor(Color.BLACK);
+            contentStream.stroke();
+
+            contentStream.close();
+
+        }
     }
 
     private void fillShopCombo() throws SQLException {
