@@ -237,7 +237,11 @@ public class reportController implements Initializable {
         stream.setFont(fontBold, 10);
         stream.showText("Shop Type : ");
         stream.setFont(fontItalic, 10);
-        stream.showText(String.valueOf(shop.getType()));
+        if(shop.getType()==0) {
+            stream.showText("Buy");
+        } else {
+            stream.showText("Sell");
+        }
         stream.newLine();
         stream.setFont(fontBold, 10);
         stream.showText("Shop Contact : ");
@@ -254,20 +258,23 @@ public class reportController implements Initializable {
         stream.setFont(fontBold, 14);
         stream.showText("Business Details");
         stream.newLine();
+        if(time_reports_check.isSelected()){
+            stream.setFont(fontBold, 10);
+            stream.showText("From : ");
+            stream.setFont(fontItalic, 10);
+            stream.showText(from_date.getValue().toString());
+            stream.newLine();
+            stream.setFont(fontBold, 10);
+            stream.showText("To : ");
+            stream.setFont(fontItalic, 10);
+            stream.showText(to_date.getValue().toString());
+            stream.newLine();
+        }
         stream.setFont(fontBold, 10);
-        stream.showText("Total x : ");
+        stream.showText("Total Profit : ");
         stream.setFont(fontItalic, 10);
-        stream.showText(String.valueOf(shopId));
-        stream.newLine();
-        stream.setFont(fontBold, 10);
-        stream.showText("Shop Name : ");
-        stream.setFont(fontItalic, 10);
-        stream.showText("sds");
-        stream.newLine();
-        stream.setFont(fontBold, 10);
-        stream.showText("Shop Type : ");
-        stream.setFont(fontItalic, 10);
-        stream.showText("fsfs");
+        stream.showText(String.valueOf(totalProfit()));
+
         stream.newLine();
         stream.newLine();
         stream.newLine();
@@ -296,20 +303,20 @@ public class reportController implements Initializable {
 
         // Create 2 column row
         Row<PDPage> row = baseTable.createRow(15f);
-        cell = row.createCell(20, "Invoice ID : ");
-        cell.setFont(fontPlain);
+        cell = row.createCell(20, "Invoice ID");
+        cell.setFont(fontBold);
 
-        cell = row.createCell(20, "Issued Date : ");
-        cell.setFont(fontPlain);
+        cell = row.createCell(20, "Issued Date");
+        cell.setFont(fontBold);
 
-        cell = row.createCell(20, "Amount : ");
-        cell.setFont(fontPlain);
+        cell = row.createCell(20, "Amount");
+        cell.setFont(fontBold);
 
-        cell = row.createCell(20, "Cheque No : ");
-        cell.setFont(fontPlain);
+        cell = row.createCell(20, "Cheque No");
+        cell.setFont(fontBold);
 
-        cell = row.createCell(20, "Type : ");
-        cell.setFont(fontPlain);
+        cell = row.createCell(20, "Type");
+        cell.setFont(fontBold);
 
         for(Invoice invoice: invoiceData) {
             Row<PDPage> rowData = baseTable.createRow(15f);
@@ -325,7 +332,12 @@ public class reportController implements Initializable {
             cell = rowData.createCell(20, invoice.getCheque_id());
             cell.setFont(fontPlain);
 
-            cell = rowData.createCell(20, String.valueOf(invoice.getType()));
+            if(invoice.getType()==1) {
+                cell = rowData.createCell(20, "Buy Invoice");
+            } else {
+                cell = rowData.createCell(20, "Sell Invoice");
+            }
+
             cell.setFont(fontPlain);
         }
 
@@ -352,5 +364,18 @@ public class reportController implements Initializable {
             from_date.setDisable(true);
             to_date.setDisable(true);
         }
+    }
+
+    public double totalProfit() {
+        double buy = 0;
+        double sell = 0;
+        for(Invoice invoice: invoiceData) {
+            if(invoice.getType()==1) {
+                buy += invoice.getAmount();
+            } else if(invoice.getType()==2) {
+                sell += invoice.getAmount();
+            }
+        }
+        return sell - buy;
     }
 }
