@@ -138,4 +138,24 @@ public class Item {
         upq.execute();
         con.close();
     }
+
+    public static String getItemId(String itemName) throws SQLException {
+        Connection con = connection.getConnection();
+        String query = "SELECT * FROM items WHERE name = ?";
+        PreparedStatement selectq = con.prepareStatement(query);
+        selectq.setString(1,itemName);
+        ResultSet resultSet = selectq.executeQuery();
+        //System.out.println("ItemName: "+itemName);
+        String item_id = resultSet.getString("id");
+        con.close();
+        return item_id;
+    }
+
+    public static ArrayList<String> getItems() throws SQLException {
+        ArrayList<String> allItems = new ArrayList<>();
+        for(Item item: Item.getAll()){
+            allItems.add(item.getName());
+        }
+        return allItems;
+    }
 }

@@ -97,4 +97,15 @@ public class t_invoiceItem {
         InvoiceItem currentItem = new InvoiceItem(this.itemNo,this.invoiceId,this.buyPrice,this.sellPrice,this.quantity);
         currentItem.update();
     }
+
+    public void save() throws SQLException {
+        InvoiceItem currentItem = new InvoiceItem(this.itemNo,this.invoiceId,this.buyPrice,this.sellPrice,this.quantity);
+        currentItem.save();
+    }
+
+
+    public void delete() throws SQLException {
+        InvoiceItem invoiceItem = InvoiceItem.getItem(this.invoiceId,this.itemNo);
+        invoiceItem.delete();
+    }
 }

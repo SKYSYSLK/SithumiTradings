@@ -137,4 +137,12 @@ public class InvoiceItem {
         return new InvoiceItem(itemId,invoiceId,buyPrice,sellPrice,quantity);
     }
 
+    public void delete() throws SQLException {
+        String query = "DELETE FROM invoiceItems WHERE invoice_id=? AND item_id = ?";
+        PreparedStatement delq = con.prepareStatement(query);
+        delq.setString(1,this.invoiceId);
+        delq.setString(2,this.itemId);
+        delq.execute();
+        con.close();
+    }
 }

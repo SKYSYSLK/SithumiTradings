@@ -1,9 +1,7 @@
 package controllers;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
+import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,11 +18,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.*;
+import resources.FxPackages.AutoCompleteTextField;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -83,6 +83,24 @@ public class buyController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        JFXAutoCompletePopup<String> autoCompletePopup = new JFXAutoCompletePopup<>();
+        autoCompletePopup.setSelectionHandler(event -> itemId.setText(event.getObject()));
+        try {
+            autoCompletePopup.getSuggestions().addAll(Item.getItems());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        itemId.textProperty().addListener(observable -> {
+            autoCompletePopup.filter(s -> s.contains(itemId.getText()));
+            autoCompletePopup.hide();
+            if(!autoCompletePopup.getFilteredSuggestions().isEmpty()){
+                autoCompletePopup.show(itemId);
+            }else{
+                autoCompletePopup.hide();
+            }
+        });
+
     }
 
 
@@ -185,6 +203,7 @@ public class buyController implements Initializable {
     public void saveItem(MouseEvent mouseEvent) throws SQLException {
         if(currentInvoice==null){
             error2.setVisible(true);
+            System.out.println("Error");
             return;
         }
         Item enteredItem = Item.getItem(itemId.getText());
@@ -192,7 +211,7 @@ public class buyController implements Initializable {
             error3.setVisible(true);
             return;
         }
-        String item = itemId.getText();
+        String item = Item.getItemId(itemId.getText());
         int quantity = Integer.parseInt(itemQuantity.getText());
         float bPrice = Float.parseFloat(itemBuyPrice.getText());
         double sPrice = Double.parseDouble(itemSellPrice.getText());
@@ -218,7 +237,7 @@ public class buyController implements Initializable {
     }
 
     public void fetchData(MouseEvent inputMethodEvent) throws SQLException {
-        String item = itemId.getText();
+        String item = Item.getItemId(itemId.getText());
         Item current = Item.getItem(item);
 //        System.out.println("hit");
         if(current!=null){

@@ -79,6 +79,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Text>
+            <JFXButton fx:id="addItem" layoutX="245.0" layoutY="202.0" prefHeight="37.0" prefWidth="106.0" styleClass="button4" text="Add" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="412.0" layoutY="602.0" prefHeight="57.0" prefWidth="364.0" style="-fx-background-color: white;" styleClass="borders">

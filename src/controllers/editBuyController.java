@@ -1,16 +1,16 @@
 package controllers;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -51,6 +51,7 @@ public class editBuyController implements Initializable {
     public Text error4;
     public JFXTextField itemId;
     public JFXButton updateItem;
+    public JFXButton addItem;
     public JFXTextField itemName;
     public JFXTextField itemQuantity;
     public JFXTextField itemBuyPrice;
@@ -77,6 +78,40 @@ public class editBuyController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        JFXAutoCompletePopup<String> autoCompletePopup = new JFXAutoCompletePopup<>();
+        autoCompletePopup.setSelectionHandler(event -> itemId.setText(event.getObject()));
+        try {
+            autoCompletePopup.getSuggestions().addAll(Item.getItems());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Right Click Menu
+        MenuItem delete = new MenuItem("Delete");
+        delete.setOnAction((ActionEvent event)->{
+            t_invoiceItem currentClicked = invoiceItemTable.getSelectionModel().getSelectedItem();
+            try {
+                currentClicked.delete();
+                invoiceItemTable.getItems().remove(currentClicked);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        ContextMenu rightClick = new ContextMenu();
+        rightClick.getItems().add(delete);
+        invoiceItemTable.setContextMenu(rightClick);
+
+        // Auto Complete Edit Text
+        itemId.textProperty().addListener(observable -> {
+            autoCompletePopup.filter(s -> s.contains(itemId.getText()));
+            autoCompletePopup.hide();
+            if(!autoCompletePopup.getFilteredSuggestions().isEmpty()){
+                autoCompletePopup.show(itemId);
+            }else{
+                autoCompletePopup.hide();
+            }
+        });
 
     }
 
@@ -114,7 +149,12 @@ public class editBuyController implements Initializable {
         });
 
         updateItem.setOnMouseClicked(event -> {
-            String item_id = itemId.getText();
+            String item_id = null;
+            try {
+                item_id = Item.getItemId(itemId.getText());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             String item_name = itemName.getText();
             String invoiceId = invoice_id.getText();
             int item_quantity = Integer.parseInt(itemQuantity.getText());
@@ -136,6 +176,44 @@ public class editBuyController implements Initializable {
             itemBuyPrice.clear();
             itemSellPrice.clear();
         });
+
+        addItem.setOnMouseClicked(event -> {
+            String item_id = null;
+            try {
+                item_id = Item.getItemId(itemId.getText());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            String item_name = itemName.getText();
+            String invoiceId = invoice_id.getText();
+            int item_quantity = Integer.parseInt(itemQuantity.getText());
+            double sell_price = Double.parseDouble(itemSellPrice.getText());
+            double buy_price = Double.parseDouble(itemBuyPrice.getText());
+            t_invoiceItem currentItem = new t_invoiceItem(item_id,invoiceId,item_name,item_quantity,sell_price,buy_price);
+            try {
+                currentItem.save();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            itemId.clear();
+            itemName.clear();
+            itemQuantity.clear();
+            itemBuyPrice.clear();
+            itemSellPrice.clear();
+            invoiceItemTable.getItems().add(currentItem);
+            setTotalBill();
+        });
+        itemName.setOnMouseClicked(event -> {
+            try {
+                Item item = Item.getItem(Item.getItemId(itemId.getText().toString()));
+                itemName.setText(item.getName());
+                itemSellPrice.setText(Float.toString(item.getSellPrice()));
+                itemBuyPrice.setText(Float.toString(item.getBuyPrice()));
+                //itemQuantity.setText(Integer.toString(item.getQuantity()));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void setTotalBill() {
@@ -148,7 +226,7 @@ public class editBuyController implements Initializable {
 
     private void fetchItemData() {
         t_invoiceItem currentSelected = invoiceItemTable.getSelectionModel().getSelectedItem();
-        itemId.setText(currentSelected.getItemNo());
+        itemId.setText(currentSelected.getName());
         itemName.setText(currentSelected.getName());
         itemQuantity.setText(Integer.toString(currentSelected.getQuantity()));
         itemBuyPrice.setText(Double.toString(currentSelected.getBuyPrice()));

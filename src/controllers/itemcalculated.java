@@ -56,7 +56,7 @@ public class itemcalculated {
     public static ArrayList<itemcalculated> getItems(String id) throws SQLException {
         ArrayList<t_invoiceItem> allItems = t_invoiceItem.getItems(id);
         ArrayList<itemcalculated> allRec = new ArrayList<>();
-
+        // Bad performance here :/ O sqrt
         for (t_invoiceItem item : allItems) {
             String itemid = item.getItemNo();
             String itemname = item.getName();
@@ -71,5 +71,10 @@ public class itemcalculated {
         }
         return allRec;
 
+    }
+
+    public void delete(String invoice_id) throws SQLException {
+        InvoiceItem current = InvoiceItem.getItem(invoice_id,this.itemNo);
+        current.delete();
     }
 }

@@ -5,13 +5,12 @@ import java.io.*;
 import com.jfoenix.controls.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -69,6 +68,7 @@ public class sellController implements Initializable {
     public JFXComboBox cheque_no;
     public JFXComboBox shopid;
     public Text totalShow;
+    public JFXButton btnAddItem;
     private String currID;
     private ToggleGroup paymode = new ToggleGroup();
     private LocalDate today = LocalDate.now();
@@ -106,6 +106,44 @@ public class sellController implements Initializable {
 
         cash.setToggleGroup(paymode);
         cheque.setToggleGroup(paymode);
+
+        MenuItem delete = new MenuItem("Delete");
+        delete.setOnAction((ActionEvent event)->{
+            itemcalculated currentClicked = itemTable.getSelectionModel().getSelectedItem();
+            try {
+                currentClicked.delete(this.currinvoice.getText().toString());
+                itemTable.getItems().remove(currentClicked);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        ContextMenu rightClick = new ContextMenu();
+        rightClick.getItems().add(delete);
+        itemTable.setContextMenu(rightClick);
+
+        // Set Autofill Text
+
+        JFXAutoCompletePopup<String> autoCompletePopup = new JFXAutoCompletePopup<>();
+        autoCompletePopup.setSelectionHandler(event -> itemId.setText(event.getObject()));
+        try {
+            autoCompletePopup.getSuggestions().addAll(Item.getItems());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        itemId.textProperty().addListener(observable -> {
+            autoCompletePopup.filter(s -> s.contains(itemId.getText()));
+            autoCompletePopup.hide();
+            if(!autoCompletePopup.getFilteredSuggestions().isEmpty()){
+                autoCompletePopup.show(itemId);
+            }else{
+                autoCompletePopup.hide();
+            }
+        });
+        try {
+            fillShopCombo();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -155,7 +193,7 @@ public class sellController implements Initializable {
     }
 
     public void getName(MouseEvent mouseEvent) throws SQLException, IOException {
-        Item current = Item.getItem(itemId.getText());
+        Item current = Item.getItem(Item.getItemId(itemId.getText()));
         if (current != null) {
             itemName.setText(current.getName());
             itemSellPrice.setText(Float.toString(current.getSellPrice()));
@@ -193,7 +231,7 @@ public class sellController implements Initializable {
             }
             else{
                 calculatedItems.removeAll(calculatedItems);
-                String itemNo = itemId.getText();
+                String itemNo = Item.getItemId(itemId.getText());
                 String invoiceId = this.currinvoice.getText();
                 String name = itemName.getText();
 
@@ -203,7 +241,7 @@ public class sellController implements Initializable {
 
                 changeStock(itemNo,-qty);
 
-                System.out.println(invoiceId);
+                //System.out.println(invoiceId);
                 InvoiceItem newItem = new InvoiceItem(itemNo, invoiceId, buyPrice, sellPrice, qty);
                 newItem.save();
                 calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(invoiceId));
@@ -230,9 +268,8 @@ public class sellController implements Initializable {
 
 
     private float getBuy() throws SQLException {
-        Item current = Item.getItem(itemId.getText());
+        Item current = Item.getItem(Item.getItemId(itemId.getText()));
         return current.getBuyPrice();
-
     }
 
     public void addInvoice(MouseEvent mouseEvent) throws SQLException, ParseException, IOException {
@@ -375,8 +412,15 @@ public class sellController implements Initializable {
 
     public void isEdit() throws SQLException{
 //        System.out.println(this.currID);
+        Invoice currentInvoice = Invoice.getInvoice(this.currID);
         this.currinvoice.setText(this.currID);
         this.itempane.setDisable(false);
+        DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        date.setValue(LocalDate.parse(currentInvoice.getDate_issue(),fomatter));
+        System.out.println("Shop Name: "+Shop.getShopName(currentInvoice.getShop_id()));
+        shopid.getSelectionModel().select("ShopName");
+
+        btnAddItem.setVisible(true);
         this.add.setText("Update");
         this.addinvoice.setText("Update");
         calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(currID));
@@ -400,18 +444,36 @@ public class sellController implements Initializable {
             System.out.println("None Selected");
         }
         else {
-            itemcalculated currentSelected = itemTable.getSelectionModel().getSelectedItem();
-            System.out.println("Editing" + currentSelected.getName());
-            getName(mouseEvent);
-            this.itemId.setText(currentSelected.getItemNo());
-            this.itemquantity.setText(Integer.toString(currentSelected.getQuantity()));
-            this.itemSellPrice.setText(Double.toString(currentSelected.getSellPrice()));
-            this.currinvoice.setText(currID);
-
-
+            if(mouseEvent.getClickCount()>1) {
+                itemcalculated currentSelected = itemTable.getSelectionModel().getSelectedItem();
+                System.out.println("Editing" + currentSelected.getName());
+//            getName(mouseEvent);
+                this.itemId.setText(currentSelected.getName());
+                this.itemquantity.setText(Integer.toString(currentSelected.getQuantity()));
+                this.itemSellPrice.setText(Double.toString(currentSelected.getSellPrice()));
+                this.currinvoice.setText(currID);
+            }
 
         }
     }
 
+    public void addNewItem(MouseEvent mouseEvent) throws SQLException {
+        if(!currinvoice.getText().isEmpty()){
+            //calculatedItems.removeAll(calculatedItems);
+            String invoice_id = currinvoice.getText().toString();
+            String item_id = Item.getItemId(itemId.getText().toString());
+            String name = itemName.getText().toString();
+            int quantity = Integer.parseInt(itemquantity.getText().toString());
+            double sellPrice = Double.parseDouble(itemSellPrice.getText());
+            double buyPrice = this.getBuy();
+
+            InvoiceItem newItem = new InvoiceItem(item_id, invoice_id, buyPrice, sellPrice, quantity);
+            changeStock(item_id,-quantity);
+            newItem.save();
+            calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(invoice_id));
+            itemTable.setItems(calculatedItems);
+            clearinput();
+        }
+    }
 }
 

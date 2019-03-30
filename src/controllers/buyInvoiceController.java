@@ -64,7 +64,7 @@ public class buyInvoiceController implements Initializable {
     }
 
     public void addNew(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/Buy.fxml"));
+        FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/buy.fxml"));
         Stage model = (Stage)back.getScene().getWindow();
         Parent root = load.load();
         model.setTitle("Add New Record");
