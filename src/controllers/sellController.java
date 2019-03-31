@@ -113,6 +113,7 @@ public class sellController implements Initializable {
             try {
                 currentClicked.delete(this.currinvoice.getText().toString());
                 itemTable.getItems().remove(currentClicked);
+                getTotal();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -195,7 +196,7 @@ public class sellController implements Initializable {
     public void getName(MouseEvent mouseEvent) throws SQLException, IOException {
         Item current = Item.getItem(Item.getItemId(itemId.getText()));
         if (current != null) {
-            itemName.setText(current.getName());
+            itemName.setText(current.getId());
             itemSellPrice.setText(Float.toString(current.getSellPrice()));
             this.add.setDisable(false);
         } else {
@@ -233,7 +234,7 @@ public class sellController implements Initializable {
                 calculatedItems.removeAll(calculatedItems);
                 String itemNo = Item.getItemId(itemId.getText());
                 String invoiceId = this.currinvoice.getText();
-                String name = itemName.getText();
+                //String name = itemName.getText();
 
                 int qty = Integer.parseInt(itemquantity.getText());
                 double sellPrice = Double.parseDouble(itemSellPrice.getText());
@@ -249,7 +250,8 @@ public class sellController implements Initializable {
                 clearinput();
                 this.add.setDisable(true);
                 Invoice.addAmount(invoiceId,sellPrice*qty);
-                getTotal();}
+                getTotal();
+            }
         }catch(Exception e){
             System.out.println(e);
         }
@@ -462,7 +464,7 @@ public class sellController implements Initializable {
             //calculatedItems.removeAll(calculatedItems);
             String invoice_id = currinvoice.getText().toString();
             String item_id = Item.getItemId(itemId.getText().toString());
-            String name = itemName.getText().toString();
+            //String name = itemName.getText().toString();
             int quantity = Integer.parseInt(itemquantity.getText().toString());
             double sellPrice = Double.parseDouble(itemSellPrice.getText());
             double buyPrice = this.getBuy();
@@ -473,6 +475,8 @@ public class sellController implements Initializable {
             calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(invoice_id));
             itemTable.setItems(calculatedItems);
             clearinput();
+            Invoice.addAmount(invoice_id,sellPrice*quantity);
+            getTotal();
         }
     }
 }

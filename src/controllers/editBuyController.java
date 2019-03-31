@@ -155,7 +155,7 @@ public class editBuyController implements Initializable {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            String item_name = itemName.getText();
+            String item_name = itemId.getText();
             String invoiceId = invoice_id.getText();
             int item_quantity = Integer.parseInt(itemQuantity.getText());
             double sell_price = Double.parseDouble(itemSellPrice.getText());
@@ -202,11 +202,17 @@ public class editBuyController implements Initializable {
             itemSellPrice.clear();
             invoiceItemTable.getItems().add(currentItem);
             setTotalBill();
+            double unitPrice = buy_price*item_quantity;
+            try {
+                Invoice.addAmount(invoiceId,unitPrice);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         });
         itemName.setOnMouseClicked(event -> {
             try {
                 Item item = Item.getItem(Item.getItemId(itemId.getText().toString()));
-                itemName.setText(item.getName());
+                itemName.setText(item.getId());
                 itemSellPrice.setText(Float.toString(item.getSellPrice()));
                 itemBuyPrice.setText(Float.toString(item.getBuyPrice()));
                 //itemQuantity.setText(Integer.toString(item.getQuantity()));
@@ -227,7 +233,7 @@ public class editBuyController implements Initializable {
     private void fetchItemData() {
         t_invoiceItem currentSelected = invoiceItemTable.getSelectionModel().getSelectedItem();
         itemId.setText(currentSelected.getName());
-        itemName.setText(currentSelected.getName());
+        itemName.setText(currentSelected.getItemNo());
         itemQuantity.setText(Integer.toString(currentSelected.getQuantity()));
         itemBuyPrice.setText(Double.toString(currentSelected.getBuyPrice()));
         itemSellPrice.setText(Double.toString(currentSelected.getSellPrice()));

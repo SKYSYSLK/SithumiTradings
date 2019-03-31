@@ -206,9 +206,10 @@ public class buyController implements Initializable {
             System.out.println("Error");
             return;
         }
-        Item enteredItem = Item.getItem(itemId.getText());
+        Item enteredItem = Item.getItem(Item.getItemId(itemId.getText()));
         if(enteredItem==null){
             error3.setVisible(true);
+            System.out.println("Error3");
             return;
         }
         String item = Item.getItemId(itemId.getText());
@@ -241,7 +242,7 @@ public class buyController implements Initializable {
         Item current = Item.getItem(item);
 //        System.out.println("hit");
         if(current!=null){
-            itemName.setText(current.getName());
+            itemName.setText(current.getId());
             itemBuyPrice.setText(Double.toString(current.getBuyPrice()));
             itemSellPrice.setText(Double.toString(current.getSellPrice()));
         }
