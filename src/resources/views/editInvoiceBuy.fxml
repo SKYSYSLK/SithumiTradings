@@ -63,9 +63,9 @@
        </AnchorPane>
       <AnchorPane layoutX="813.0" layoutY="416.0" prefHeight="246.0" prefWidth="505.0" styleClass="formbody">
          <children>
-            <JFXTextField fx:id="itemId" layoutX="31.0" layoutY="24.0" prefHeight="32.0" prefWidth="184.0" promptText="Item Id" />
+            <JFXTextField fx:id="itemId" layoutX="31.0" layoutY="24.0" prefHeight="32.0" prefWidth="184.0" promptText="Item Name" />
             <JFXButton fx:id="updateItem" layoutX="366.0" layoutY="201.0" prefHeight="37.0" prefWidth="106.0" styleClass="button2" text="Update" />
-            <JFXTextField fx:id="itemName" editable="false" layoutX="277.0" layoutY="25.0" prefHeight="32.0" prefWidth="194.0" promptText="Name" />
+            <JFXTextField fx:id="itemName" editable="false" layoutX="277.0" layoutY="25.0" prefHeight="32.0" prefWidth="194.0" promptText="Item Id" />
             <JFXTextField fx:id="itemQuantity" layoutX="31.0" layoutY="106.0" prefHeight="32.0" prefWidth="184.0" promptText="Quantity" />
             <JFXTextField fx:id="itemBuyPrice" layoutX="30.0" layoutY="188.0" prefHeight="32.0" prefWidth="184.0" promptText="Buy Price" />
             <JFXTextField fx:id="itemSellPrice" layoutX="275.0" layoutY="107.0" prefHeight="32.0" prefWidth="194.0" promptText="Sell Price" />

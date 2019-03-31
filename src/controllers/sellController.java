@@ -35,9 +35,6 @@ import java.net.URL;
 
 import static models.t_invoiceItem.*;
 
-
-
-
 public class sellController implements Initializable {
     public TableView<itemcalculated> itemTable;
     public TableColumn<itemcalculated, String> item_no;
@@ -383,7 +380,7 @@ public class sellController implements Initializable {
     public void fillShopCombo() throws SQLException {
         ArrayList<Shop> allShops = Shop.getAll();
         for (Shop shop : allShops) {
-            shopid.getItems().add(shop.getName());
+            if(shop.getType()==1) shopid.getItems().add(shop.getName());
         }
 
     }

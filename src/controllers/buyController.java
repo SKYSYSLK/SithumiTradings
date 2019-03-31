@@ -112,7 +112,7 @@ public class buyController implements Initializable {
     private void fillShopCombo() throws SQLException {
         ArrayList<Shop> allShops = Shop.getAll();
         for(Shop shop:allShops){
-            shop_id.getItems().add(shop.getName());
+            if(shop.getType()==0) shop_id.getItems().add(shop.getName());
         }
     }
 

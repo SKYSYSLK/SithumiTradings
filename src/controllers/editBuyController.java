@@ -184,7 +184,7 @@ public class editBuyController implements Initializable {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            String item_name = itemName.getText();
+            String item_name = itemId.getText();
             String invoiceId = invoice_id.getText();
             int item_quantity = Integer.parseInt(itemQuantity.getText());
             double sell_price = Double.parseDouble(itemSellPrice.getText());
@@ -205,6 +205,16 @@ public class editBuyController implements Initializable {
             double unitPrice = buy_price*item_quantity;
             try {
                 Invoice.addAmount(invoiceId,unitPrice);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            Item enteredItem = null;
+            try {
+                enteredItem = Item.getItem(item_id);
+                int currentQuantity = enteredItem.getQuantity();
+                int newQuantity = currentQuantity+item_quantity;
+                enteredItem.setQuantity(newQuantity);
+                enteredItem.update();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

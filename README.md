@@ -1,2 +1,2 @@
-# sithumiTradings
-Sithumi Tradings
+# sethumiTradings
+Sethumi Tradings

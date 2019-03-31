@@ -21,7 +21,7 @@
    <children>
       <Pane layoutX="-12.0" prefHeight="127.0" prefWidth="1380.0" styleClass="header" stylesheets="@../styles/main.css">
          <children>
-            <Text fontSmoothingType="LCD" layoutX="407.0" layoutY="40.0" lineSpacing="5.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SITHUMI TRADINGS" x="50.0" y="50.0">
+            <Text fontSmoothingType="LCD" layoutX="407.0" layoutY="40.0" lineSpacing="5.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SETHUMI TRADINGS" x="50.0" y="50.0">
                <font>
                   <Font name="Arial Narrow Bold" size="64.0" />
                </font>
