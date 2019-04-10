@@ -14,11 +14,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import models.Cheque;
 import models.t_cheque;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormatSymbols;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Locale;
 
@@ -47,7 +49,7 @@ public class mainMenu {
     public mainMenu() throws SQLException {
     }
 
-    public void initialize(){
+    public void initialize() throws SQLException, ParseException {
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
         expireDate.setCellValueFactory(new PropertyValueFactory<>("expireDate"));
@@ -59,6 +61,7 @@ public class mainMenu {
         Days.addAll(Arrays.asList(Arrays.copyOfRange(months,1,8)));
         xAxis.setCategories(Days);
         setData();
+        Cheque.checkExpire();
 
     }
     private ObservableList<t_cheque> chequesData = FXCollections.observableArrayList(

@@ -4,7 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Cheque {
     private String id, issuedDate, expireDate, bankName, branchName;
@@ -176,5 +181,25 @@ public class Cheque {
         int type = resultSet.getInt("status");
         con.close();
         return new Cheque(id,issueDate,expireDate,bank,branch,amount,type);
+    }
+
+    public static void checkExpire() throws SQLException, ParseException {
+        Connection con = connection.getConnection();
+        ArrayList<Cheque> allCheques = Cheque.getAll();
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate now = LocalDate.now();
+        String todayString = dtf.format(now);
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date today = format.parse(todayString);
+
+        for(Cheque currentCheque:allCheques){
+            Date issueDate = format.parse(currentCheque.getExpireDate());
+            if(today.compareTo(issueDate) > 0 && currentCheque.getType()!=3){
+                currentCheque.setType(3);
+                currentCheque.update();
+            }
+        }
     }
 }
