@@ -43,7 +43,7 @@ public class buyController implements Initializable {
     public JFXButton addInvoice;
     public JFXComboBox cheque_no;
     public JFXButton addCheque;
-    public JFXComboBox shop_id;
+    public JFXTextField shop_name;
     public JFXButton addShop;
     public JFXDatePicker date_issue;
     public JFXTextField itemId;
@@ -78,12 +78,12 @@ public class buyController implements Initializable {
         sellPrice.setCellValueFactory(new PropertyValueFactory<>("sellPrice"));
         invoiceItemTable.setItems(itemData);
         try {
-            fillShopCombo();
+//            fillShopCombo();
             fillChequeCombo();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        // Auto Complete the Item Names
         JFXAutoCompletePopup<String> autoCompletePopup = new JFXAutoCompletePopup<>();
         autoCompletePopup.setSelectionHandler(event -> itemId.setText(event.getObject()));
         try {
@@ -100,7 +100,28 @@ public class buyController implements Initializable {
                 autoCompletePopup.hide();
             }
         });
+        // End of Auto Complete Item Name
 
+        // Auto Complete Shop Names
+
+        JFXAutoCompletePopup<String> autoCompleteShop = new JFXAutoCompletePopup<>();
+        autoCompleteShop.setSelectionHandler(event -> shop_name.setText(event.getObject()));
+        try {
+            autoCompleteShop.getSuggestions().addAll(Shop.getShopNames());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        shop_name.textProperty().addListener(observable -> {
+            autoCompleteShop.filter(s -> s.contains(shop_name.getText()));
+            autoCompleteShop.hide();
+            if(!autoCompleteShop.getFilteredSuggestions().isEmpty()){
+                autoCompleteShop.show(shop_name);
+            }else{
+                autoCompleteShop.hide();
+            }
+        });
+
+        // End of Auto Complete of Shop Names
     }
 
 
@@ -108,13 +129,6 @@ public class buyController implements Initializable {
     private ObservableList<t_invoiceItem> itemData = FXCollections.observableArrayList(
             t_invoiceItem.getItems("")
     );
-
-    private void fillShopCombo() throws SQLException {
-        ArrayList<Shop> allShops = Shop.getAll();
-        for(Shop shop:allShops){
-            if(shop.getType()==0) shop_id.getItems().add(shop.getName());
-        }
-    }
 
     private void fillChequeCombo() throws SQLException {
         ArrayList<Cheque> allCheques = Cheque.getAll(2);
@@ -160,7 +174,7 @@ public class buyController implements Initializable {
     }
 
     public void saveInvoice(MouseEvent mouseEvent) throws SQLException {
-        if(invoice_id.getText().isEmpty()||cheque_no.getSelectionModel().isEmpty()||shop_id.getSelectionModel().isEmpty()
+        if(invoice_id.getText().isEmpty()||cheque_no.getSelectionModel().isEmpty()||shop_name.getText().isEmpty()
             || date_issue.getValue()==null){
             error1.setVisible(true);
             return;
@@ -171,7 +185,7 @@ public class buyController implements Initializable {
 //        }
         String invoice = invoice_id.getText();
         String cheque = cheque_no.getSelectionModel().getSelectedItem().toString();
-        int shop = Shop.getShopId(shop_id.getSelectionModel().getSelectedItem().toString());
+        int shop = Shop.getShopId(shop_name.getText());
         String date = java.sql.Date.valueOf(date_issue.getValue()).toString();
         Invoice currentInv = new Invoice(invoice,shop,date,0,cheque,1);
         currentInv.save();
@@ -184,7 +198,7 @@ public class buyController implements Initializable {
     private void setDisabled() {
         invoice_id.setDisable(true);
         cheque_no.setDisable(true);
-        shop_id.setDisable(true);
+        shop_name.setDisable(true);
         date_issue.setDisable(true);
     }
 

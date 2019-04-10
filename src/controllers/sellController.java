@@ -56,14 +56,14 @@ public class sellController implements Initializable {
     public JFXButton add;
     public JFXTextField currinvoice;
 
-    public JFXTextField shopname;
+//    public JFXTextField shopname;
     public JFXButton addinvoice;
     public AnchorPane itempane;
     public AnchorPane invoicepane;
     public JFXRadioButton cash;
     public JFXRadioButton cheque;
     public JFXComboBox cheque_no;
-    public JFXComboBox shopid;
+    public JFXTextField shopid;
     public Text totalShow;
     public JFXButton btnAddItem;
     private String currID;
@@ -119,7 +119,7 @@ public class sellController implements Initializable {
         rightClick.getItems().add(delete);
         itemTable.setContextMenu(rightClick);
 
-        // Set Autofill Text
+        // Set Autofill Text for Items
 
         JFXAutoCompletePopup<String> autoCompletePopup = new JFXAutoCompletePopup<>();
         autoCompletePopup.setSelectionHandler(event -> itemId.setText(event.getObject()));
@@ -137,13 +137,27 @@ public class sellController implements Initializable {
                 autoCompletePopup.hide();
             }
         });
+
+        // End autofill Item Textbox
+
+        //Start Autofill Shops
+        JFXAutoCompletePopup<String> autoCompleteShop = new JFXAutoCompletePopup<>();
+        autoCompleteShop.setSelectionHandler(event -> shopid.setText(event.getObject()));
         try {
-            fillShopCombo();
+            autoCompleteShop.getSuggestions().addAll(Shop.getShopNames());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
+        shopid.textProperty().addListener(observable -> {
+            autoCompleteShop.filter(s -> s.contains(shopid.getText()));
+            autoCompleteShop.hide();
+            if(!autoCompleteShop.getFilteredSuggestions().isEmpty()){
+                autoCompleteShop.show(shopid);
+            }else{
+                autoCompleteShop.hide();
+            }
+        });
+        // End auto fill shops
     }
 
 
@@ -273,7 +287,7 @@ public class sellController implements Initializable {
 
     public void addInvoice(MouseEvent mouseEvent) throws SQLException, ParseException, IOException {
         if(!isEdit){
-            if (this.currinvoice.getText() == null || this.date.getValue() == null || this.shopid.getValue() == null) {
+            if (this.currinvoice.getText() == null || this.date.getValue() == null || this.shopid.getText().isEmpty()) {
                 FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/alert/saveFail.fxml"));
                 Stage model = new Stage();
                 Parent root = load.load();
@@ -293,7 +307,7 @@ public class sellController implements Initializable {
                 }
 
                 int type = 2;
-                int shopId = Shop.getShopId(shopid.getValue().toString());
+                int shopId = Shop.getShopId(shopid.getText().toString());
 
                 Invoice newInvoice = new Invoice(invoiceId, shopId, date, Total, cheque, type);
                 newInvoice.save();
@@ -305,7 +319,7 @@ public class sellController implements Initializable {
 
         }
         else{
-            if (this.currinvoice.getText() == null || this.date.getValue() == null || this.shopid.getValue() == null) {
+            if (this.currinvoice.getText() == null || this.date.getValue() == null || this.shopid.getText().isEmpty()) {
                 FXMLLoader load = new FXMLLoader(getClass().getResource("/resources/views/alert/saveFail.fxml"));
                 Stage model = new Stage();
                 Parent root = load.load();
@@ -325,7 +339,7 @@ public class sellController implements Initializable {
                 }
 
                 int type = 2;
-                int shopId = Shop.getShopId(shopid.getValue().toString());
+                int shopId = Shop.getShopId(shopid.getText().toString());
 
                 Invoice newInvoice = new Invoice(invoiceId, shopId, date, Total, cheque, type);
                 newInvoice.update();
@@ -377,13 +391,13 @@ public class sellController implements Initializable {
         }
     }
 
-    public void fillShopCombo() throws SQLException {
-        ArrayList<Shop> allShops = Shop.getAll();
-        for (Shop shop : allShops) {
-            if(shop.getType()==1) shopid.getItems().add(shop.getName());
-        }
-
-    }
+//    public void fillShopCombo() throws SQLException {
+//        ArrayList<Shop> allShops = Shop.getAll();
+//        for (Shop shop : allShops) {
+//            if(shop.getType()==1) shopid.getItems().add(shop.getName());
+//        }
+//
+//    }
 
 
 
@@ -416,8 +430,9 @@ public class sellController implements Initializable {
         this.itempane.setDisable(false);
         DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         date.setValue(LocalDate.parse(currentInvoice.getDate_issue(),fomatter));
-        System.out.println("Shop Name: "+Shop.getShopName(currentInvoice.getShop_id()));
-        shopid.getSelectionModel().select("ShopName");
+//        System.out.println("Shop Name: "+Shop.getShopName(currentInvoice.getShop_id()));
+        //shopid.getSelectionModel().select("ShopName");
+        shopid.setText(Shop.getShopName(currentInvoice.getShop_id()));
 
         btnAddItem.setVisible(true);
         this.add.setText("Update");

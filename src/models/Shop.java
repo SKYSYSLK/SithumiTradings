@@ -165,4 +165,12 @@ public class Shop {
         con.close();
         return new Shop(shopId,shopType,shopName,shopContact,shopAddress);
     }
+
+    public static ArrayList<String> getShopNames() throws SQLException {
+        ArrayList<String> allShops = new ArrayList<>();
+        for(Shop shop: Shop.getAll()){
+            allShops.add(shop.getName());
+        }
+        return allShops;
+    }
 }
