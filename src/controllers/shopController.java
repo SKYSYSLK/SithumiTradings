@@ -13,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Shop;
 
@@ -150,6 +151,14 @@ public class shopController implements Initializable {
         }
 
         int shopId = Integer.parseInt(u_shopId.getText());
+
+        Shop checkShop = Shop.getShopById(shopId);
+        if(checkShop!=null){
+            warning.idExists();
+            return;
+        }
+
+
         int type = getShopType(u_type.getSelectionModel().getSelectedItem().toString());
         String contact = u_contact.getText();
         String address = u_address.getText();

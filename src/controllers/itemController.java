@@ -125,6 +125,13 @@ public class itemController implements Initializable {
             warning.incomplete();
             return;
         }
+
+        Item checkItem = Item.getItem(itemId);
+        if(checkItem!=null){
+            warning.idExists();
+            return;
+        }
+
         int quantity = Integer.parseInt(a_quantity.getText());
         float buyPrice = Float.parseFloat(a_buyPrice.getText());
         float sellPrice = Float.parseFloat(a_sellPrice.getText());

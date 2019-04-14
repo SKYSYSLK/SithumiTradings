@@ -58,4 +58,14 @@ public class warning {
         current.initModality(Modality.APPLICATION_MODAL);
         current.show();
     }
+
+    static void idExists() throws IOException {
+        Stage thiswind = new Stage();
+        FXMLLoader shopsView = new FXMLLoader(warning.class.getResource("/resources/views/alert/alreadyExist.fxml"));
+        Parent root = (Parent) shopsView.load();
+        thiswind.setTitle("Save Error");
+        thiswind.setScene(new Scene(root));
+        thiswind.initModality(Modality.APPLICATION_MODAL);
+        thiswind.show();
+    }
 }
