@@ -31,12 +31,12 @@ public class warning {
     }
 
     public static void updateSuccess() throws IOException {
-//        FXMLLoader errorWindow = new FXMLLoader(warning.class.getResource("/resources/views/alert/updateSuccess.fxml"));
-//        Stage current = new Stage();
-//        Parent model = (Parent) errorWindow.load();
-//        current.setTitle("Updated Successfully");
-//        current.setScene(new Scene(model));
-//        current.show();
+        FXMLLoader errorWindow = new FXMLLoader(warning.class.getResource("/resources/views/alert/updateSuccess.fxml"));
+        Stage current = new Stage();
+        Parent model = (Parent) errorWindow.load();
+        current.setTitle("Updated Successfully");
+        current.setScene(new Scene(model));
+        current.show();
     }
 
     static void incomplete() throws IOException {
