@@ -56,12 +56,13 @@ public class sellController implements Initializable {
     public JFXButton add;
     public JFXTextField currinvoice;
 
-//    public JFXTextField shopname;
+    //    public JFXTextField shopname;
     public JFXButton addinvoice;
     public AnchorPane itempane;
     public AnchorPane invoicepane;
     public JFXRadioButton cash;
     public JFXRadioButton cheque;
+    public JFXRadioButton due;
     public JFXComboBox cheque_no;
     public JFXTextField shopid;
     public Text totalShow;
@@ -103,6 +104,7 @@ public class sellController implements Initializable {
 
         cash.setToggleGroup(paymode);
         cheque.setToggleGroup(paymode);
+        due.setToggleGroup(paymode);
 
         MenuItem delete = new MenuItem("Delete");
         delete.setOnAction((ActionEvent event)->{
@@ -299,17 +301,19 @@ public class sellController implements Initializable {
                 String invoiceId = this.currinvoice.getText();
                 String date = this.date.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 double Total = 0;
-                String cheque;
-                if (!cash.isSelected()) {
-                    cheque = cheque_no.getValue().toString();
-                } else {
-                    cheque = "CASH";
+                String chequeNo;
+                if (cheque.isSelected()) {
+                    chequeNo = cheque_no.getValue().toString();
+                } else if(cash.isSelected()){
+                    chequeNo = "CASH";
+                }else{
+                    chequeNo = "DUE";
                 }
 
                 int type = 2;
                 int shopId = Shop.getShopId(shopid.getText().toString());
 
-                Invoice newInvoice = new Invoice(invoiceId, shopId, date, Total, cheque, type);
+                Invoice newInvoice = new Invoice(invoiceId, shopId, date, Total, chequeNo, type);
                 newInvoice.save();
                 System.out.println(newInvoice.getId() + " Written");
                 this.itempane.setDisable(false);
@@ -331,17 +335,19 @@ public class sellController implements Initializable {
                 String invoiceId = this.currinvoice.getText();
                 String date = this.date.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 double Total = 0;
-                String cheque;
-                if (!cash.isSelected()) {
-                    cheque = cheque_no.getValue().toString();
-                } else {
-                    cheque = "CASH";
+                String chequeNo;
+                if (cheque.isSelected()) {
+                    chequeNo = cheque_no.getValue().toString();
+                } else if(cash.isSelected()) {
+                    chequeNo = "CASH";
+                } else{
+                    chequeNo = "DUE";
                 }
 
                 int type = 2;
                 int shopId = Shop.getShopId(shopid.getText().toString());
 
-                Invoice newInvoice = new Invoice(invoiceId, shopId, date, Total, cheque, type);
+                Invoice newInvoice = new Invoice(invoiceId, shopId, date, Total, chequeNo, type);
                 newInvoice.update();
                 backMenu(mouseEvent);
                 calculatedItems = FXCollections.observableArrayList(itemcalculated.getItems(currID));
@@ -349,10 +355,10 @@ public class sellController implements Initializable {
                 getTotal();
 
 
-        }
+            }
 
 
-    }}
+        }}
 
     public void paymode() throws SQLException {
 //        System.out.println(this.paymode.getSelectedToggle().getUserData());
@@ -433,6 +439,10 @@ public class sellController implements Initializable {
 //        System.out.println("Shop Name: "+Shop.getShopName(currentInvoice.getShop_id()));
         //shopid.getSelectionModel().select("ShopName");
         shopid.setText(Shop.getShopName(currentInvoice.getShop_id()));
+        if(currentInvoice.getCheque_id().equals("DUE")) due.setSelected(true);
+        else if(currentInvoice.getCheque_id().equals("CASH")) cash.setSelected(true);
+        else cheque.setSelected(true);
+
 
         btnAddItem.setVisible(true);
         this.add.setText("Update");
@@ -446,11 +456,11 @@ public class sellController implements Initializable {
 
 
     public void editRecord(MouseEvent mouseEvent) throws SQLException, IOException{
-            itemcalculated currentSelected = itemTable.getSelectionModel().getSelectedItem();
-            double sellUpdate=Double.parseDouble(this.itemSellPrice.getText());
-            int sellQuantity = Integer.parseInt(this.itemquantity.getText());
-            InvoiceItem updateitem = new InvoiceItem(currentSelected.getItemNo(),currID,currentSelected.getBuyPrice(),sellUpdate,sellQuantity);
-            updateitem.update();
+        itemcalculated currentSelected = itemTable.getSelectionModel().getSelectedItem();
+        double sellUpdate=Double.parseDouble(this.itemSellPrice.getText());
+        int sellQuantity = Integer.parseInt(this.itemquantity.getText());
+        InvoiceItem updateitem = new InvoiceItem(currentSelected.getItemNo(),currID,currentSelected.getBuyPrice(),sellUpdate,sellQuantity);
+        updateitem.update();
     }
 
     public void getSelected(MouseEvent mouseEvent) throws SQLException, ParseException, IOException {
@@ -492,4 +502,3 @@ public class sellController implements Initializable {
         }
     }
 }
-
