@@ -3,8 +3,6 @@ package controllers;
 import be.quodlibet.boxable.BaseTable;
 import be.quodlibet.boxable.Cell;
 import be.quodlibet.boxable.Row;
-import be.quodlibet.boxable.page.DefaultPageProvider;
-import be.quodlibet.boxable.page.PageProvider;
 import be.quodlibet.boxable.utils.PDStreamUtils;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -38,30 +36,34 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 public class reportController implements Initializable {
 
     public TableView<Invoice> shopReportTable;
     public TableColumn invoice_id;
+    public TableColumn shop_id;
     public TableColumn issued_date;
     public TableColumn amount;
     public TableColumn cheque_id;
     public TableColumn type;
 
     public JFXButton generate_report;
+    public JFXButton execute_query;
     public ComboBox shop_list;
     public JFXDatePicker from_date;
     public JFXDatePicker to_date;
     public JFXButton back;
     public CheckBox time_reports_check;
+    public CheckBox shop_reports_check;
 
-    private static int selectedShopId = 0;
-    private static int activateGenerateButton = 0;
+    private static int selectedShopId = -1;
+    private static String selectedFromDate = "";
+    private static String selectedToDate = "";
+    private static int activateExecuteButton = 0;
 
     // Create a new font object selecting one of the PDF base fonts
     private PDFont fontPlain = PDType1Font.HELVETICA;
@@ -73,82 +75,16 @@ public class reportController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // disable the buttons and check box at start
+        // disable the buttons at start
         generate_report.setDisable(true);
-        time_reports_check.setDisable(true);
+        execute_query.setDisable(true);
 
         invoice_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        shop_id.setCellValueFactory(new PropertyValueFactory<>("shop_id"));
         issued_date.setCellValueFactory(new PropertyValueFactory<>("date_issue"));
         amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
         cheque_id.setCellValueFactory(new PropertyValueFactory<>("cheque_id"));
         type.setCellValueFactory(new PropertyValueFactory<>("type"));
-        shopReportTable.setItems(invoiceData);
-
-        // shop list combo box listener
-        shop_list.valueProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                reportController.selectedShopId = Shop.getShopId((String) newValue);
-                invoiceData.removeAll(invoiceData);
-                for (Invoice invoice : Report.getInvoicesByShop(reportController.selectedShopId)) {
-                    invoiceData.add(invoice);
-                }
-                shopReportTable.setItems(invoiceData);
-                generate_report.setDisable(false);
-                reportController.activateGenerateButton = 2;
-                time_reports_check.setDisable(false);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-
-        // from date event listener
-        from_date.valueProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                ArrayList<Invoice> temp = Report.getInvoicesByShop(reportController.selectedShopId);
-                invoiceData.removeAll(invoiceData);
-                for (Invoice invoice : temp) {
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                    Date date1 = format.parse(invoice.getDate_issue());
-                    Date date2 = format.parse(from_date.getValue().toString());
-                    if (date1.compareTo(date2) >= 0)
-                        invoiceData.add(invoice);
-                }
-                shopReportTable.setItems(invoiceData);
-                if (reportController.activateGenerateButton == 0) {
-                    reportController.activateGenerateButton = 1;
-                } else {
-                    generate_report.setDisable(false);
-                    reportController.activateGenerateButton = 2;
-                }
-            } catch (Exception ex) {
-                System.err.println(ex);
-            }
-        });
-
-        // to date event listener
-        to_date.valueProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                ObservableList<Invoice> temp = FXCollections.observableArrayList(invoiceData);
-                invoiceData.removeAll(invoiceData);
-                for (Invoice invoice : temp) {
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                    Date date1 = format.parse(invoice.getDate_issue());
-                    Date date2 = format.parse(to_date.getValue().toString());
-                    if (date1.compareTo(date2) <= 0)
-                        invoiceData.add(invoice);
-                }
-                shopReportTable.setItems(invoiceData);
-                if (reportController.activateGenerateButton == 0) {
-                    reportController.activateGenerateButton = 1;
-                } else {
-                    generate_report.setDisable(false);
-                    reportController.activateGenerateButton = 2;
-                }
-            } catch (Exception ex) {
-                System.err.println(ex);
-            }
-        });
-
 
         try {
             fillShopCombo();
@@ -157,11 +93,28 @@ public class reportController implements Initializable {
         }
 
         // time based check box selection
-        enableSelections();
+        enableTimeSelections();
+
+        // shop based check box selection
+        enableShopSelections();
     }
 
-    private ObservableList<Invoice> invoiceData = FXCollections.observableArrayList(
-            Report.getInvoicesByShop(reportController.selectedShopId)
+    private ObservableList<Invoice> invoiceDataByShopAndDate = FXCollections.observableArrayList(
+            Report.getInvoicesByShopAndIssuedDate(
+                    reportController.selectedShopId,
+                    reportController.selectedFromDate,
+                    reportController.selectedToDate)
+    );
+
+    private ObservableList<Invoice> invoiceDataByShop = FXCollections.observableArrayList(
+            Report.getInvoicesByShop(
+                    reportController.selectedShopId)
+    );
+
+    private ObservableList<Invoice> invoiceDataByDate = FXCollections.observableArrayList(
+            Report.getInvoicesByDate(
+                    reportController.selectedFromDate,
+                    reportController.selectedToDate)
     );
 
     public void backMenu(MouseEvent mouseEvent) throws IOException {
@@ -170,6 +123,56 @@ public class reportController implements Initializable {
         Parent root = backLoader.load();
         thisWindow.setTitle("Main Menu");
         thisWindow.setScene(new Scene(root));
+    }
+
+    // execute query button click action
+    public void executeQuery() throws IOException, SQLException, ParseException {
+        if (shop_list.getValue() != null) {
+            reportController.selectedShopId = Shop.getShopId(shop_list.getValue().toString());
+        }
+        if (from_date.getValue() != null) {
+            reportController.selectedFromDate = from_date.getValue().toString();
+        }
+        if (to_date.getValue() != null) {
+            reportController.selectedToDate = to_date.getValue().toString();
+        }
+
+        try {
+            invoiceDataByShopAndDate.removeAll(invoiceDataByShopAndDate);
+            invoiceDataByShop.removeAll(invoiceDataByShop);
+            invoiceDataByDate.removeAll(invoiceDataByDate);
+
+            if (shop_reports_check.isSelected() && time_reports_check.isSelected()) {
+                for (Invoice invoice : Report.getInvoicesByShopAndIssuedDate(
+                        reportController.selectedShopId,
+                        reportController.selectedFromDate,
+                        reportController.selectedToDate)) {
+                    invoiceDataByShopAndDate.add(invoice);
+                }
+                shopReportTable.setItems(invoiceDataByShopAndDate);
+            } else if (shop_reports_check.isSelected()) {
+                for (Invoice invoice : Report.getInvoicesByShop(
+                        reportController.selectedShopId)) {
+                    invoiceDataByShop.add(invoice);
+                }
+                shopReportTable.setItems(invoiceDataByShop);
+            } else if (time_reports_check.isSelected()) {
+                for (Invoice invoice : Report.getInvoicesByDate(
+                        reportController.selectedFromDate,
+                        reportController.selectedToDate)) {
+                    invoiceDataByDate.add(invoice);
+                }
+                shopReportTable.setItems(invoiceDataByDate);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (shopReportTable.getItems().size() != 0) {
+            generate_report.setDisable(false);
+        } else {
+            generate_report.setDisable(true);
+        }
     }
 
     // generate button click action
@@ -181,8 +184,13 @@ public class reportController implements Initializable {
         File file = fileChooser.showSaveDialog(thisWindow);
 
         if (file != null) {
-            generateShopRelatedReport(reportController.selectedShopId, file);
-            warning.saveSuccess();
+            if (reportController.selectedShopId != -1) {
+                generateShopRelatedReport(reportController.selectedShopId, file);
+                warning.saveSuccess();
+            } else {
+                generateTimeRelatedReport(file);
+                warning.saveSuccess();
+            }
         }
     }
 
@@ -202,7 +210,29 @@ public class reportController implements Initializable {
         createReportMetaData(document.getDocumentInformation());
         createReportHeaderSection(stream, rect);
         createReportShopSection(stream, rect, shop);
-        createReportTableSection(document, page, rect);
+        createReportTableShopBasedSection(document, page, rect);
+        addFooterAndBorder(document, rect);
+
+        stream.close();
+        document.save(file);
+        document.close();
+    }
+
+    private void generateTimeRelatedReport(File file) throws IOException, SQLException {
+
+        // Create a document and add a page to it
+        PDDocument document = new PDDocument();
+        PDPage page = new PDPage(PDRectangle.A4);
+        PDRectangle rect = page.getMediaBox();
+        document.addPage(page);
+
+        // Text streams
+        PDPageContentStream stream = new PDPageContentStream(document, page);
+
+        createReportMetaData(document.getDocumentInformation());
+        createReportHeaderSection(stream, rect);
+        createReportTimeSection(stream,rect);
+        createReportTableTimeBasedSection(document,page,rect);
         addFooterAndBorder(document, rect);
 
         stream.close();
@@ -311,7 +341,36 @@ public class reportController implements Initializable {
         stream.endText();
     }
 
-    private void createReportTableSection(PDDocument document, PDPage page, PDRectangle rect) throws IOException {
+    private void createReportTimeSection(PDPageContentStream stream, PDRectangle rect) throws IOException {
+        stream.beginText();
+        stream.setLeading(14.5f);
+        stream.setFont(fontBold, 14);
+        stream.newLineAtOffset(40, rect.getHeight() - 100);
+        stream.showText("Business Details");
+        stream.newLine();
+        if (time_reports_check.isSelected()) {
+            stream.setFont(fontBold, 10);
+            stream.showText("From : ");
+            stream.setFont(fontPlain, 10);
+            stream.showText(selectedFromDate);
+            stream.newLine();
+            stream.setFont(fontBold, 10);
+            stream.showText("To : ");
+            stream.setFont(fontPlain, 10);
+            stream.showText(selectedToDate);
+            stream.newLine();
+        }
+        stream.setFont(fontBold, 10);
+        stream.showText("Total Profit : ");
+        stream.setFont(fontPlain, 10);
+        stream.showText(String.valueOf(totalProfit()));
+        stream.newLine();
+        stream.newLine();
+
+        stream.endText();
+    }
+
+    private void createReportTableShopBasedSection(PDDocument document, PDPage page, PDRectangle rect) throws IOException {
         // starting y position is whole page height subtracted by top and bottom pageMargin
         float pageMargin = 40;
         float yStartNewPage = rect.getHeight() - pageMargin;
@@ -348,28 +407,126 @@ public class reportController implements Initializable {
         cell = row.createCell(20, "Type");
         cell.setFont(fontBold);
 
-        for (Invoice invoice : invoiceData) {
+        if (shop_reports_check.isSelected() && time_reports_check.isSelected()) {
+            for (Invoice invoice : invoiceDataByShopAndDate) {
 
-            Row<PDPage> rowData = baseTable.createRow(15f);
-            cell = rowData.createCell(20, invoice.getId());
-            cell.setFont(fontPlain);
+                Row<PDPage> rowData = baseTable.createRow(15f);
+                cell = rowData.createCell(20, invoice.getId());
+                cell.setFont(fontPlain);
 
-            cell = rowData.createCell(20, invoice.getDate_issue());
-            cell.setFont(fontPlain);
+                cell = rowData.createCell(20, invoice.getDate_issue());
+                cell.setFont(fontPlain);
 
-            cell = rowData.createCell(20, String.valueOf(invoice.getAmount()));
-            cell.setFont(fontPlain);
+                cell = rowData.createCell(20, String.valueOf(invoice.getAmount()));
+                cell.setFont(fontPlain);
 
-            cell = rowData.createCell(20, invoice.getCheque_id());
-            cell.setFont(fontPlain);
+                cell = rowData.createCell(20, invoice.getCheque_id());
+                cell.setFont(fontPlain);
 
-            if (invoice.getType() == 1) {
-                cell = rowData.createCell(20, "Buy Invoice");
-            } else {
-                cell = rowData.createCell(20, "Sell Invoice");
+                if (invoice.getType() == 1) {
+                    cell = rowData.createCell(20, "Buy Invoice");
+                } else {
+                    cell = rowData.createCell(20, "Sell Invoice");
+                }
+
+                cell.setFont(fontPlain);
             }
+        } else if (shop_reports_check.isSelected()) {
+            for (Invoice invoice : invoiceDataByShop) {
 
-            cell.setFont(fontPlain);
+                Row<PDPage> rowData = baseTable.createRow(15f);
+                cell = rowData.createCell(20, invoice.getId());
+                cell.setFont(fontPlain);
+
+                cell = rowData.createCell(20, invoice.getDate_issue());
+                cell.setFont(fontPlain);
+
+                cell = rowData.createCell(20, String.valueOf(invoice.getAmount()));
+                cell.setFont(fontPlain);
+
+                cell = rowData.createCell(20, invoice.getCheque_id());
+                cell.setFont(fontPlain);
+
+                if (invoice.getType() == 1) {
+                    cell = rowData.createCell(20, "Buy Invoice");
+                } else {
+                    cell = rowData.createCell(20, "Sell Invoice");
+                }
+
+                cell.setFont(fontPlain);
+            }
+        }
+
+        baseTable.draw();
+    }
+
+    private void createReportTableTimeBasedSection(PDDocument document, PDPage page, PDRectangle rect) throws IOException, SQLException {
+        // starting y position is whole page height subtracted by top and bottom pageMargin
+        float pageMargin = 40;
+        float yStartNewPage = rect.getHeight() - pageMargin;
+        float yStart = yStartNewPage - 250;
+        float bottomMargin = 30;
+        // we want table across whole page width (subtracted by left and right pageMargin of course)
+        float tableWidth = rect.getWidth() - (2 * pageMargin);
+
+        BaseTable baseTable = new BaseTable(yStart, yStartNewPage, bottomMargin, tableWidth, pageMargin, document, page, true, true);
+
+        // Create Header row
+        Row<PDPage> headerRow = baseTable.createRow(15f);
+        Cell<PDPage> cell = headerRow.createCell(100, "Related Invoice Details");
+        cell.setFont(fontBold);
+        cell.setFillColor(Color.GRAY);
+        cell.setTextColor(Color.WHITE);
+
+        baseTable.addHeaderRow(headerRow);
+
+        // Create 2 column row
+        Row<PDPage> row = baseTable.createRow(15f);
+        cell = row.createCell(16, "Invoice ID");
+        cell.setFont(fontBold);
+
+        cell = row.createCell(16, "Shop Name");
+        cell.setFont(fontBold);
+
+        cell = row.createCell(16, "Issued Date");
+        cell.setFont(fontBold);
+
+        cell = row.createCell(16, "Amount");
+        cell.setFont(fontBold);
+
+        cell = row.createCell(16, "Cheque No");
+        cell.setFont(fontBold);
+
+        cell = row.createCell(20, "Type");
+        cell.setFont(fontBold);
+
+        if (time_reports_check.isSelected()) {
+            for (Invoice invoice : invoiceDataByDate) {
+
+                Row<PDPage> rowData = baseTable.createRow(15f);
+                cell = rowData.createCell(16, invoice.getId());
+                cell.setFont(fontPlain);
+
+                cell = rowData.createCell(16, Shop.getShopName(invoice.getShop_id()));
+                cell.setFont(fontPlain);
+
+                cell = rowData.createCell(16, invoice.getDate_issue());
+                cell.setFont(fontPlain);
+
+                cell = rowData.createCell(16, String.valueOf(invoice.getAmount()));
+                cell.setFont(fontPlain);
+
+                cell = rowData.createCell(16, invoice.getCheque_id());
+                cell.setFont(fontPlain);
+
+                if (invoice.getType() == 1) {
+                    cell = rowData.createCell(20, "Buy Invoice");
+                } else {
+                    cell = rowData.createCell(20, "Sell Invoice");
+                }
+
+                cell.setFont(fontPlain);
+            }
         }
 
         baseTable.draw();
@@ -410,24 +567,52 @@ public class reportController implements Initializable {
     }
 
     // time based check box selection action
-    public void enableSelections() {
+    public void enableTimeSelections() {
+        from_date.setValue(null);
+        to_date.setValue(null);
         if (time_reports_check.isSelected()) {
             from_date.setDisable(false);
-            from_date.setValue(null);
             to_date.setDisable(false);
-            to_date.setValue(null);
-            generate_report.setDisable(true);
-            reportController.activateGenerateButton = 0;
+            reportController.activateExecuteButton++;
         } else {
             from_date.setDisable(true);
             to_date.setDisable(true);
+            reportController.selectedFromDate = "";
+            reportController.selectedToDate = "";
+            reportController.activateExecuteButton--;
+        }
+
+        if (reportController.activateExecuteButton == -2) {
+            execute_query.setDisable(true);
+        } else {
+            execute_query.setDisable(false);
         }
     }
 
+    // shop based check box selection action
+    public void enableShopSelections() {
+        shop_list.getSelectionModel().clearSelection();
+        if (shop_reports_check.isSelected()) {
+            shop_list.setDisable(false);
+            reportController.activateExecuteButton++;
+        } else {
+            shop_list.setDisable(true);
+            reportController.selectedShopId = -1;
+            reportController.activateExecuteButton--;
+        }
+
+        if (reportController.activateExecuteButton == -2) {
+            execute_query.setDisable(true);
+        } else {
+            execute_query.setDisable(false);
+        }
+    }
+
+    // total profit count
     public double totalProfit() {
         double buy = 0;
         double sell = 0;
-        for (Invoice invoice : invoiceData) {
+        for (Invoice invoice : invoiceDataByShopAndDate) {
             if (invoice.getType() == 1) {
                 buy += invoice.getAmount();
             } else if (invoice.getType() == 2) {

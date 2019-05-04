@@ -156,14 +156,18 @@ public class Shop {
         PreparedStatement selectq = con.prepareStatement(query);
         selectq.setInt(1, id);
         ResultSet resultSet = selectq.executeQuery();
-
-        int shopId = resultSet.getInt("id");
-        String shopName = resultSet.getString("name");
-        int shopType = resultSet.getInt("type");
-        String shopContact = resultSet.getString("contact");
-        String shopAddress = resultSet.getString("address");
-        con.close();
-        return new Shop(shopId,shopType,shopName,shopContact,shopAddress);
+        if(resultSet.next()) {
+            int shopId = resultSet.getInt("id");
+            String shopName = resultSet.getString("name");
+            int shopType = resultSet.getInt("type");
+            String shopContact = resultSet.getString("contact");
+            String shopAddress = resultSet.getString("address");
+            con.close();
+            return new Shop(shopId, shopType, shopName, shopContact, shopAddress);
+        } else  {
+            con.close();
+            return null;
+        }
     }
 
     public static ArrayList<String> getShopNames() throws SQLException {

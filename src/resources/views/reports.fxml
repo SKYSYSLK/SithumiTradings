@@ -20,20 +20,23 @@
       <Pane layoutX="21.0" layoutY="167.0" prefHeight="445.0" prefWidth="756.0" styleClass="formbody" stylesheets="@../styles/main.css" />
       <TableView fx:id="shopReportTable" layoutX="38.0" layoutY="193.0" prefHeight="395.0" prefWidth="718.0">
          <columns>
-            <TableColumn fx:id="invoice_id" prefWidth="101.0" text="Invoice No" />
-            <TableColumn fx:id="issued_date" prefWidth="192.0" text="Issued Date" />
-            <TableColumn fx:id="amount" prefWidth="124.0" text="Amount" />
-            <TableColumn fx:id="cheque_id" prefWidth="152.0" text="Cheque ID" />
-            <TableColumn fx:id="type" prefWidth="155.0" text="Type" />
+            <TableColumn fx:id="invoice_id" prefWidth="113.00001525878906" text="Invoice No" />
+            <TableColumn fx:id="shop_id" prefWidth="103.99996948242188" text="Shop No" />
+            <TableColumn fx:id="issued_date" prefWidth="132.0" text="Issued Date" />
+            <TableColumn fx:id="amount" prefWidth="132.0" text="Amount" />
+            <TableColumn fx:id="cheque_id" minWidth="0.0" prefWidth="122.0" text="Cheque ID" />
+            <TableColumn fx:id="type" maxWidth="161.0" prefWidth="113.0" text="Type" />
          </columns>
       </TableView>
       <AnchorPane layoutX="796.0" layoutY="168.0" prefHeight="445.0" prefWidth="505.0" styleClass="formbody" stylesheets="@../styles/main.css">
          <children>
-            <JFXButton fx:id="generate_report" layoutX="315.0" layoutY="374.0" onMouseClicked="#generateReport" prefHeight="37.0" prefWidth="148.0" styleClass="button2" stylesheets="@../styles/main.css" text="Generate Report" />
-            <ComboBox fx:id="shop_list" layoutX="77.0" layoutY="67.0" prefHeight="25.0" prefWidth="353.0" promptText="Select the Shop" />
-            <CheckBox fx:id="time_reports_check" layoutX="79.0" layoutY="159.0" onAction="#enableSelections" mnemonicParsing="false" prefHeight="17.0" prefWidth="191.0" text="Time Range Reports Generating" />
-            <JFXDatePicker fx:id="from_date" layoutX="146.0" layoutY="190.0" prefHeight="28.0" prefWidth="226.0" promptText="From" />
-            <JFXDatePicker fx:id="to_date" layoutX="146.0" layoutY="230.0" prefHeight="28.0" prefWidth="226.0" promptText="To" />
+            <JFXButton fx:id="generate_report" layoutX="291.0" layoutY="374.0" onMouseClicked="#generateReport" prefHeight="37.0" prefWidth="148.0" styleClass="button2" stylesheets="@../styles/main.css" text="Generate Report" />
+            <ComboBox fx:id="shop_list" layoutX="146.0" layoutY="122.0" prefHeight="25.0" prefWidth="226.0" promptText="Select the Shop" />
+            <CheckBox fx:id="time_reports_check" layoutX="79.0" layoutY="215.0" mnemonicParsing="false" onAction="#enableTimeSelections" prefHeight="17.0" prefWidth="294.0" text="Time Range Reports Generating" />
+            <JFXDatePicker fx:id="from_date" layoutX="146.0" layoutY="246.0" prefHeight="28.0" prefWidth="226.0" promptText="From" />
+            <JFXDatePicker fx:id="to_date" layoutX="146.0" layoutY="286.0" prefHeight="28.0" prefWidth="226.0" promptText="To" />
+            <CheckBox fx:id="shop_reports_check" layoutX="79.0" layoutY="84.0" mnemonicParsing="false" onAction="#enableShopSelections" prefHeight="17.0" prefWidth="294.0" text="Shop Selection Report Generating" />
+            <JFXButton fx:id="execute_query" layoutX="91.0" layoutY="374.0" onMouseClicked="#executeQuery" prefHeight="37.0" prefWidth="148.0" styleClass="button2" stylesheets="@../styles/main.css" text="Execute Query" />
          </children>
       </AnchorPane>
       <JFXButton fx:id="back" layoutX="39.0" layoutY="621.0" onMouseClicked="#backMenu" prefHeight="49.0" prefWidth="148.0" styleClass="button1" stylesheets="@../styles/main.css" text="Back">
