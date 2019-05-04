@@ -192,6 +192,7 @@ public class reportController implements Initializable {
                 warning.saveSuccess();
             }
         }
+        generate_report.setDisable(true);
     }
 
     private void generateShopRelatedReport(int shopId, File file) throws IOException, SQLException {
@@ -231,8 +232,8 @@ public class reportController implements Initializable {
 
         createReportMetaData(document.getDocumentInformation());
         createReportHeaderSection(stream, rect);
-        createReportTimeSection(stream,rect);
-        createReportTableTimeBasedSection(document,page,rect);
+        createReportTimeSection(stream, rect);
+        createReportTableTimeBasedSection(document, page, rect);
         addFooterAndBorder(document, rect);
 
         stream.close();
@@ -612,11 +613,30 @@ public class reportController implements Initializable {
     public double totalProfit() {
         double buy = 0;
         double sell = 0;
-        for (Invoice invoice : invoiceDataByShopAndDate) {
-            if (invoice.getType() == 1) {
-                buy += invoice.getAmount();
-            } else if (invoice.getType() == 2) {
-                sell += invoice.getAmount();
+
+        if (shop_reports_check.isSelected() && time_reports_check.isSelected()) {
+            for (Invoice invoice : invoiceDataByShopAndDate) {
+                if (invoice.getType() == 1) {
+                    buy += invoice.getAmount();
+                } else if (invoice.getType() == 2) {
+                    sell += invoice.getAmount();
+                }
+            }
+        } else if (shop_reports_check.isSelected()) {
+            for (Invoice invoice : invoiceDataByShop) {
+                if (invoice.getType() == 1) {
+                    buy += invoice.getAmount();
+                } else if (invoice.getType() == 2) {
+                    sell += invoice.getAmount();
+                }
+            }
+        } else if (time_reports_check.isSelected()) {
+            for (Invoice invoice : invoiceDataByDate) {
+                if (invoice.getType() == 1) {
+                    buy += invoice.getAmount();
+                } else if (invoice.getType() == 2) {
+                    sell += invoice.getAmount();
+                }
             }
         }
         return sell - buy;
