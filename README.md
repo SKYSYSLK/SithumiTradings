@@ -2,10 +2,7 @@
 ## An Inventory Management System
 
 ### Introduction
-There are many sites that provides users to post advertisements about products, or else 
-to contact public users to provide services. There is no specific system to provide 
-a common platform to publish any type of advertisement. Also when users can add many types of advertisements, 
-unnecessary junks can be added to the system.
+In this project, we built up an inventory management system for a client in *Alawwa city, Kurunegala, Sri Lanka*. The system is capable to handle all the funtionalities which are client expected, such as handling information of shops and items, manage cheques related information, report generating, etc.
 
 <br>
 
@@ -24,30 +21,37 @@ unnecessary junks can be added to the system.
 ### Project Scope
 
 **IN SCOPE**
-- Full featured dynamic website with member registration facility and publishing personal advertisements facility.
-  - Any public user can register into the system and create their profile in order to post advertisements. The system also provides the facility to select a category that the advertisement should be appeared to the public and for that, a variety of categories will be added to the system.
-- Administration System 
-  - Administrative interface as a part of the main system in order to perform administrative functionalities of the system.
+- Full featured stand alone PC application for handling inventory information.
+  - handling buyers and sellers shop information
+  - handling items information related to the shops
+  - managing cheques information
+  - managing invoices information
+- Report generating in PDF format
+  - In time and shop based report generating
 
 **OUT SCOPE**
-- The system does not concern about communications between the users posting advertisements and the buyers who wants to contact the advertisements.
-- The interface for the buyers.
+- The system does not concern about the size of the storage devices.
 
 <br>
 
 ### Used Technologies
 
-- [Laravel as Backend Framework](https://laravel.com/)
-- [Stripe as Payment Gateway](https://stripe.com/)
+- [Java Language](https://www.java.com/en/)
+- [JavaFX platform](https://openjfx.io/)
+- [Scene Builder](https://gluonhq.com/products/scene-builder/)
+- [SQLite Database Management](https://www.sqlite.org/index.html)
+- [PDFbox library](https://pdfbox.apache.org/)
+- [Intellij Idea Community Edition](https://www.jetbrains.com/idea/download/#section=linux)
 
 <br>
 
-### Installation Guidance
+### Installation Guidance for developers
 
 **PREREQUISITES**
 
-- Latest Version of Laravel Framework with Composer
-- Stripe account (For payment section / Optional)
+- Java Development Kit 8
+- JavaFX version 8
+- Intellij Idea Community Edition ( You can choose any development environment as your expectations)
 
 **HOW TO INSTALL**
 
