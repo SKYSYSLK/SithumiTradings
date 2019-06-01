@@ -1,7 +1,6 @@
 <div>
 <img align="right" style="border: 1px solid black;" src="https://github.com/SKYSYSLK/SithumiTradings/blob/master/readme-assets/logo-01.png" width=200>
 </div>
-<br>
 
 # SITHUMI TRADINGS
 ## An Inventory Management System
