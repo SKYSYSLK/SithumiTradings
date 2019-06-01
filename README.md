@@ -6,15 +6,15 @@ In this project, we built up an inventory management system for a client in *Ala
 
 <br>
 
-![Capture01](./readme-assets/Capture01.PNG)
+![Capture01](./readme-assets/capture01.jpg)
 
 <br>
 
-![Capture02](./readme-assets/Capture02.PNG)
+![Capture02](./readme-assets/capture02.jpg)
 
 <br>
 
-![Capture01](./readme-assets/Capture03.PNG)
+![Capture01](./readme-assets/capture03.jpg)
 
 <br>
 
