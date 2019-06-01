@@ -4,8 +4,6 @@
 ### Introduction
 In this project, we built up an inventory management system for a client in *Alawwa city, Kurunegala, Sri Lanka*. The system is capable to handle all the funtionalities which are client expected, such as handling information of shops and items, manage cheques related information, report generating, etc.
 
-<br>
-
 ### Screenshots
 ![Capture01](./readme-assets/capture01.jpg)
 
@@ -18,7 +16,6 @@ In this project, we built up an inventory management system for a client in *Ala
 ![Capture03](./readme-assets/capture03.jpg)
 
 <br>
-
 
 ![Capture04](./readme-assets/capture04.jpg)
 
@@ -36,7 +33,7 @@ In this project, we built up an inventory management system for a client in *Ala
   - In time and shop based report generating
 
 **OUT SCOPE**
-- The system does not concern about the size of the storage devices.
+- The system does not concern about the size of the memory storage devices.
 
 <br>
 
@@ -62,32 +59,18 @@ In this project, we built up an inventory management system for a client in *Ala
 **HOW TO INSTALL**
 
 - Fork and clone the github repository of the project.
-- Run following bash commands inside your project directory as the order.
-
-```console
-shell:~$ composer install
-.........................
-.........................
-shell:~$ php artisan migrate
-.........................
-.........................
-shell:~$ php artisan storage:link
-.........................
-.........................
-```
-
-- Then add the following code segment into the end of your .env file
+- Use **Open from existing code** method in IDEA to open the project.
+- Import all the relevant libraries and modules.
+- Create a folder named "db" at the C drive partition in windows. If you are using different kind of operating system you have to change the location of the database in the [connection.java](https://github.com/SKYSYSLK/sithumiTradings/blob/master/src/models/connection.java) file.
 
 ```
-STRIPE_PUB_KEY=<Your Stripe Account Public Key>
-STRIPE_SECRET_KEY=<Your Stripe Account Secret Key>
+............
+............
+connection = DriverManager.getConnection("jdbc:sqlite:<db_file_location>");
+............
 ```
-
-- Finally run the web server and go to the [http://127.0.0.1:8000](http://127.0.0.1:8000)
-
-```console
-shell:~$ php artisan serve
-```
+- After importing all the relevant libraries and modules run the [migrate.java](https://github.com/SKYSYSLK/sithumiTradings/blob/master/src/resources/db/migrate.java) file to execute the fundamental database migrations.
+- Finally run the [run.java](https://github.com/SKYSYSLK/sithumiTradings/blob/master/src/run.java) file to build and run the application in your operating system.
 
 <br>
 
@@ -112,12 +95,11 @@ shell:~$ php artisan serve
 <br>
 
 ### Contributing
-Warmly welcome to developers for contributing **PersoAd** Project. Make sure to open an issue and communicate with us before 
-creating a Pull Request.
+Warmly welcome to developers for contributing **Sithumi Tradings** Project. Make sure to open an issue and communicate with us before creating a Pull Request.
 
 <br>
 
 ### License
 
-The PersoAd System is open-sourced software solution licensed under the [GNU General Public License v3.0](./LICENSE).
+The Sithumi Tradings System is open-sourced software solution licensed under the [GNU General Public License v3.0](./LICENSE).
 
