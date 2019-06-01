@@ -6,6 +6,7 @@ In this project, we built up an inventory management system for a client in *Ala
 
 <br>
 
+### Screenshots
 ![Capture01](./readme-assets/capture01.jpg)
 
 <br>
@@ -14,7 +15,12 @@ In this project, we built up an inventory management system for a client in *Ala
 
 <br>
 
-![Capture01](./readme-assets/capture03.jpg)
+![Capture03](./readme-assets/capture03.jpg)
+
+<br>
+
+
+![Capture04](./readme-assets/capture04.jpg)
 
 <br>
 
